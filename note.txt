@@ -1,0 +1,30 @@
+Edit Feature
+- cusor
+- sql (pending)
+- notification state message (pending)
+- excel (pending)
+- opencv (pending)
+- count down timer (success)
+- merge file (success)
+- validation edituser
+- update data after edituser (success)
+- binding data to editPage  (success)
+- edit parameter name (success)
+- CRUD (success)
+- if don't have user_data don't click editbtn and testbtn
+- vision edit sumary last time (success)
+- read excel file (pending)
+- export file excel (pending)
+- relation database (success)
+    -> insert
+    -> select table
+    -> populate
+- screenshot image from webcam
+
+edit after
+- add timestamp when create account (success)
+- edit funtion showMessageDialog to components
+- remove function getter
+
+note
+- pandas read excel -> add lib openpyxl
