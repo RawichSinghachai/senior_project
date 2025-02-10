@@ -3,6 +3,13 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QTableWidget, QTableWidgetItem, QHeaderView
 # from database.database import Database
 
+class CustomTableWidget(QTableWidget):
+    def wheelEvent(self, event):
+        """ Handle horizontal scroll when Shift is pressed """
+        if event.modifiers() == Qt.KeyboardModifier.ShiftModifier:
+            self.horizontalScrollBar().setValue(self.horizontalScrollBar().value() - event.angleDelta().y())
+        else:
+            super().wheelEvent(event)
 
 class TableUi(QWidget):
     def __init__(self, listUsers):
@@ -16,7 +23,7 @@ class TableUi(QWidget):
         # Table
         self.listUsers = listUsers
         headers = ['FirstName', 'LastName', 'Gender', 'Department', 'Email', 'Position','Birthday', 'Delete']
-        self.table = QTableWidget()
+        self.table = CustomTableWidget()
         self.table.setRowCount(len(listUsers))
         self.table.setColumnCount(len(headers))
         self.table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)  # Don't edit data in table

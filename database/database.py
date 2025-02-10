@@ -36,12 +36,18 @@ class Database:
         return admins
 
     def register(self, adminRegister):
-        sql = 'INSERT INTO Admin (Email, Username, Password) VALUES (?, ?, ?);'
+
+        adminId = uuid.uuid4()
+        createdAt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+        sql = 'INSERT INTO Admin (AdminId, Username, Password, Email, CreatedAt) VALUES (?, ?, ?, ?, ?);'
         query = QSqlQuery(self.db)
         query.prepare(sql)
-        query.addBindValue(adminRegister['email'])
+        query.addBindValue(str(adminId))
         query.addBindValue(adminRegister['username'])
         query.addBindValue(adminRegister['password'])
+        query.addBindValue(adminRegister['email'])
+        query.addBindValue(createdAt)
         result = query.exec()
 
         if not result:
@@ -107,8 +113,8 @@ class Database:
         sql = '''
             SELECT 
                 u.FirstName, u.LastName, u.Department, u.Position, u.Email, u.Gender, u.BirthDate,
-                COALESCE(utr.LeftScoreFront, 0), COALESCE(utr.LeftScoreBack, 0),
-                COALESCE(utr.RightScoreFront, 0), COALESCE(utr.RightScoreBack, 0),
+                COALESCE(utr.LeftHandFrontScore, 0), COALESCE(utr.LeftHandBackScore, 0),
+                COALESCE(utr.RightHandFrontScore, 0), COALESCE(utr.RightHandBackScore, 0),
                 COALESCE(utr.TotalScore, 0), COALESCE(utr.TestingDate, '')
             FROM User AS u
             LEFT JOIN UserTestResult AS utr ON u.UserId = utr.UserId
@@ -130,10 +136,10 @@ class Database:
                     'Email': query.value(4),
                     'Gender': query.value(5),
                     'BirthDate': query.value(6),
-                    'LeftScoreFront': query.value(7),
-                    'LeftScoreBack': query.value(8),
-                    'RightScoreFront': query.value(9),
-                    'RightScoreBack': query.value(10),
+                    'LeftHandFrontScore': query.value(7),
+                    'LeftHandBackScore': query.value(8),
+                    'RightHandFrontScore': query.value(9),
+                    'RightHandBackScore': query.value(10),
                     'TotalScore': query.value(11),
                     'TestingDate': query.value(12),
                 }
@@ -179,10 +185,40 @@ class Database:
         profile_id = str(uuid.uuid4())
         testing_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
+        # data = [{left_hand_area,right_hand_area}] *4
+        try:
+            left_hand_front_score = (data[3]['left_hand_area'] / data[1]['left_hand_area']) * 100
+        except ZeroDivisionError:
+            left_hand_front_score = 0
+
+        try:
+            left_hand_back_score = (data[2]['left_hand_area'] / data[0]['left_hand_area']) * 100
+        except ZeroDivisionError:
+            left_hand_back_score = 0
+
+        try:
+            right_hand_front_score = (data[3]['right_hand_area'] / data[1]['right_hand_area']) * 100
+        except ZeroDivisionError:
+            right_hand_front_score = 0
+
+        try:
+            right_hand_back_score = (data[2]['right_hand_area'] / data[0]['right_hand_area']) * 100
+        except ZeroDivisionError:
+            right_hand_back_score = 0
+
+        
+        left_hand_front_score = round(left_hand_front_score, 2)
+        left_hand_back_score = round(left_hand_back_score, 2)
+        right_hand_front_score = round(right_hand_front_score, 2)
+        right_hand_back_score = round(right_hand_back_score, 2)
+
+        total_score = (left_hand_front_score + left_hand_back_score + right_hand_front_score + right_hand_back_score) / 4
+        total_score = round(total_score,2)
+
         # SQL Query
         sql = '''
-        INSERT INTO UserTestResult (ProfileId, UserId, LeftScoreFront, LeftScoreBack, 
-                                    RightScoreFront, RightScoreBack, TotalScore, TestingDate)
+        INSERT INTO UserTestResult (ProfileId, UserId, LeftHandFrontScore, LeftHandBackScore, 
+                                    RightHandFrontScore, RightHandBackScore, TotalScore, TestingDate)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?);
         '''
         
@@ -191,11 +227,11 @@ class Database:
         query.prepare(sql)
         query.addBindValue(profile_id)
         query.addBindValue(userId)
-        query.addBindValue(data['LeftScoreFront'])
-        query.addBindValue(data['LeftScoreBack'])
-        query.addBindValue(data['RightScoreFront'])
-        query.addBindValue(data['RightScoreBack'])
-        query.addBindValue(data['TotalScore'])
+        query.addBindValue(left_hand_front_score)
+        query.addBindValue(left_hand_back_score)
+        query.addBindValue(right_hand_front_score)
+        query.addBindValue(right_hand_back_score)
+        query.addBindValue(total_score)
         query.addBindValue(testing_date)
 
         if query.exec():
@@ -210,8 +246,8 @@ class Database:
         SELECT 
             u.FirstName, u.LastName, u.Department, u.Position, 
             u.Email, u.Gender, u.BirthDate, 
-            utr.LeftScoreFront, utr.LeftScoreBack, 
-            utr.RightScoreFront, utr.RightScoreBack, 
+            utr.LeftHandFrontScore, utr.LeftHandBackScore, 
+            utr.RightHandFrontScore, utr.RightHandBackScore, 
             utr.TotalScore, utr.TestingDate
         FROM User AS u
         INNER JOIN UserTestResult AS utr ON utr.UserId = u.UserId
@@ -234,10 +270,10 @@ class Database:
                     'Email': query.value(4),
                     'Gender': query.value(5),
                     'BirthDate': query.value(6),
-                    'LeftScoreFront': query.value(7),
-                    'LeftScoreBack': query.value(8),
-                    'RightScoreFront': query.value(9),
-                    'RightScoreBack': query.value(10),
+                    'LeftHandFrontScore': query.value(7),
+                    'LeftHandBackScore': query.value(8),
+                    'RightHandFrontScore': query.value(9),
+                    'RightHandBackScore': query.value(10),
                     'TotalScore': query.value(11),
                     'TestingDate': query.value(12),
                 }
@@ -250,9 +286,10 @@ class Database:
 
     def editUserDetail(self,userDetail):
         UpdateAt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        print(userDetail)
 
         sql = '''UPDATE User SET FirstName = ? ,LastName = ?, Department = ?,
-                Gender = ?, Email = ?, BirthDate = ?, UpadatedAt = ?
+                Position = ?, Email = ?, Gender = ?, BirthDate = ?, UpdatedAt = ?
                 WHERE UserId = ? ;'''
         
         query = QSqlQuery(self.db)
@@ -261,8 +298,9 @@ class Database:
         query.addBindValue(userDetail['firstName'])
         query.addBindValue(userDetail['lastName'])
         query.addBindValue(userDetail['department'])
-        query.addBindValue(userDetail['gender'])
+        query.addBindValue(userDetail['position'])
         query.addBindValue(userDetail['email'])
+        query.addBindValue(userDetail['gender'])
         query.addBindValue(userDetail['birthDate'])
         query.addBindValue(UpdateAt)
         query.addBindValue(userDetail['UserId'])

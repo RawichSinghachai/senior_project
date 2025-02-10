@@ -20,6 +20,8 @@ Edit Feature
     -> select table
     -> populate
 - screenshot image from webcam
+- implement area to database after complete image processing (success)
+- custom processing page
 
 edit after
 - add timestamp when create account (success)

@@ -34,7 +34,7 @@ class DetailPage(QWidget):
         # Define Table Headers
         headers = [
             'FirstName', 'LastName', 'Gender', 'Department', 'Position', 'Email', 'BirthDate',
-            'leftScoreFront', 'leftScoreBack', 'rightScoreFront', 'rightScoreBack', 
+            'LeftHandFrontScore', 'LeftHandBackScore', 'RightHandFrontScore', 'RightHandBackScore', 
             'totalScore', 'testingDate', 'Delete'
         ]
 
@@ -44,7 +44,7 @@ class DetailPage(QWidget):
         self.table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
         self.table.setSelectionMode(QTableWidget.SelectionMode.SingleSelection)
         self.table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
-        self.table.setFixedSize(600, 300)  # กำหนดความกว้าง 800px และความสูง 400px
+        self.table.setFixedSize(700, 300)  # กำหนดความกว้าง 800px และความสูง 400px
 
 
         # Auto Resize Columns
@@ -98,11 +98,12 @@ class DetailPage(QWidget):
     def backPage(self):
         self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(2))
 
-    def setUser(self, user_data):
+    def setUseId(self, user_id):
         """ ดึงข้อมูลจาก Database ตาม UserId และอัปเดตตาราง """
-        if user_data:
-            self.listUsers = self.db.getUserData(user_data['UserId'])
+        if user_id:
+            self.listUsers = self.db.getUserData(user_id)
             self.updateTable()
+
 
     def updateTable(self):
         """ อัปเดตข้อมูลใน QTableWidget """
@@ -112,8 +113,8 @@ class DetailPage(QWidget):
             row_data = [
                 user['FirstName'], user['LastName'], user['Gender'], user['Department'], 
                 user['Position'], user['Email'], user['BirthDate'],
-                user['LeftScoreFront'], user['LeftScoreBack'], user['RightScoreFront'], 
-                user['RightScoreBack'], user['TotalScore'], user['TestingDate']
+                user['LeftHandFrontScore'], user['LeftHandBackScore'], user['RightHandFrontScore'], 
+                user['RightHandBackScore'], user['TotalScore'], user['TestingDate']
             ]
             # UserId = user['UserId']
 

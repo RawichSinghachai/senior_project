@@ -66,7 +66,6 @@ class ControlPage(QWidget):
       
         # Get instance
         self.leftControlUi.editBtn.clicked.connect(self.openEditPage)
-        self.leftControlUi.startBtn.clicked.connect(self.openTestPage)
         self.leftControlUi.detailBtn.clicked.connect(self.openDetailPage)
         self.leftControlUi.startBtn.clicked.connect(self.openProgressPage)
         self.searchBar.searchInput.textChanged.connect(self.filterTable)
@@ -75,12 +74,22 @@ class ControlPage(QWidget):
 
 
 
+
     # Logic ---------------------------------------------------------------------------------------
 
         for user_id, iconDelete in self.tableUi.iconDeleteDict.items():  # Fix here by accessing the dictionary
             iconDelete.mousePressEvent = lambda event, uid=user_id: self.deleteRow(event, uid)
  
+    #     self.updateButtonState()
         
+    # def updateButtonState(self):
+    #     """ ปิดการใช้งานปุ่ม detailBtn และ startBtn หากไม่มี UserId """
+    #     row_data = self.tableUi.getRowData()
+    #     has_user = bool(row_data and row_data.get('UserId'))
+
+    #     self.leftControlUi.detailBtn.setEnabled(has_user)
+    #     self.leftControlUi.startBtn.setEnabled(has_user)
+
     # Open Edit Page
     def openEditPage(self):
         edit_page = self.stackedWidget.widget(3)
@@ -88,19 +97,24 @@ class ControlPage(QWidget):
         self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(3))
         
 
-    # Open Tesing page
-    def openTestPage(self):
-        test_page = self.stackedWidget.widget(4)
-        test_page.setUser(self.tableUi.getRowData())
-        self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(4))
+    def openDetailPage(self):
+        if not self.tableUi.getRowData().get('UserId'):
+            return
+        detail_page = self.stackedWidget.widget(4)
+        detail_page.setUseId(self.tableUi.getRowData()['UserId'])
+        self.stackedWidget.setCurrentWidget(detail_page)
 
     # Open Progress page
     def openProgressPage(self):
+        if not self.tableUi.getRowData().get('UserId'):
+            return
         process_page = self.stackedWidget.widget(5)  # ดึง widget จาก stackedWidget
-        process_page.setUser(self.tableUi.getRowData())
+        process_page.setUserId(self.tableUi.getRowData()['UserId'])
         self.stackedWidget.setCurrentWidget(process_page)
-        area = main()
-        process_page.loading_success(area)
+        # area = main()
+        # self.db.creatUserTesting(self.tableUi.getRowData()['UserId'],area)
+        # write area to database
+        # process_page.loading_success(area)
 
 
     # Delete Account
@@ -139,10 +153,7 @@ class ControlPage(QWidget):
         excelRender(self.db.getAllUserData())
         print('export excel already')
 
-    def openDetailPage(self):
-        detail_page = self.stackedWidget.widget(4)
-        detail_page.setUser(self.tableUi.getRowData())
-        self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(4))
+
         
     def importExcelFile(self):
         file_path, _ = QFileDialog.getOpenFileName(

@@ -4,8 +4,8 @@ from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import (QCoreApplication, Qt , QSize, pyqtSignal,QDate,QTimer)
 from PyQt6.QtWidgets import (QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, 
     QHBoxLayout, QGridLayout, QLineEdit, QMessageBox, QGroupBox, QSpacerItem, QStackedWidget,QMainWindow)
-from PyQt6.QtGui import QIcon,QImage
-from PyQt6.QtGui import QMouseEvent
+from PyQt6.QtGui import QIcon,QImage, QMouseEvent, QFontDatabase, QFont
+
 
 
 
@@ -205,6 +205,14 @@ if __name__ == "__main__":
     app = QCoreApplication.instance()
     if app is None:
         app = QApplication([])
+
+    font_id = QFontDatabase.addApplicationFont("font/NotoSans-Regular.ttf")
+    font_families = QFontDatabase.applicationFontFamilies(font_id)
+
+    if font_families:
+        app.setFont(QFont(font_families[0])) 
+    else:
+        app.setFont(QFont("Arial"))  
 
     window = LoginPage()
     window.show()

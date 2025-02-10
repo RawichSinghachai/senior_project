@@ -53,21 +53,6 @@ class LeftControlUi(QWidget):
             ''')
         vBoxLeft.addWidget(self.detailBtn) 
 
-        # Testing Button
-        self.testBtn = QPushButton('Test History') 
-        self.testBtn.setStyleSheet('''
-            QPushButton {
-                background-color:#000000;
-                color:white;
-                padding:10px;
-                font-size:16px;
-                font-weight: bold;
-            }
-            QPushButton::hover {
-                background-color:#444444                
-            }                 
-            ''')
-        vBoxLeft.addWidget(self.testBtn) 
 
         # Start Button
         self.startBtn = QPushButton('Start Tetsing') 
