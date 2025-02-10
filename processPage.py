@@ -1,4 +1,4 @@
-from PyQt6.QtCore import (Qt, QSize, QThread, pyqtSignal)
+from PyQt6.QtCore import (Qt, QSize, QThread, pyqtSignal, QTimer)
 from PyQt6.QtWidgets import (QWidget, QLabel, QPushButton, QVBoxLayout)
 from utils.vision import main
 from database.database import Database
@@ -73,13 +73,15 @@ class ProcessPage(QWidget):
 
     def update_hand_data(self, hand_data):
         """ อัปเดต UI ตามข้อมูลที่ได้รับจาก vision """
-        self.label_left.setText(f"Left Hand: {hand_data.get('Left Hand', 'None')}")
-        self.label_right.setText(f"Right Hand: {hand_data.get('Right Hand', 'None')}")
+        # self.label_left.setText(f"Left Hand: {hand_data.get('Left Hand', 'None')}")
+        # self.label_right.setText(f"Right Hand: {hand_data.get('Right Hand', 'None')}")
+        QTimer.singleShot(0, lambda: self.label_left.setText(f"Left Hand: {hand_data.get('Left Hand', 'None')}"))
+        QTimer.singleShot(0, lambda: self.label_right.setText(f"Right Hand: {hand_data.get('Right Hand', 'None')}"))
 
     def handle_result(self, data):
         """ รับค่าที่ `main()` ส่งกลับมา """
         if data:
-            self.area.setText(str(data))  
+            QTimer.singleShot(0, lambda: self.area.setText(str(data)))  
             self.db.creatUserTesting(self.user_id, data)
             detail_page = self.stackedWidget.widget(4)
             detail_page.setUseId(self.user_id)
@@ -100,6 +102,7 @@ class ProcessPage(QWidget):
             self.visionThread.requestInterruption()
             self.visionThread.quit()
             self.visionThread.wait()
+            self.visionThread = None
             self.is_camera_running = False
 
     def showEvent(self, event):
