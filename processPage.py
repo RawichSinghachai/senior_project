@@ -1,5 +1,5 @@
 from PyQt6.QtGui import QPixmap
-from PyQt6.QtCore import (QCoreApplication, Qt , QSize,QTimer, QDateTime,QDate, QThread, pyqtSignal,)
+from PyQt6.QtCore import (QCoreApplication, Qt , QSize,QTimer, QDateTime,QDate)
 from PyQt6.QtGui import (QColor)
 from PyQt6.QtWidgets import (QApplication, QWidget, QLabel,QPushButton, QVBoxLayout 
     ,QGridLayout,QLineEdit,QMessageBox,QGroupBox,QSpacerItem,QTableWidget
@@ -9,13 +9,6 @@ from PyQt6.QtGui import QMouseEvent
 from utils.vision import main
 from database.database import Database
 
-class VisionThread(QThread):
-    hand_data_signal = pyqtSignal(dict)
-    result_signal = pyqtSignal(list)
-
-    def run(self):
-        """ เรียกใช้งาน main() และส่งข้อมูลผ่าน signal """
-        main(self.hand_data_signal.emit, self.result_signal.emit)
 
 class ProcessPage(QWidget):
     def __init__(self,stackedWidget):
@@ -98,65 +91,23 @@ class ProcessPage(QWidget):
         self.backBtn.clicked.connect(self.backPage)
 
 
-        
-        self.visionThread = None
-        self.startVisionProcessing()
 
 
     def backPage(self):
         self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(2))
-        self.stopVisionProcessing()
-
 
 
     def setUserId(self, user_id):
         if user_id:
             self.user_id = user_id
-        
-
-        
-    def setTextMessage(self,message):
-        self.message.setText(message)
-
-    def update_hand_data(self, hand_data):
-        """ อัปเดต UI ตามข้อมูลที่ได้รับจาก vision """
-        self.label_left.setText(f"Left Hand: {hand_data.get('Left Hand', 'None')}")
-        self.label_right.setText(f"Right Hand: {hand_data.get('Right Hand', 'None')}")
-    
-    def handle_result(self, data):
-        """ ฟังก์ชันนี้จะรับค่าที่ `main()` ส่งกลับมา """
-        # print("Final Hand Areas:", data)  # แสดงผลใน Console
-        
-        if data :
-            self.area.setText(str(data))  # แสดงผลใน QLabel
+            data = main()
             self.db.creatUserTesting(self.user_id,data)
             detail_page = self.stackedWidget.widget(4)
             detail_page.setUseId(self.user_id)
             self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(4))
+        
 
-    def startVisionProcessing(self):
-        """ เริ่มต้นการประมวลผลกล้อง (เฉพาะตอนเปิดหน้านี้) """
-        if not self.visionThread or not self.visionThread.isRunning():
-            self.visionThread = VisionThread()
-            self.visionThread.hand_data_signal.connect(self.update_hand_data)
-            self.visionThread.result_signal.connect(self.handle_result)
-            self.visionThread.start()
-            self.is_camera_running = True
+    def setTextMessage(self,message):
+        self.message.setText(message)
 
-    def stopVisionProcessing(self):
-        """ หยุดการประมวลผลกล้อง (ตอนออกจากหน้านี้) """
-        if self.visionThread and self.visionThread.isRunning():
-            self.visionThread.requestInterruption()  # ขอให้ Thread หยุด
-            self.visionThread.quit()
-            self.visionThread.wait()  
-            self.is_camera_running = False
-
-    def showEvent(self, event):
-        """ เมื่อเปิดหน้า ProcessPage ให้เริ่มกล้อง """
-        self.startVisionProcessing()
-        super().showEvent(event)
-
-    def hideEvent(self, event):
-        """ เมื่อออกจากหน้า ProcessPage ให้ปิดกล้อง """
-        self.stopVisionProcessing()
-        super().hideEvent(event)
+            

@@ -18,7 +18,7 @@ def check_hand_orientation(landmarks, hand_side):
     else:
         return "Front (Palm)" if thumb.x < palm_center.x else "Back (Dorsal)"
 
-def process_camera(frame, hands, countdown, position, callback, blur_value=5, threshold_value=50, contrast=0, brightness=0):
+def process_camera(frame, hands, countdown, position, blur_value=5, threshold_value=50, contrast=0, brightness=0):
     blur_value  = (blur_value * 2) + 1  
     alpha = contrast / 10.0  
     beta = brightness - 50  
@@ -58,13 +58,12 @@ def process_camera(frame, hands, countdown, position, callback, blur_value=5, th
             hand_text = f"{hand_side}: {orientation}"
             cv2.putText(frame, hand_text, (10, 100 + 50 * hand_index), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
-    callback(hand_data)
 
     x, y = position
     cv2.putText(frame, f"Countdown: {countdown}", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     return frame, left_hand_area, right_hand_area
 
-def main(callback, result_callback):
+def main():
     cap = cv2.VideoCapture(0)
     if not cap.isOpened():
         print("Error: Could not open the webcam.")
@@ -101,7 +100,7 @@ def main(callback, result_callback):
                     start_time = time.time()
 
                 processed_frame, left_hand_area, right_hand_area = process_camera(
-                    frame, hands, countdown, position, callback,
+                    frame, hands, countdown, position, 
                     blur_value=param["blur"], threshold_value=param["threshold"],
                     contrast=param["contrast"], brightness=param["brightness"]
                 )
@@ -132,4 +131,4 @@ def main(callback, result_callback):
 
     cap.release()
     cv2.destroyAllWindows()
-    result_callback(sum_areas)
+    return sum_areas
