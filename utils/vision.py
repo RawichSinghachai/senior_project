@@ -1,34 +1,27 @@
 import cv2
 import mediapipe as mp
 import time
-# from utils.arduino import ArduinoController
 
 # Initialize MediaPipe Hands and drawing tools
 hand_data = {"Left Hand": None, "Right Hand": None}
-
 mp_hands = mp.solutions.hands
 
-
 def get_hand_side(wrist_x, image_width):
-    if wrist_x < image_width / 2:
-        return "Left Hand"
-    else:
-        return "Right Hand"
+    return "Left Hand" if wrist_x < image_width / 2 else "Right Hand"
 
 def check_hand_orientation(landmarks, hand_side):
     palm_center = landmarks[9]
     thumb = landmarks[4]
-    pinky = landmarks[20]
-
+    
     if hand_side == "Left Hand":
         return "Front (Palm)" if thumb.x > palm_center.x else "Back (Dorsal)"
     else:
         return "Front (Palm)" if thumb.x < palm_center.x else "Back (Dorsal)"
 
 def process_camera(frame, hands, countdown, position, callback, blur_value=5, threshold_value=50, contrast=0, brightness=0):
-    blur_value  = (blur_value * 2) + 1 
+    blur_value  = (blur_value * 2) + 1  
     alpha = contrast / 10.0  
-    beta = brightness - 50 
+    beta = brightness - 50  
 
     frame = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
     ImageLAB = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)[:, :, 0]
@@ -36,7 +29,10 @@ def process_camera(frame, hands, countdown, position, callback, blur_value=5, th
     _, binary = cv2.threshold(blur, threshold_value, 255, cv2.THRESH_BINARY)
 
     contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    left_hand_area = right_hand_area = 0
+
+    # **Fix: กำหนดค่าเริ่มต้นก่อนใช้**
+    left_hand_area = 0
+    right_hand_area = 0
     image_center_x = frame.shape[1] // 2
 
     for contour in contours:
@@ -60,23 +56,19 @@ def process_camera(frame, hands, countdown, position, callback, blur_value=5, th
             orientation = check_hand_orientation(hand_landmarks.landmark, hand_side)
             hand_data[hand_side] = orientation
             hand_text = f"{hand_side}: {orientation}"
-            cv2.putText(frame, hand_text, (10, 100 + 50 * hand_index), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+            cv2.putText(frame, hand_text, (10, 100 + 50 * hand_index), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
     callback(hand_data)
 
     x, y = position
-    cv2.putText(frame, f"Countdown: {countdown}", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+    cv2.putText(frame, f"Countdown: {countdown}", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     return frame, left_hand_area, right_hand_area
 
 def main(callback, result_callback):
-    # arduino = ArduinoController()
-    # arduino.connect()
-    
     cap = cv2.VideoCapture(0)
     if not cap.isOpened():
         print("Error: Could not open the webcam.")
         return
-    
     
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640) 
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480) 
@@ -92,6 +84,7 @@ def main(callback, result_callback):
 
     with mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7, max_num_hands=2) as hands:
         sum_areas = []
+        
         for i in range(len(time_countdown)):
             countdown = time_countdown[i]
             start_time = time.time()
@@ -108,7 +101,7 @@ def main(callback, result_callback):
                     start_time = time.time()
 
                 processed_frame, left_hand_area, right_hand_area = process_camera(
-                    frame, hands, countdown, position,callback,
+                    frame, hands, countdown, position, callback,
                     blur_value=param["blur"], threshold_value=param["threshold"],
                     contrast=param["contrast"], brightness=param["brightness"]
                 )
@@ -122,7 +115,14 @@ def main(callback, result_callback):
                     cv2.destroyAllWindows()
                     return
 
+            # **Fix: ตรวจสอบค่า ก่อนใช้**
+            if left_hand_area is None:
+                left_hand_area = 0
+            if right_hand_area is None:
+                right_hand_area = 0
+
             sum_areas.append({"left_hand_area": left_hand_area, "right_hand_area": right_hand_area})
+            
             if i < len(wait_time):
                 print(f"Waiting for {wait_time[i]} seconds...")
                 time.sleep(wait_time[i])
@@ -133,5 +133,3 @@ def main(callback, result_callback):
     cap.release()
     cv2.destroyAllWindows()
     result_callback(sum_areas)
-
-
