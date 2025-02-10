@@ -1,5 +1,11 @@
-from PyQt6.QtCore import (Qt, QSize, QThread, pyqtSignal, QTimer)
-from PyQt6.QtWidgets import (QWidget, QLabel, QPushButton, QVBoxLayout)
+from PyQt6.QtGui import QPixmap
+from PyQt6.QtCore import (QCoreApplication, Qt , QSize,QTimer, QDateTime,QDate, QThread, pyqtSignal,)
+from PyQt6.QtGui import (QColor)
+from PyQt6.QtWidgets import (QApplication, QWidget, QLabel,QPushButton, QVBoxLayout 
+    ,QGridLayout,QLineEdit,QMessageBox,QGroupBox,QSpacerItem,QTableWidget
+    ,QTableWidgetItem,QHeaderView)
+from PyQt6.QtGui import QMouseEvent
+
 from utils.vision import main
 from database.database import Database
 
@@ -12,26 +18,42 @@ class VisionThread(QThread):
         main(self.hand_data_signal.emit, self.result_signal.emit)
 
 class ProcessPage(QWidget):
-    def __init__(self, stackedWidget):
+    def __init__(self,stackedWidget):
         super().__init__()
 
-        # Database
+        # Database ------------------------------------------------------------------------------------
         self.db = Database()
+
         self.stackedWidget = stackedWidget
         self.user_id = None
-        self.visionThread = None
-        self.is_camera_running = False  
+        self.is_camera_running = False 
 
         self.setFixedSize(QSize(800, 500))
         self.setStyleSheet("background-color: #B4B4B4;")
+
+        # self.user_data = {
+        #     'firstName' : '',
+        #     'lastName' : '',
+        #     'email' : '',
+        #     'department' : '',
+        #     'gender' : '',
+        #     'birthDate' : QDate.currentDate().toString('dd/MM/yyyy')
+        # }
 
         vBox = QVBoxLayout()
         vBox.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.setLayout(vBox)
 
+
         self.title = QLabel('Testing Hand Hygiene')
-        self.title.setStyleSheet("font-size: 30px; font-weight: bold;")
-        vBox.addWidget(self.title, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.title.setStyleSheet(
+            """
+                font-size: 30px;
+                font-weight: bold;
+            """
+        )
+        vBox.addWidget(self.title,alignment=Qt.AlignmentFlag.AlignCenter)
+
 
         self.label_left = QLabel("Left Hand: Waiting...")
         self.label_right = QLabel("Right Hand: Waiting...")
@@ -39,12 +61,23 @@ class ProcessPage(QWidget):
         vBox.addWidget(self.label_right)
 
         self.message = QLabel('IsLoading.....')
-        self.message.setStyleSheet("font-size: 50px; font-weight: bold;")
-        vBox.addWidget(self.message, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.message.setStyleSheet(
+            """
+                font-size: 50px;
+                font-weight: bold;
+            """
+        )
+        vBox.addWidget(self.message,alignment=Qt.AlignmentFlag.AlignCenter)
 
         self.area = QLabel('Area ....')
-        self.area.setStyleSheet("font-size: 12px; font-weight: bold;")
+        self.area.setStyleSheet(
+            """
+                font-size: 12px;
+                font-weight: bold;
+            """
+        )
         vBox.addWidget(self.area)
+
 
         self.backBtn = QPushButton('Back')
         self.backBtn.setStyleSheet('''
@@ -58,31 +91,45 @@ class ProcessPage(QWidget):
             QPushButton::hover {
                 background-color:#f50722                
             }                 
-        ''')
+            ''')
         vBox.addWidget(self.backBtn)
+
+
         self.backBtn.clicked.connect(self.backPage)
 
+
+        
+        self.visionThread = None
+        self.startVisionProcessing()
+
+
     def backPage(self):
-        """ กลับไปยังหน้าก่อนหน้า และปิดกล้อง """
-        self.stopVisionProcessing()
         self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(2))
+        self.stopVisionProcessing()
+
+
 
     def setUserId(self, user_id):
         if user_id:
             self.user_id = user_id
+        
+
+        
+    def setTextMessage(self,message):
+        self.message.setText(message)
 
     def update_hand_data(self, hand_data):
         """ อัปเดต UI ตามข้อมูลที่ได้รับจาก vision """
-        # self.label_left.setText(f"Left Hand: {hand_data.get('Left Hand', 'None')}")
-        # self.label_right.setText(f"Right Hand: {hand_data.get('Right Hand', 'None')}")
-        QTimer.singleShot(0, lambda: self.label_left.setText(f"Left Hand: {hand_data.get('Left Hand', 'None')}"))
-        QTimer.singleShot(0, lambda: self.label_right.setText(f"Right Hand: {hand_data.get('Right Hand', 'None')}"))
-
+        self.label_left.setText(f"Left Hand: {hand_data.get('Left Hand', 'None')}")
+        self.label_right.setText(f"Right Hand: {hand_data.get('Right Hand', 'None')}")
+    
     def handle_result(self, data):
-        """ รับค่าที่ `main()` ส่งกลับมา """
-        if data:
-            QTimer.singleShot(0, lambda: self.area.setText(str(data)))  
-            self.db.creatUserTesting(self.user_id, data)
+        """ ฟังก์ชันนี้จะรับค่าที่ `main()` ส่งกลับมา """
+        # print("Final Hand Areas:", data)  # แสดงผลใน Console
+        
+        if data :
+            self.area.setText(str(data))  # แสดงผลใน QLabel
+            self.db.creatUserTesting(self.user_id,data)
             detail_page = self.stackedWidget.widget(4)
             detail_page.setUseId(self.user_id)
             self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(4))
@@ -99,18 +146,17 @@ class ProcessPage(QWidget):
     def stopVisionProcessing(self):
         """ หยุดการประมวลผลกล้อง (ตอนออกจากหน้านี้) """
         if self.visionThread and self.visionThread.isRunning():
-            self.visionThread.requestInterruption()
+            self.visionThread.requestInterruption()  # ขอให้ Thread หยุด
             self.visionThread.quit()
-            self.visionThread.wait()
-            self.visionThread = None
+            self.visionThread.wait()  
             self.is_camera_running = False
 
     def showEvent(self, event):
-        """ เรียกใช้เมื่อ ProcessPage ถูกเปิด """
+        """ เมื่อเปิดหน้า ProcessPage ให้เริ่มกล้อง """
         self.startVisionProcessing()
         super().showEvent(event)
 
     def hideEvent(self, event):
-        """ เรียกใช้เมื่อ ProcessPage ถูกซ่อน """
+        """ เมื่อออกจากหน้า ProcessPage ให้ปิดกล้อง """
         self.stopVisionProcessing()
         super().hideEvent(event)
