@@ -3,18 +3,18 @@ from PyQt6.QtCore import QCoreApplication, Qt , QSize,QTimer, QDateTime
 from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import (QApplication, QWidget, QLabel,QPushButton, QVBoxLayout 
     ,QHBoxLayout,QGridLayout,QLineEdit,QMessageBox,QGroupBox,QSpacerItem,QTableWidget
-    ,QTableWidgetItem,QHeaderView,QFileDialog)
+    ,QTableWidgetItem,QHeaderView,QFileDialog, QSpacerItem, QSizePolicy)
 from PyQt6.QtGui import QMouseEvent
 import pandas as pd
 
 from database.database import Database
 from tableUi import TableUi
 from leftControlUi import LeftControlUi
-from utils.seachBar import SeachBar
+from components.searchBar import SearchBar
 from excelButton import ExcelButton
 from utils.messageBox import showMessageBox,showMessageDeleteDialog  
 from excelRender import excelRender
-from utils.vision import main
+# from utils.vision import main
 
 
 
@@ -27,13 +27,14 @@ class ControlPage(QWidget):
 
         # Database ------------------------------------------------------------------------------------
         self.db = Database()
+        self.listUsers = []
         self.listUsers = self.db.getAllUser()
 
         # Title Window
-        self.setWindowTitle("Table")
+        # self.setWindowTitle("Table")
 
         # self.setFixedSize(QSize(800,500))
-        self.setStyleSheet("background-color: #B4B4B4;")
+        # self.setStyleSheet("background-color: #B4B4B4;")
         
         hBox = QHBoxLayout()
         hBox.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -47,12 +48,13 @@ class ControlPage(QWidget):
 # ---------------------------------------------------------------------------------------------------------------------------------------------
         # Right
         vBoxRight = QVBoxLayout()
-        vBoxRight.setAlignment(Qt.AlignmentFlag.AlignTop)
         hBox.addLayout(vBoxRight)
 
         #  SeachBar 
-        self.searchBar = SeachBar()
+        self.searchBar = SearchBar()
         vBoxRight.addWidget(self.searchBar)
+
+
 
         # Table
         self.tableUi = TableUi(self.listUsers)
@@ -68,7 +70,9 @@ class ControlPage(QWidget):
         self.leftControlUi.editBtn.clicked.connect(self.openEditPage)
         self.leftControlUi.detailBtn.clicked.connect(self.openDetailPage)
         self.leftControlUi.startBtn.clicked.connect(self.openProgressPage)
-        self.searchBar.searchInput.textChanged.connect(self.filterTable)
+        self.leftControlUi.exitBtn.clicked.connect(self.closeProgram)
+        # self.searchBar.searchInput.textChanged.connect(self.filterTable)
+        self.searchBar.searchBtn.clicked.connect(self.filterTable)
         self.excelButton.importExcelBtn.clicked.connect(self.importExcelFile)
         self.excelButton.exportExcelBtn.clicked.connect(self.exportExcelFile)
 
@@ -101,7 +105,7 @@ class ControlPage(QWidget):
         if not self.tableUi.getRowData().get('UserId'):
             return
         detail_page = self.stackedWidget.widget(4)
-        detail_page.setUseId(self.tableUi.getRowData()['UserId'])
+        detail_page.setUserId(self.tableUi.getRowData()['UserId'])
         self.stackedWidget.setCurrentWidget(detail_page)
 
     # Open Progress page
@@ -147,12 +151,50 @@ class ControlPage(QWidget):
 
 
     def filterTable(self):
-        pass
+        search = self.searchBar.searchInput.text()
+        listUsers = self.db.filterUser(search)
+        self.tableUi.updateTable(listUsers)
+
 
     def exportExcelFile(self):
         excelRender(self.db.getAllUserData())
         print('export excel already')
 
+    def closeProgram(self):
+        msg_box = QMessageBox(self)
+        msg_box.setWindowTitle("Exit Confirmation")
+        msg_box.setText("Are you sure you want to exit?")
+        msg_box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        msg_box.setDefaultButton(QMessageBox.StandardButton.No)
+
+        # ✅ กำหนด CSS ให้ QMessageBox
+        msg_box.setStyleSheet("""
+            QMessageBox {
+                background-color: white;
+                font-size: 16px;
+            }
+            QPushButton {
+                background-color: #1C8CDB;
+                color: white;
+                font-size: 14px;
+                padding: 6px 12px;
+                border-radius: 4px;
+            }
+            QPushButton:hover {
+                background-color: #1476B3;
+            }
+            QPushButton:pressed {
+                background-color: #0F5C91;
+            }
+            QLabel {
+                background-color: transparent;
+            }
+        """)
+
+        reply = msg_box.exec()
+
+        if reply == QMessageBox.StandardButton.Yes:
+            QApplication.instance().quit()
 
         
     def importExcelFile(self):
@@ -185,18 +227,6 @@ class ControlPage(QWidget):
         except Exception as e:
             print(f"Error reading file:\n{e}")
 
-
-    def closeEvent(self, event):
-        reply = QMessageBox.question(
-            self, 'Exit Confirmation', 'Are you sure you want to exit?',
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No
-        )
-
-        if reply == QMessageBox.StandardButton.Yes:
-            print("Program is closing...")  # รันคำสั่งเมื่อปิด
-            event.accept()  # อนุญาตให้ปิด
-        else:
-            event.ignore()  # ยกเลิกการปิดโปรแกรม
 
 
 # app = QCoreApplication.instance()

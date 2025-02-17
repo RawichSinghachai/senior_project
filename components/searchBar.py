@@ -5,7 +5,7 @@ from PyQt6.QtWidgets import (QApplication, QWidget, QLabel,QPushButton, QVBoxLay
     ,QHBoxLayout,QGridLayout,QLineEdit,QMessageBox,QGroupBox,QSpacerItem,QTableWidget
     ,QTableWidgetItem,QHeaderView)
 
-class SeachBar(QWidget):
+class SearchBar(QWidget):
     def __init__(self):
         super().__init__()
 
@@ -28,9 +28,9 @@ class SeachBar(QWidget):
         hBoxSeach.addWidget(self.searchInput)
 
         # button Search
-        searchBtn = QPushButton('Search')
+        self.searchBtn = QPushButton('Search')
         # searchBtn.setFixedWidth(100)
-        searchBtn.setStyleSheet('''
+        self.searchBtn.setStyleSheet('''
             QPushButton {
                 background-color:#f75a6c;
                 color:white;
@@ -42,4 +42,4 @@ class SeachBar(QWidget):
                 background-color:#f50722                
             }                 
             ''')
-        hBoxSeach.addWidget(searchBtn)
+        hBoxSeach.addWidget(self.searchBtn)

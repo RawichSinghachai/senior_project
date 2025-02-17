@@ -27,7 +27,7 @@ class LoginPage(QWidget):
 
         self.setWindowTitle("Hand Hygiene Testing")
         self.setWindowIcon(QIcon("mainWindow.png"))
-        self.setFixedSize(QSize(800, 500))
+        self.setFixedSize(QSize(1000, 700))
         self.setStyleSheet("background-color: #B4B4B4;")
         
         # Root Layout
@@ -91,9 +91,10 @@ class LoginPage(QWidget):
         self.stackedWidget.addWidget(self.processPage)
 
         # Set LoginPage as the initial widget
+        # self.stackedWidget.setCurrentWidget(self.controlPage)
+        # self.stackedWidget.setCurrentWidget(self.detailPage)
+        # for 5test
         # self.stackedWidget.setCurrentWidget(self.editPage)
-        # for test
-        # self.stackedWidget.setCurrentWidget(self.testPage)
         # self.stackedWidget.setCurrentWidget(self.controlPage)
 
 

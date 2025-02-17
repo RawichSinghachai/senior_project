@@ -1,9 +1,9 @@
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import QCoreApplication, Qt , QSize,QTimer, QDateTime
 from PyQt6.QtGui import QColor
-from PyQt6.QtWidgets import QApplication, QWidget, QLabel,QPushButton, QVBoxLayout \
-    ,QHBoxLayout,QGridLayout,QLineEdit,QMessageBox,QGroupBox,QSpacerItem,QTableWidget\
-    ,QTableWidgetItem,QHeaderView
+from PyQt6.QtWidgets import (QApplication, QWidget, QLabel,QPushButton, QVBoxLayout 
+    ,QHBoxLayout,QGridLayout,QLineEdit,QMessageBox,QGroupBox,QSpacerItem,QTableWidget
+    ,QTableWidgetItem,QHeaderView)
 
 class LeftControlUi(QWidget):
     def __init__(self):
@@ -11,6 +11,7 @@ class LeftControlUi(QWidget):
 
         vBoxLeft = QVBoxLayout()
         vBoxLeft.setAlignment(Qt.AlignmentFlag.AlignTop)
+        vBoxLeft.setSpacing(10)
         self.setLayout(vBoxLeft)
 
         # Profile Image
@@ -18,7 +19,7 @@ class LeftControlUi(QWidget):
         img = img.scaled(150 , 150, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
         lableImage = QLabel()
         lableImage.setPixmap(img)
-        vBoxLeft.addWidget(lableImage)
+        vBoxLeft.addWidget(lableImage, alignment=Qt.AlignmentFlag.AlignHCenter)
 
         # Edit Button
         self.editBtn = QPushButton('Edit Profile')
@@ -71,8 +72,8 @@ class LeftControlUi(QWidget):
         vBoxLeft.addWidget(self.startBtn) 
 
         # Exit Button
-        self.exitbtn = QPushButton('Exit Program') 
-        self.exitbtn.setStyleSheet('''
+        self.exitBtn = QPushButton('Exit Program') 
+        self.exitBtn.setStyleSheet('''
             QPushButton {
                 background-color:#ff0000;
                 color:white;
@@ -84,11 +85,11 @@ class LeftControlUi(QWidget):
                 background-color:#fa4343             
             }                 
             ''')
-        vBoxLeft.addWidget(self.exitbtn) 
+        vBoxLeft.addWidget(self.exitBtn) 
 
         # lable timer
         self.dateLable = QLabel()
-        self.dateLable.setStyleSheet("font-size: 8px;")  # Optional styling
+        self.dateLable.setStyleSheet("font-size: 10px; ")  # Optional styling
         vBoxLeft.addWidget(self.dateLable)
 
         self.timer = QTimer(self)

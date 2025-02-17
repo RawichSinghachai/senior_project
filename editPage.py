@@ -3,7 +3,7 @@ from PyQt6.QtCore import (QCoreApplication, Qt , QSize,QTimer, QDateTime,QDate)
 from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import (QApplication, QWidget, QLabel,QPushButton, QVBoxLayout 
     ,QHBoxLayout,QGridLayout,QLineEdit,QMessageBox,QGroupBox,QSpacerItem,QTableWidget
-    ,QTableWidgetItem,QHeaderView,QDateEdit,QComboBox)
+    ,QTableWidgetItem,QHeaderView,QDateEdit,QComboBox, QSizePolicy)
 
 from components.editUserUi import EditUserUi
 from database.database import Database
@@ -15,13 +15,10 @@ class EditPage(QWidget):
         super().__init__()
 
         self.stackedWidget = stackedWidget
-
-        self.setWindowTitle("Create User")
-
-        self.setStyleSheet("background-color: #B4B4B4;")
         
         vBox = QVBoxLayout()
-        vBox.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignHCenter)
+        vBox.setAlignment( Qt.AlignmentFlag.AlignCenter)
+        vBox.setSpacing(20)
         self.setLayout(vBox)
 
 
@@ -32,11 +29,14 @@ class EditPage(QWidget):
                 font-weight: bold;
             """
         )
-        vBox.addWidget(self.title,alignment=Qt.AlignmentFlag.AlignCenter)
+        vBox.addWidget(self.title, alignment=Qt.AlignmentFlag.AlignHCenter)
+
+        
+        
 
         # Form Login
         self.formEditUi =  EditUserUi()
-        vBox.addWidget(self.formEditUi)
+        vBox.addWidget(self.formEditUi, alignment=Qt.AlignmentFlag.AlignHCenter)
 
         # Database ------------------------------------------------------------------------------------
         self.db = Database()

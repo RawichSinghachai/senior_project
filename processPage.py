@@ -10,6 +10,8 @@ from utils.vision import main
 from database.database import Database
 
 
+
+
 class ProcessPage(QWidget):
     def __init__(self,stackedWidget):
         super().__init__()
@@ -21,8 +23,6 @@ class ProcessPage(QWidget):
         self.user_id = None
         self.is_camera_running = False 
 
-        self.setFixedSize(QSize(800, 500))
-        self.setStyleSheet("background-color: #B4B4B4;")
 
         # self.user_data = {
         #     'firstName' : '',
@@ -35,6 +35,7 @@ class ProcessPage(QWidget):
 
         vBox = QVBoxLayout()
         vBox.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        vBox.setSpacing(20)
         self.setLayout(vBox)
 
 
@@ -45,31 +46,18 @@ class ProcessPage(QWidget):
                 font-weight: bold;
             """
         )
-        vBox.addWidget(self.title,alignment=Qt.AlignmentFlag.AlignCenter)
+        vBox.addWidget(self.title,alignment=Qt.AlignmentFlag.AlignHCenter)
 
 
-        self.label_left = QLabel("Left Hand: Waiting...")
-        self.label_right = QLabel("Right Hand: Waiting...")
-        vBox.addWidget(self.label_left)
-        vBox.addWidget(self.label_right)
 
         self.message = QLabel('IsLoading.....')
         self.message.setStyleSheet(
             """
-                font-size: 50px;
+                font-size: 24px;
                 font-weight: bold;
             """
         )
-        vBox.addWidget(self.message,alignment=Qt.AlignmentFlag.AlignCenter)
-
-        self.area = QLabel('Area ....')
-        self.area.setStyleSheet(
-            """
-                font-size: 12px;
-                font-weight: bold;
-            """
-        )
-        vBox.addWidget(self.area)
+        vBox.addWidget(self.message,alignment=Qt.AlignmentFlag.AlignHCenter)
 
 
         self.backBtn = QPushButton('Back')
@@ -100,14 +88,21 @@ class ProcessPage(QWidget):
     def setUserId(self, user_id):
         if user_id:
             self.user_id = user_id
-            data = main()
-            self.db.creatUserTesting(self.user_id,data)
+            self.message.setText("Processing... Please wait.")
+            # data = main()
+            # self.db.creatUserTesting(self.user_id,data)
+            QCoreApplication.processEvents()  # อัปเดต UI ทันที
+            QTimer.singleShot(100, self.processUserTesting)
+
+
+    def processUserTesting(self):
+        data = main(self.user_id)  # เรียกใช้ main() ที่อาจใช้เวลานาน
+        if  data:
+            self.db.creatUserTesting(self.user_id, data)  # บันทึกข้อมูลใน DB
             detail_page = self.stackedWidget.widget(4)
-            detail_page.setUseId(self.user_id)
+            detail_page.setUserId(self.user_id)
             self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(4))
-        
-
-    def setTextMessage(self,message):
-        self.message.setText(message)
-
+            return
+        self.message.setText("Error: Could not process the camera.")
             
+

@@ -1,7 +1,6 @@
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QTableWidget, QTableWidgetItem, QHeaderView
-# from database.database import Database
 
 class CustomTableWidget(QTableWidget):
     def wheelEvent(self, event):
@@ -22,10 +21,10 @@ class TableUi(QWidget):
 
         # Table
         self.listUsers = listUsers
-        headers = ['FirstName', 'LastName', 'Gender', 'Department', 'Email', 'Position','Birthday', 'Delete']
+        self.headers = ['FirstName', 'LastName', 'Department', 'Position', 'Email', 'Gender', 'BirthDate', 'Delete']  # Removed 'UserId'
         self.table = CustomTableWidget()
         self.table.setRowCount(len(listUsers))
-        self.table.setColumnCount(len(headers))
+        self.table.setColumnCount(len(self.headers))
         self.table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)  # Don't edit data in table
 
         # Set selection mode to single row selection only
@@ -43,34 +42,10 @@ class TableUi(QWidget):
         self.iconDeleteDict = {}
 
         # Set Header Table
-        for i, h in enumerate(headers):
+        for i, h in enumerate(self.headers):
             self.table.setHorizontalHeaderItem(i, QTableWidgetItem(h))
 
-        # Fill out data in table
-        for row_index, user in enumerate(self.listUsers):
-            row_data = [
-                user['FirstName'],
-                user['LastName'],
-                user['Gender'],
-                user['Department'],
-                user['Email'],
-                user['Position'],
-                user['BirthDate']
-            ]
-            UserId = user['UserId']
-            for column_index, data in enumerate(row_data):
-                item = QTableWidgetItem(str(data))
-                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter)
-                self.table.setItem(row_index, column_index, item)
-
-            # Add delete icon
-            iconDelete = QLabel()
-            iconDelete.setPixmap(QPixmap('trash.png').scaled(20, 20, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
-            iconDelete.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            iconDelete.setStyleSheet("background-color: transparent;")
-
-            self.table.setCellWidget(row_index, len(headers) - 1, iconDelete)
-            self.iconDeleteDict[UserId] = iconDelete
+        self.loadData()
 
         self.table.setStyleSheet("""
             QTableWidget {
@@ -99,6 +74,26 @@ class TableUi(QWidget):
         self.rowData = {}
         self.selectedRowIndex = None  # Store selected row index
 
+    def loadData(self):
+        """โหลดข้อมูลใหม่เข้า Table โดยไม่แสดง UserId"""
+        self.table.setRowCount(len(self.listUsers))
+        self.iconDeleteDict.clear()
+
+        for row_index, user in enumerate(self.listUsers):
+            for col_index, key in enumerate(self.headers[:-1]):  # Exclude 'Delete' column
+                item = QTableWidgetItem(str(user[key]))
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                self.table.setItem(row_index, col_index, item)
+
+            # Add delete icon
+            iconDelete = QLabel()
+            iconDelete.setPixmap(QPixmap('trash.png').scaled(20, 20, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
+            iconDelete.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            iconDelete.setStyleSheet("background-color: transparent;")
+
+            self.table.setCellWidget(row_index, len(self.headers) - 1, iconDelete)
+            self.iconDeleteDict[user["UserId"]] = iconDelete  # Keep track of UserId internally
+
     def selectRow(self, row, column=None):
         """ Select or deselect a row when clicking on it. """
         if row == self.selectedRowIndex:
@@ -116,4 +111,9 @@ class TableUi(QWidget):
 
     def getRowData(self):
         return self.rowData
-
+    
+    def updateTable(self, listUsers):
+        """ อัปเดตข้อมูลใน QTableWidget """
+        self.listUsers = listUsers
+        self.table.clearContents()  # เคลียร์ข้อมูลเก่าก่อน
+        self.loadData()  # โหลดข้อมูลใหม่

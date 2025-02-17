@@ -159,7 +159,7 @@ class Database:
         
         sql = '''INSERT INTO User (UserId, FirstName, LastName, Department, Position, Email, Gender, 
                 BirthDate, CreatedAt, UpdatedAt)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);'''
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);'''
         query = QSqlQuery(self.db)
         query.prepare(sql)
         # add uuid
@@ -184,6 +184,10 @@ class Database:
         # สร้าง ProfileId (UUID)
         profile_id = str(uuid.uuid4())
         testing_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+        for i in range(len(data)):
+            if data[i] is None:
+                data[i] = {"left_hand_area": 0, "right_hand_area": 0}
 
         # data = [{left_hand_area,right_hand_area}] *4
         try:
@@ -378,6 +382,38 @@ class Database:
                 print("Failed to insert:", insert_query.lastError().text())
             else:
                 print(f"Inserted {first_name} {last_name} successfully.")
+
+    
+
+    def filterUser(self, search):
+        sql = '''SELECT UserId, FirstName, LastName, Department, Position, Email, Gender, BirthDate 
+                FROM User 
+                WHERE FirstName LIKE :search
+            '''
+        
+        query = QSqlQuery(self.db)
+        query.prepare(sql)
+        query.bindValue(":search", f"%{search}%")  # Correct way to use LIKE
+
+        users = []
+
+        if query.exec():
+            while query.next():
+                user = {
+                    'UserId': query.value(0),
+                    'FirstName': query.value(1),
+                    'LastName': query.value(2),
+                    'Department': query.value(3),
+                    'Position': query.value(4),
+                    'Email': query.value(5),
+                    'Gender': query.value(6),
+                    'BirthDate': query.value(7)
+                }
+                users.append(user)
+        else:
+            print(f"Error executing query: {query.lastError().text()}")
+
+        return users
 
 
 # No self.db.close() calls in individual methods; connection is managed at the class level

@@ -1,8 +1,8 @@
 from PyQt6.QtGui import QPixmap
-from PyQt6.QtCore import Qt, QSize
+from PyQt6.QtCore import Qt, QSize, QCoreApplication
 from PyQt6.QtWidgets import (
     QWidget, QLabel, QPushButton, QVBoxLayout, QTableWidget, QHBoxLayout,
-    QTableWidgetItem, QHeaderView
+    QTableWidgetItem, QHeaderView, QApplication, QSpacerItem, QSizePolicy
 )
 
 from database.database import Database
@@ -16,20 +16,19 @@ class DetailPage(QWidget):
         self.db = Database()
         self.listUsers = []
 
-        self.setFixedSize(QSize(800, 500))
-        self.setStyleSheet("background-color: #B4B4B4;")
-
 
         vBox = QVBoxLayout()
         vBox.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        vBox.setSpacing(40)
         self.setLayout(vBox)
-
+ 
         
 
         self.title = QLabel('User Test Results')
         self.title.setStyleSheet("font-size: 30px; font-weight: bold;")
         vBox.addWidget(self.title, alignment=Qt.AlignmentFlag.AlignHCenter)
-
+      
+        
 
         # Define Table Headers
         headers = [
@@ -44,7 +43,7 @@ class DetailPage(QWidget):
         self.table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
         self.table.setSelectionMode(QTableWidget.SelectionMode.SingleSelection)
         self.table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
-        self.table.setFixedSize(700, 300)  # กำหนดความกว้าง 800px และความสูง 400px
+        self.table.setFixedSize(800, 500)  
 
 
         # Auto Resize Columns
@@ -98,7 +97,7 @@ class DetailPage(QWidget):
     def backPage(self):
         self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(2))
 
-    def setUseId(self, user_id):
+    def setUserId(self, user_id):
         """ ดึงข้อมูลจาก Database ตาม UserId และอัปเดตตาราง """
         if user_id:
             self.listUsers = self.db.getUserData(user_id)
@@ -129,3 +128,4 @@ class DetailPage(QWidget):
             iconDelete.setAlignment(Qt.AlignmentFlag.AlignCenter)
             iconDelete.setStyleSheet("background-color: transparent;")
             self.table.setCellWidget(row_index, len(row_data), iconDelete)
+

@@ -11,7 +11,7 @@ Edit Feature
 - binding data to editPage  (success)
 - edit parameter name (success)
 - CRUD (success)
-- if don't have user_data don't click editbtn and testbtn
+- if don't have user_data don't click editbtn and testbtn (success)
 - vision edit sumary last time (success)
 - read excel file (pending)
 - export file excel (pending)
@@ -19,9 +19,12 @@ Edit Feature
     -> insert
     -> select table
     -> populate
-- screenshot image from webcam
+- screenshot image and record video from webcam (pending)
 - implement area to database after complete image processing (success)
-- custom processing page
+- custom processing page (pending)
+- adjust size application (pending)
+- connect Desktopp app to arduino
+- add clear button in search bar
 
 edit after
 - add timestamp when create account (success)
