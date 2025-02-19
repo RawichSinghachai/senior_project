@@ -9,6 +9,8 @@ from components.editUserUi import EditUserUi
 from database.database import Database
 from utils.messageBox import showMessageBox
 from controlPage import ControlPage
+from utils.logger import AppLogger
+
 
 class EditPage(QWidget):
     def __init__(self,stackedWidget):
@@ -21,6 +23,8 @@ class EditPage(QWidget):
         vBox.setSpacing(20)
         self.setLayout(vBox)
 
+        # StepUp Logger
+        self.logger = AppLogger().get_logger()
 
         self.title = QLabel('Edit Profile')
         self.title.setStyleSheet(
@@ -106,7 +110,6 @@ class EditPage(QWidget):
         self.userDetail['birthDate'] = date.toString('dd/MM/yyyy')
 
     def submitUserDetail(self):
-        
 
         if self.editUserDetail :
             # Update
@@ -116,6 +119,7 @@ class EditPage(QWidget):
 
             if editUserStatus:
                 showMessageBox(title='Edit', topic='Edit Success')  # Message Box
+                self.logger.info(f"Edit User Success UserId : {self.editUserDetail['UserId']}") # Log
                 self.stackedWidget.removeWidget(self.stackedWidget.widget(2))
                 # Clear Data
                 self.clearDataInForm()
@@ -125,6 +129,7 @@ class EditPage(QWidget):
 
             else:
                 showMessageBox(title='Edit', topic='Edit Fail',mode='error')  # Message Box    
+                self.logger.info(f"Edit User Fail UserId : {self.editUserDetail['UserId']}") # Log
 
         else:
             # Insert
@@ -132,6 +137,7 @@ class EditPage(QWidget):
 
             if createUserStatus:
                 showMessageBox(title='Insert', topic='Insert Success')  # Message Box
+                self.logger.info(f"Create NewUser Success") # Log
                 # Clear Data
                 self.clearDataInForm()
 
@@ -142,7 +148,8 @@ class EditPage(QWidget):
                 self.stackedWidget.setCurrentWidget(new_page)
 
             else:
-                showMessageBox(title='Insert', topic='Insert Fail',mode='error')  # Message Box      
+                showMessageBox(title='Insert', topic='Insert Fail',mode='error')  # Message Box 
+                self.logger.info(f"Create NewUser Fail") # Log     
 
     
     def closeEditPage(self):
@@ -189,13 +196,3 @@ class EditPage(QWidget):
         self.formEditUi.positionInput.clear()
         self.formEditUi.getBirthDateInput().setDate(QDate.currentDate()) 
 
-
-
-# app = QCoreApplication.instance()
-# if app is None: app = QApplication([])
-
-
-
-# window = MainWindow()
-# window.show()
-# app.exec()

@@ -7,8 +7,6 @@ from PyQt6.QtWidgets import (QApplication, QWidget, QLabel, QPushButton, QVBoxLa
 from PyQt6.QtGui import QIcon,QImage, QMouseEvent, QFontDatabase, QFont
 
 
-
-
 from components.formLogin import FormLogin
 from imageTitle import ImageTitle
 from utils.messageBox import showMessageBox
@@ -18,7 +16,7 @@ from controlPage import ControlPage
 from editPage import EditPage
 from detailPage import DetailPage
 from processPage import ProcessPage
-
+from utils.logger import AppLogger
 
 
 class LoginPage(QWidget):
@@ -27,8 +25,11 @@ class LoginPage(QWidget):
 
         self.setWindowTitle("Hand Hygiene Testing")
         self.setWindowIcon(QIcon("mainWindow.png"))
-        self.setFixedSize(QSize(1000, 700))
+        self.setFixedSize(QSize(1024, 768))
         self.setStyleSheet("background-color: #B4B4B4;")
+
+        # StepUp Logger
+        self.logger = AppLogger().get_logger()
         
         # Root Layout
         vBox = QVBoxLayout()
@@ -156,9 +157,11 @@ class LoginPage(QWidget):
         if loginStatus:
             showMessageBox(title='Login', topic='Login Success')  # Message Box
             self.stackedWidget.setCurrentWidget(self.controlPage) 
+            self.logger.info(f"Login Success username : {self.adminLogin['username']}") # Log
         
         else:
             showMessageBox(title='Login', topic='Login Fail',mode='error')  # Message Box
+            self.logger.info(f"Login Unsuccess username : {self.adminLogin['username']}") # Log
         
         # print(f"Login username: {self.adminLogin['username']} password: {self.adminLogin['password']}")
 

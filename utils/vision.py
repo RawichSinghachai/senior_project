@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 import time
 import os
+from utils.arduino import ArduinoController
 
 # Initialize MediaPipe Hands and drawing tools
 hand_data = {"Left Hand": None, "Right Hand": None}
@@ -58,6 +59,16 @@ def process_camera(frame, hands, countdown, position, blur_value=5, threshold_va
             hand_text = f"{hand_side}: {orientation}"
             cv2.putText(frame, hand_text, (10, 100 + 50 * hand_index), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
+
+    # **Check for errors if left and right hands are in a conflicting state**
+    left_hand_status = hand_data["Left Hand"]
+    right_hand_status = hand_data["Right Hand"]
+
+    if left_hand_status and right_hand_status:
+        if (left_hand_status == "Back (Dorsal)" and right_hand_status == "Front (Palm)") or \
+           (left_hand_status == "Front (Palm)" and right_hand_status == "Back (Dorsal)"):
+            cv2.putText(frame, "Error: Conflicting Hand Orientation", (50, 300), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
+
     x, y = position
     cv2.putText(frame, f"Countdown: {countdown}", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     return frame, left_hand_area, right_hand_area
@@ -67,6 +78,13 @@ def main(userId):
     if not cap.isOpened():
         print("Error: Could not open the webcam.")
         return None
+        # return None, Could not open the webcam
+
+    # Connect Arduino
+    arduino = ArduinoController()
+    arduino.connect()
+    
+    
     
     # สร้างโฟลเดอร์ snapshots ถ้ายังไม่มี
     snapshot_folder = "snapshots"
@@ -108,6 +126,12 @@ def main(userId):
                 start_time = time.time()
                 param = parameters[i]
                 position = (50, 50)
+
+                if i >= 2:
+                    arduino.send_command("on")
+                else:
+                    arduino.send_command("off")
+                    
 
                 while countdown > 0:
                     ret, frame = cap.read()
@@ -158,6 +182,8 @@ def main(userId):
         if recording and video_writer is not None:
             print("🔴 Releasing video writer...")
             video_writer.release()
+        arduino.send_command("off")
+        arduino.close_connection()
         cap.release()
         cv2.destroyAllWindows()
 

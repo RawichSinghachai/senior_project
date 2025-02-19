@@ -33,3 +33,9 @@ edit after
 
 note
 - pandas read excel -> add lib openpyxl
+
+logger localtion
+- admin login
+    --> login success, login Fail
+- createAndUpdate user_data
+    --> crate, update -> Success, Fail

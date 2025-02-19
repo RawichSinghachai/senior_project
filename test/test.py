@@ -1,20 +1,15 @@
-import serial.tools.list_ports
+import logging
 
+# ตั้งค่าระบบ Logging และบันทึกลงไฟล์ "app.log"
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.FileHandler("app.log", encoding="utf-8"),  # บันทึกลงไฟล์
+        logging.StreamHandler()  # แสดงใน Console ด้วย
+    ]
+)
 
-
-def find_uart_ports():
-    ports = serial.tools.list_ports.comports()
-    uart_ports = []
-    for port in ports:
-        uart_ports.append((port.device, port.description))
-    return uart_ports
-
-if __name__ == "__main__":
-    uart_ports = find_uart_ports()
-    if uart_ports:
-        print("Found UART ports:")
-        for device, description in uart_ports:
-            print(f"Port: {device}, Description: {description}")
-    else:
-        print("No UART ports found.")
-
+# ทดสอบ Log
+logging.info("เริ่มต้นการทำงาน")
+logging.error("พบข้อผิดพลาด")

@@ -157,8 +157,12 @@ class ControlPage(QWidget):
 
 
     def exportExcelFile(self):
-        excelRender(self.db.getAllUserData())
-        print('export excel already')
+        try:
+            excelRender(self.db.getAllUserData())
+            showMessageBox('Export Excel','Export excel successfully.',mode='info')
+            print('export excel already')
+        except Exception as e:
+            showMessageBox('Export Excel','Export excel unsuccessfully.',mode='error')
 
     def closeProgram(self):
         msg_box = QMessageBox(self)
