@@ -8,7 +8,7 @@ from PyQt6.QtGui import QIcon,QImage, QMouseEvent, QFontDatabase, QFont
 
 
 from components.formLogin import FormLogin
-from imageTitle import ImageTitle
+from components.imageTitle import ImageTitle
 from utils.messageBox import showMessageBox
 from database.database import Database
 from createAccountPage import CreateAccountPage
@@ -24,7 +24,7 @@ class LoginPage(QWidget):
         super().__init__()
 
         self.setWindowTitle("Hand Hygiene Testing")
-        self.setWindowIcon(QIcon("mainWindow.png"))
+        self.setWindowIcon(QIcon("assets/mainWindow.png"))
         self.setFixedSize(QSize(1024, 768))
         self.setStyleSheet("background-color: #B4B4B4;")
 
@@ -201,6 +201,7 @@ class LoginPage(QWidget):
 
     #     if reply == QMessageBox.StandardButton.Yes:
     #         print("Program is closing...")
+    #         self.db.closeDatabase()
     #         event.accept()
     #     else:
     #         event.ignore()

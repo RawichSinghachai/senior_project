@@ -1,9 +1,7 @@
-from PyQt6.QtGui import QPixmap
-from PyQt6.QtCore import QCoreApplication, Qt , QSize,QTimer, QDateTime,QDate
-from PyQt6.QtGui import QColor
-from PyQt6.QtWidgets import QApplication, QWidget, QLabel,QPushButton, QVBoxLayout \
-    ,QHBoxLayout,QGridLayout,QLineEdit,QMessageBox,QGroupBox,QSpacerItem,QTableWidget\
-    ,QTableWidgetItem,QHeaderView,QDateEdit,QComboBox
+from PyQt6.QtCore import Qt , QSize, QDate
+from PyQt6.QtGui import QCursor
+from PyQt6.QtWidgets import ( QWidget, QLabel,QPushButton, QVBoxLayout 
+    ,QHBoxLayout, QLineEdit, QDateEdit, QComboBox)
 
 class EditUserUi(QWidget):
     def __init__(self):
@@ -310,6 +308,7 @@ class EditUserUi(QWidget):
         vBox.addLayout(hBoxButtonControl)
 
         self.cancelBtn = QPushButton('Cancel')
+        self.cancelBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.cancelBtn.setStyleSheet('''
             QPushButton {
                 background-color:#f75a6c;
@@ -326,6 +325,7 @@ class EditUserUi(QWidget):
 
 
         self.submitBtn = QPushButton('Submit')
+        self.submitBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.submitBtn.setStyleSheet('''
             QPushButton {
                 background-color:#f75a6c;

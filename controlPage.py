@@ -8,13 +8,12 @@ from PyQt6.QtGui import QMouseEvent
 import pandas as pd
 
 from database.database import Database
-from tableUi import TableUi
-from leftControlUi import LeftControlUi
+from components.tableUi import TableUi
+from components.leftControlUi import LeftControlUi
 from components.searchBar import SearchBar
-from excelButton import ExcelButton
+from components.excelButton import ExcelButton
 from utils.messageBox import showMessageBox,showMessageDeleteDialog  
 from excelRender import excelRender
-# from utils.vision import main
 
 
 
@@ -27,14 +26,9 @@ class ControlPage(QWidget):
 
         # Database ------------------------------------------------------------------------------------
         self.db = Database()
+        self.headers = ['FirstName', 'LastName', 'Department', 'Position', 'Email', 'Gender', 'BirthDate', 'Delete']
         self.listUsers = []
         self.listUsers = self.db.getAllUser()
-
-        # Title Window
-        # self.setWindowTitle("Table")
-
-        # self.setFixedSize(QSize(800,500))
-        # self.setStyleSheet("background-color: #B4B4B4;")
         
         hBox = QHBoxLayout()
         hBox.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -57,7 +51,7 @@ class ControlPage(QWidget):
 
 
         # Table
-        self.tableUi = TableUi(self.listUsers)
+        self.tableUi = TableUi(self.headers, self.listUsers, 1400, 600)
         vBoxRight.addWidget(self.tableUi)
         # print(self.listUsers)
 
@@ -73,6 +67,8 @@ class ControlPage(QWidget):
         self.leftControlUi.exitBtn.clicked.connect(self.closeProgram)
         # self.searchBar.searchInput.textChanged.connect(self.filterTable)
         self.searchBar.searchBtn.clicked.connect(self.filterTable)
+        self.searchBar.searchInput.returnPressed.connect(self.filterTable)
+        self.searchBar.clearBtn.clicked.connect(self.clearFilterTable)
         self.excelButton.importExcelBtn.clicked.connect(self.importExcelFile)
         self.excelButton.exportExcelBtn.clicked.connect(self.exportExcelFile)
 
@@ -83,16 +79,6 @@ class ControlPage(QWidget):
 
         for user_id, iconDelete in self.tableUi.iconDeleteDict.items():  # Fix here by accessing the dictionary
             iconDelete.mousePressEvent = lambda event, uid=user_id: self.deleteRow(event, uid)
- 
-    #     self.updateButtonState()
-        
-    # def updateButtonState(self):
-    #     """ ปิดการใช้งานปุ่ม detailBtn และ startBtn หากไม่มี UserId """
-    #     row_data = self.tableUi.getRowData()
-    #     has_user = bool(row_data and row_data.get('UserId'))
-
-    #     self.leftControlUi.detailBtn.setEnabled(has_user)
-    #     self.leftControlUi.startBtn.setEnabled(has_user)
 
     # Open Edit Page
     def openEditPage(self):
@@ -115,10 +101,6 @@ class ControlPage(QWidget):
         process_page = self.stackedWidget.widget(5)  # ดึง widget จาก stackedWidget
         process_page.setUserId(self.tableUi.getRowData()['UserId'])
         self.stackedWidget.setCurrentWidget(process_page)
-        # area = main()
-        # self.db.creatUserTesting(self.tableUi.getRowData()['UserId'],area)
-        # write area to database
-        # process_page.loading_success(area)
 
 
     # Delete Account
@@ -151,9 +133,18 @@ class ControlPage(QWidget):
 
 
     def filterTable(self):
-        search = self.searchBar.searchInput.text()
-        listUsers = self.db.filterUser(search)
+        search_text = self.searchBar.searchInput.text()
+        if not search_text :
+            self.clearFilterTable()
+            return
+        listUsers = self.db.filterUser(search_text)
         self.tableUi.updateTable(listUsers)
+
+    def  clearFilterTable(self):
+        self.searchBar.searchInput.clear()
+        listUsers = self.db.filterUser("")
+        self.tableUi.updateTable(listUsers)
+        
 
 
     def exportExcelFile(self):
@@ -198,6 +189,7 @@ class ControlPage(QWidget):
         reply = msg_box.exec()
 
         if reply == QMessageBox.StandardButton.Yes:
+            self.db.closeDatabase()
             QApplication.instance().quit()
 
         
@@ -231,12 +223,3 @@ class ControlPage(QWidget):
         except Exception as e:
             print(f"Error reading file:\n{e}")
 
-
-
-# app = QCoreApplication.instance()
-# if app is None: app = QApplication([])
-
-
-# window = ControlPage()
-# window.show()
-# app.exec()

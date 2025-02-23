@@ -13,6 +13,84 @@ class Database:
             self.db.setDatabaseName('database/db.sqlite')
             if not self.db.open():
                 raise Exception("Failed to open the database")
+        
+        self.createAdminTable()
+        self.createUserTable()
+        self.createUserTestResultTable()
+            
+    def tableExists(self, table_name):
+        """ ตรวจสอบว่าตารางมีอยู่หรือไม่ """
+        query = QSqlQuery(self.db)
+        query.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name = ?;")
+        query.addBindValue(table_name)
+        if query.exec() and query.next():
+            return True
+        return False    
+    
+    def createAdminTable(self):
+        """ สร้างตาราง Admin ถ้ายังไม่มี """
+        if not self.tableExists("Admin"):
+            query = QSqlQuery(self.db)
+            sql = """
+            CREATE TABLE "Admin" (
+                    "AdminId"	TEXT UNIQUE,
+                    "UserName"	TEXT,
+                    "Password"	TEXT,
+                    "Email"	TEXT UNIQUE,
+                    "CreatedAt"	TEXT,
+                    PRIMARY KEY("AdminId")
+                );
+            """
+            if not query.exec(sql):
+                print("Failed to create Admin table:", query.lastError().text())
+            else:
+                print("Table 'Admin' created successfully!")
+
+    def createUserTable(self):
+        """ สร้างตาราง User ถ้ายังไม่มี """
+        if not self.tableExists("User"):
+            query = QSqlQuery(self.db)
+            sql = """
+            CREATE TABLE "User" (
+                "UserId"	TEXT UNIQUE,
+                "FirstName"	TEXT,
+                "LastName"	TEXT,
+                "Department"	TEXT,
+                "Position"	TEXT,
+                "Email"	TEXT UNIQUE,
+                "Gender"	TEXT,
+                "BirthDate"	TEXT,
+                "CreatedAt"	TEXT,
+                "UpdatedAt"	INTEGER,
+                PRIMARY KEY("UserId")
+            );
+            """
+            if not query.exec(sql):
+                print("Failed to create User table:", query.lastError().text())
+            else:
+                print("Table 'User' created successfully!")
+
+    def createUserTestResultTable(self):
+        """ สร้างตาราง UserTestResult ถ้ายังไม่มี """
+        if not self.tableExists("UserTestResult"):
+            query = QSqlQuery(self.db)
+            sql = """
+            CREATE TABLE "UserTestResult" (
+                "ProfileId"	TEXT,
+                "UserId"	TEXT,
+                "LeftHandFrontScore"	INTEGER,
+                "LeftHandBackScore"	INTEGER,
+                "RightHandFrontScore"	INTEGER,
+                "RightHandBackScore"	INTEGER,
+                "TotalScore"	INTEGER,
+                "TestingDate"	TEXT,
+                PRIMARY KEY("ProfileId")
+            );
+            """
+            if not query.exec(sql):
+                print("Failed to create UserTestResult table:", query.lastError().text())
+            else:
+                print("Table 'UserTestResult' created successfully!")
 
     def getAdmin(self):
         sql = 'SELECT * FROM Admin;'
@@ -415,5 +493,11 @@ class Database:
 
         return users
 
+    def closeDatabase(self):
+        """ ปิดการเชื่อมต่อฐานข้อมูล """
+        connection_name = self.db.connectionName()
+        self.db.close()  # ปิดฐานข้อมูล
+        QSqlDatabase.removeDatabase(connection_name)  # ลบการเชื่อมต่อออกจาก QSqlDatabase
+        print("Database connection closed.")
 
 # No self.db.close() calls in individual methods; connection is managed at the class level

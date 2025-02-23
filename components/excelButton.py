@@ -1,4 +1,4 @@
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtGui import QPixmap, QCursor
 from PyQt6.QtCore import QCoreApplication, Qt , QSize,QTimer, QDateTime
 from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import (QApplication, QWidget, QLabel,QPushButton, QVBoxLayout 
@@ -15,6 +15,7 @@ class ExcelButton(QWidget):
         # Import Excel Button
         self.importExcelBtn = QPushButton('Import Excel')
         self.importExcelBtn.setFixedWidth(250)
+        self.importExcelBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.importExcelBtn.setStyleSheet('''
             QPushButton {
                 background-color:#0086ff;
@@ -33,6 +34,7 @@ class ExcelButton(QWidget):
         # Export Excel Button
         self.exportExcelBtn = QPushButton('Export Excel')
         self.exportExcelBtn.setFixedWidth(250)
+        self.exportExcelBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.exportExcelBtn.setStyleSheet('''
             QPushButton {
                 background-color:#0086ff;

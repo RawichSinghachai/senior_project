@@ -10,7 +10,7 @@ class ImageTitle(QWidget):
         vBoxForm = QVBoxLayout()
         self.setLayout(vBoxForm)
 
-        img = QPixmap('qoogle.png')
+        img = QPixmap('assets/qoogle.png')
         img = img.scaled(300, 300, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
         lableImage = QLabel()
         lableImage.setPixmap(img)

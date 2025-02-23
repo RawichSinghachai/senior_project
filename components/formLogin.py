@@ -1,7 +1,7 @@
-from PyQt6.QtCore import QCoreApplication, Qt , QSize
-from PyQt6.QtWidgets import QApplication, QWidget, QLabel,QPushButton, QVBoxLayout \
-    ,QHBoxLayout,QGridLayout,QLineEdit,QMessageBox,QGroupBox,QSizePolicy,QSpacerItem
-from PyQt6.QtGui import QMouseEvent
+from PyQt6.QtCore import Qt , QSize
+from PyQt6.QtGui import QCursor
+from PyQt6.QtWidgets import ( QWidget, QLabel,QPushButton, QVBoxLayout 
+    ,QHBoxLayout, QLineEdit)
 
 class FormLogin(QWidget):
     def __init__(self):
@@ -10,7 +10,6 @@ class FormLogin(QWidget):
         vBoxForm = QVBoxLayout()
         vBoxForm.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.setLayout(vBoxForm)
-        # self.setStyleSheet("background-color: #FCFCFC;")
 
         # Form Login
         # Grop UserName------------------------------------------------------------------------
@@ -77,14 +76,9 @@ class FormLogin(QWidget):
         )
         vBoxGroupPassword.addWidget(self.passwordInput)
 
-        # Spacer Item
-        # spacer = QSpacerItem(0, 20)
-        # vBoxForm.addSpacerItem(spacer)
-        # gridForm.setRowStretch(2, 1)
-        
         # Button Submit
         self.signUpBtn = QPushButton('LogIn')
-        self.signUpBtn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.signUpBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.signUpBtn.setStyleSheet('''
             QPushButton {
                 background-color:#f75a6c;

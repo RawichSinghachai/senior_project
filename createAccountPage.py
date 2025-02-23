@@ -6,7 +6,7 @@ from PyQt6.QtGui import QMouseEvent
 from PyQt6.QtSql import QSqlDatabase, QSqlQuery
 
 from components.formCreateAccountUi import FormRegisterUi
-from imageTitle import ImageTitle
+from components.imageTitle import ImageTitle
 from utils.messageBox import showMessageBox
 from database.database import Database
 

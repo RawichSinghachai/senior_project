@@ -1,9 +1,7 @@
 from PyQt6.QtGui import QPixmap
-from PyQt6.QtCore import QCoreApplication, Qt , QSize,QTimer, QDateTime
-from PyQt6.QtGui import QColor
-from PyQt6.QtWidgets import (QApplication, QWidget, QLabel,QPushButton, QVBoxLayout 
-    ,QHBoxLayout,QGridLayout,QLineEdit,QMessageBox,QGroupBox,QSpacerItem,QTableWidget
-    ,QTableWidgetItem,QHeaderView)
+from PyQt6.QtCore import  Qt, QTimer, QDateTime
+from PyQt6.QtGui import QCursor
+from PyQt6.QtWidgets import (QWidget, QLabel,QPushButton, QVBoxLayout)
 
 class LeftControlUi(QWidget):
     def __init__(self):
@@ -15,7 +13,7 @@ class LeftControlUi(QWidget):
         self.setLayout(vBoxLeft)
 
         # Profile Image
-        img = QPixmap('profile.png')
+        img = QPixmap('assets/profile.png')
         img = img.scaled(150 , 150, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
         lableImage = QLabel()
         lableImage.setPixmap(img)
@@ -23,6 +21,7 @@ class LeftControlUi(QWidget):
 
         # Edit Button
         self.editBtn = QPushButton('Edit Profile')
+        self.editBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.editBtn.setStyleSheet('''
             QPushButton {
                 background-color:#000000;
@@ -40,6 +39,7 @@ class LeftControlUi(QWidget):
 
         # Add User Button
         self.detailBtn = QPushButton('Detail')
+        self.detailBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.detailBtn.setStyleSheet('''
             QPushButton {
                 background-color:#000000;
@@ -57,6 +57,7 @@ class LeftControlUi(QWidget):
 
         # Start Button
         self.startBtn = QPushButton('Start Tetsing') 
+        self.startBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.startBtn.setStyleSheet('''
             QPushButton {
                 background-color:#6af21c;
@@ -73,6 +74,7 @@ class LeftControlUi(QWidget):
 
         # Exit Button
         self.exitBtn = QPushButton('Exit Program') 
+        self.exitBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.exitBtn.setStyleSheet('''
             QPushButton {
                 background-color:#ff0000;
@@ -105,14 +107,4 @@ class LeftControlUi(QWidget):
         formatted_date_time = current_date_time.toString("dddd, MMMM d, yyyy hh:mm:ss AP")
         # Update the QLabel with the current date and time
         self.dateLable.setText(formatted_date_time)      
-
-
-    # def getEditBtn(self):
-    #     return self.editBtn
-    
-    # def getStartBtn(self):
-    #     return self.startBtn
-    
-    # def getDetailBtn(self):
-    #     return self.detailBtn
     

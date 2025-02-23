@@ -1,6 +1,7 @@
-from PyQt6.QtCore import QCoreApplication, Qt , QSize
-from PyQt6.QtWidgets import QApplication, QWidget, QLabel,QPushButton, QVBoxLayout \
-    ,QHBoxLayout,QGridLayout,QLineEdit,QMessageBox,QGroupBox,QSizePolicy,QSpacerItem
+from PyQt6.QtGui import QCursor
+from PyQt6.QtCore import Qt , QSize
+from PyQt6.QtWidgets import (QWidget, QLabel, QPushButton, QVBoxLayout 
+    ,QHBoxLayout, QLineEdit )
 
 class FormRegisterUi(QWidget):
     def __init__(self):
@@ -9,14 +10,11 @@ class FormRegisterUi(QWidget):
         vBoxForm = QVBoxLayout()
         vBoxForm.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.setLayout(vBoxForm)
-        # self.setStyleSheet("background-color: #FCFCFC;")
 
 
         # Form Register
         hBoxFormFirstRow = QHBoxLayout()
         vBoxForm.addLayout(hBoxFormFirstRow)
-
-
 
 
         # Grop UserName ------------------------------------------------------------------------
@@ -119,7 +117,7 @@ class FormRegisterUi(QWidget):
         
         # Button Submit
         self.signUpBtn = QPushButton('Sign Up')
-        self.signUpBtn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.signUpBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.signUpBtn.setStyleSheet('''
             QPushButton {
                 background-color:#f75a6c;

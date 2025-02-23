@@ -8,7 +8,7 @@ from PyQt6.QtGui import QMouseEvent
 
 from utils.vision import main
 from database.database import Database
-
+from utils.messageBox import showMessageBox
 
 
 
@@ -23,15 +23,6 @@ class ProcessPage(QWidget):
         self.user_id = None
         self.is_camera_running = False 
 
-
-        # self.user_data = {
-        #     'firstName' : '',
-        #     'lastName' : '',
-        #     'email' : '',
-        #     'department' : '',
-        #     'gender' : '',
-        #     'birthDate' : QDate.currentDate().toString('dd/MM/yyyy')
-        # }
 
         vBox = QVBoxLayout()
         vBox.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -96,13 +87,14 @@ class ProcessPage(QWidget):
 
 
     def processUserTesting(self):
-        data = main(self.user_id)  # เรียกใช้ main() ที่อาจใช้เวลานาน
+        data, err = main(self.user_id)  # เรียกใช้ main() ที่อาจใช้เวลานาน
         if  data:
             self.db.creatUserTesting(self.user_id, data)  # บันทึกข้อมูลใน DB
             detail_page = self.stackedWidget.widget(4)
             detail_page.setUserId(self.user_id)
             self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(4))
-            return
-        self.message.setText("Error: Could not process the camera.")
+        elif err:
+            showMessageBox("Error", err, "error")
+            self.message.setText(f"Status : {err}")
             
 

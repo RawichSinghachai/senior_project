@@ -2,6 +2,7 @@ from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QTableWidget, QTableWidgetItem, QHeaderView
 
+
 class CustomTableWidget(QTableWidget):
     def wheelEvent(self, event):
         """ Handle horizontal scroll when Shift is pressed """
@@ -10,9 +11,13 @@ class CustomTableWidget(QTableWidget):
         else:
             super().wheelEvent(event)
 
+
 class TableUi(QWidget):
-    def __init__(self, listUsers):
+    def __init__(self, headers, data, width=800, height=500):
         super().__init__()
+
+        self.tableWidth = width
+        self.tableHeight = height
 
         # Root Layout
         vBox = QVBoxLayout()
@@ -20,12 +25,13 @@ class TableUi(QWidget):
         self.setLayout(vBox)
 
         # Table
-        self.listUsers = listUsers
-        self.headers = ['FirstName', 'LastName', 'Department', 'Position', 'Email', 'Gender', 'BirthDate', 'Delete']  # Removed 'UserId'
+        self.data = data  # เก็บข้อมูลของตาราง
+        self.headers = headers  # เก็บ header ของตาราง
         self.table = CustomTableWidget()
-        self.table.setRowCount(len(listUsers))
-        self.table.setColumnCount(len(self.headers))
+        self.table.setRowCount(len(data))
+        self.table.setColumnCount(len(headers))
         self.table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)  # Don't edit data in table
+        self.table.setFixedSize(self.tableWidth, self.tableHeight)  
 
         # Set selection mode to single row selection only
         self.table.setSelectionMode(QTableWidget.SelectionMode.SingleSelection)
@@ -75,13 +81,13 @@ class TableUi(QWidget):
         self.selectedRowIndex = None  # Store selected row index
 
     def loadData(self):
-        """โหลดข้อมูลใหม่เข้า Table โดยไม่แสดง UserId"""
-        self.table.setRowCount(len(self.listUsers))
+        """โหลดข้อมูลเข้า Table"""
+        self.table.setRowCount(len(self.data))
         self.iconDeleteDict.clear()
 
-        for row_index, user in enumerate(self.listUsers):
+        for row_index, row_data in enumerate(self.data):
             for col_index, key in enumerate(self.headers[:-1]):  # Exclude 'Delete' column
-                item = QTableWidgetItem(str(user[key]))
+                item = QTableWidgetItem(str(row_data.get(key, "")))
                 item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.table.setItem(row_index, col_index, item)
 
@@ -92,7 +98,8 @@ class TableUi(QWidget):
             iconDelete.setStyleSheet("background-color: transparent;")
 
             self.table.setCellWidget(row_index, len(self.headers) - 1, iconDelete)
-            self.iconDeleteDict[user["UserId"]] = iconDelete  # Keep track of UserId internally
+            if "UserId" in row_data:
+                self.iconDeleteDict[row_data["UserId"]] = iconDelete  # Keep track of UserId internally
 
     def selectRow(self, row, column=None):
         """ Select or deselect a row when clicking on it. """
@@ -104,16 +111,16 @@ class TableUi(QWidget):
             print("Row deselected")
         else:
             # Select new row
-            if 0 <= row < len(self.listUsers):
-                self.rowData = self.listUsers[row]
+            if 0 <= row < len(self.data):
+                self.rowData = self.data[row]
                 self.selectedRowIndex = row
                 print("Selected Row Data:", self.rowData)
 
     def getRowData(self):
         return self.rowData
     
-    def updateTable(self, listUsers):
+    def updateTable(self, new_data):
         """ อัปเดตข้อมูลใน QTableWidget """
-        self.listUsers = listUsers
+        self.data = new_data
         self.table.clearContents()  # เคลียร์ข้อมูลเก่าก่อน
         self.loadData()  # โหลดข้อมูลใหม่

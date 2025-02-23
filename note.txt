@@ -1,9 +1,9 @@
 Edit Feature
-- cusor
+- cusor (success)
 - sql (pending)
 - notification state message (pending)
 - excel (pending)
-- opencv (pending)
+- opencv (success)
 - count down timer (success)
 - merge file (success)
 - validation edituser
@@ -19,12 +19,15 @@ Edit Feature
     -> insert
     -> select table
     -> populate
-- screenshot image and record video from webcam (pending)
+- screenshot image and record video from webcam (success)
 - implement area to database after complete image processing (success)
-- custom processing page (pending)
+- custom processing page (success)
 - adjust size application (pending)
-- connect Desktopp app to arduino
-- add clear button in search bar
+- connect Desktop app to arduino (success)
+- add clear button in search bar (success)
+- change vision.py to class component
+- check and create table in sqlite (success)
+- notification before close program
 
 edit after
 - add timestamp when create account (success)
@@ -39,3 +42,10 @@ logger localtion
     --> login success, login Fail
 - createAndUpdate user_data
     --> crate, update -> Success, Fail
+- vision.py
+    --> main()
+- arduino.py
+    --> find_arduino_port() 
+    --> connect()
+    --> send_command()
+    --> close_connection()
