@@ -31,7 +31,7 @@ class TableUi(QWidget):
         self.table.setRowCount(len(data))
         self.table.setColumnCount(len(headers))
         self.table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)  # Don't edit data in table
-        self.table.setFixedSize(self.tableWidth, self.tableHeight)  
+        self.table.setMaximumSize(self.tableWidth, self.tableHeight)  
 
         # Set selection mode to single row selection only
         self.table.setSelectionMode(QTableWidget.SelectionMode.SingleSelection)

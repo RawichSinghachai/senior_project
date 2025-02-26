@@ -25,7 +25,8 @@ class LoginPage(QWidget):
 
         self.setWindowTitle("Hand Hygiene Testing")
         self.setWindowIcon(QIcon("assets/mainWindow.png"))
-        self.setFixedSize(QSize(1024, 768))
+        self.setFixedSize(QSize(1600, 900))
+        # self.setFixedSize(QSize(1024, 768))
         self.setStyleSheet("background-color: #B4B4B4;")
 
         # StepUp Logger
@@ -59,7 +60,7 @@ class LoginPage(QWidget):
         loginPageVBox.addLayout(hBoxCenter)
 
         # Image Title
-        self.imageTitle = ImageTitle()
+        self.imageTitle = ImageTitle('assets/qoogle.png', 400, 400)
         hBoxCenter.addWidget(self.imageTitle, alignment=Qt.AlignmentFlag.AlignCenter)
 
         # FormLogin UI

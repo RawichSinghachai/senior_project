@@ -2,7 +2,7 @@ import cv2
 import mediapipe as mp
 import time
 import os
-# from utils.arduino import ArduinoController
+from utils.arduino import ArduinoController
 from utils.logger import AppLogger
 
 logger = AppLogger().get_logger()
@@ -87,8 +87,8 @@ def main(userId):
         return None, "Could not open the webcam."
 
     # Connect Arduino
-    # arduino = ArduinoController()
-    # arduino.connect()
+    arduino = ArduinoController()
+    arduino.connect()
     
     
     
@@ -97,14 +97,17 @@ def main(userId):
     if not os.path.exists(snapshot_folder):
         os.makedirs(snapshot_folder)
 
-    video_folder = "video"
+    video_folder = os.path.join("video", str(userId))
     if not os.path.exists(video_folder):
         os.makedirs(video_folder)
 
     # ตั้งค่าขนาดวิดีโอ
     frame_width = int(cap.get(3))
     frame_height = int(cap.get(4))
-    video_filename = os.path.join(video_folder, f"recorded_video_{userId}.avi")
+
+    timestamp = time.strftime("%Y%m%d_%H%M%S")
+
+    video_filename = os.path.join(video_folder, f"{timestamp}.mp4")
 
     # ตั้งค่าตัวบันทึกวิดีโอ (MP4 Codec)
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
@@ -133,10 +136,10 @@ def main(userId):
                 param = parameters[i]
                 position = (50, 50)
 
-                # if i >= 2:
-                #     arduino.send_command("on")
-                # else:
-                #     arduino.send_command("off")
+                if i >= 2:
+                    arduino.send_command("on")
+                else:
+                    arduino.send_command("off")
                     
 
                 while countdown > 0:
@@ -185,7 +188,6 @@ def main(userId):
                 if not os.path.exists(user_folder):
                     os.makedirs(user_folder)
 
-                timestamp = time.strftime("%Y%m%d_%H%M%S")
 
                 snapshot_path = os.path.join(user_folder, f"step_{i}_{timestamp}.jpg")
                 cv2.imwrite(snapshot_path, processed_frame)
@@ -207,11 +209,10 @@ def main(userId):
         if recording and video_writer is not None:
             video_writer.release()
             logger.info(f"Stop recording video saved to path: {video_filename}") # Log
-        # arduino.send_command("off")
-        # arduino.close_connection()
+        arduino.send_command("off")
+        arduino.close_connection()
         
         cap.release()
         cv2.destroyAllWindows()
         logger.info("Camera released and windows closed.") # Log
 
-# main("test")

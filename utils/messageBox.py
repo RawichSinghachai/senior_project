@@ -21,7 +21,7 @@ def showMessageDeleteDialog(self):
     msgBox = QMessageBox(self)
     msgBox.setWindowTitle('Delete Accout')
     msgBox.setText('Are you sure you want to delete this item?')
-    msgBox.setStandardButtons(QMessageBox.StandardButton.No | QMessageBox.StandardButton.Yes)
+    msgBox.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
     msgBox.setDefaultButton(QMessageBox.StandardButton.Yes)
     msgBox.setStyleSheet("""
         QMessageBox {
@@ -31,7 +31,7 @@ def showMessageDeleteDialog(self):
                 background-color: transparent;
             }
         QPushButton {
-                background-color: transparent;
+                background-color: #ffffff;
             }
         """)
     response = msgBox.exec()

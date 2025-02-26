@@ -2,7 +2,7 @@
 - [ ] cusor
 - [ ] sql (pending)
 - [ ] notification state message (pending)
-- [ ] excel (pending)
+- [] excel (pending)
 - [x] opencv (success)
 - [x] count down timer (success)
 - [x] merge file (success)

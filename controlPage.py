@@ -51,7 +51,7 @@ class ControlPage(QWidget):
 
 
         # Table
-        self.tableUi = TableUi(self.headers, self.listUsers, 1400, 600)
+        self.tableUi = TableUi(self.headers, self.listUsers, 800, 600)
         vBoxRight.addWidget(self.tableUi)
         # print(self.listUsers)
 
@@ -165,21 +165,18 @@ class ControlPage(QWidget):
         # ✅ กำหนด CSS ให้ QMessageBox
         msg_box.setStyleSheet("""
             QMessageBox {
-                background-color: white;
+                background-color: #ffffff;
                 font-size: 16px;
             }
             QPushButton {
-                background-color: #1C8CDB;
-                color: white;
+                background-color: #ffffff;
                 font-size: 14px;
-                padding: 6px 12px;
-                border-radius: 4px;
             }
             QPushButton:hover {
-                background-color: #1476B3;
+                background-color: #ffffff;
             }
             QPushButton:pressed {
-                background-color: #0F5C91;
+                background-color: #ffffff;
             }
             QLabel {
                 background-color: transparent;

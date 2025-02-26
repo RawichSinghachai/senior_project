@@ -1,7 +1,7 @@
 from PyQt6.QtCore import Qt , QSize
 from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import ( QWidget, QLabel,QPushButton, QVBoxLayout 
-    ,QHBoxLayout, QLineEdit)
+    ,QHBoxLayout, QLineEdit, QSpacerItem, QSizePolicy)
 
 class FormLogin(QWidget):
     def __init__(self):
@@ -44,6 +44,10 @@ class FormLogin(QWidget):
         self.userInput.setFixedSize(QSize(300,40))
         vBoxGroupUsername.addWidget(self.userInput)
 
+        # Vertical Spacer
+        vertical_spacer = QSpacerItem(0, 10, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        vBoxForm.addItem(vertical_spacer)
+
 
         # Grop UserName------------------------------------------------------------------------
         vBoxGroupPassword = QVBoxLayout()
@@ -60,6 +64,10 @@ class FormLogin(QWidget):
         )
         vBoxGroupPassword.addWidget(self.passwordLableInput)
 
+        # Vertical Spacer
+        vertical_spacer = QSpacerItem(0, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        vBoxForm.addItem(vertical_spacer)
+
         # Password Input
         self.passwordInput = QLineEdit()
         self.passwordInput.setPlaceholderText('Fill Password')
@@ -75,6 +83,7 @@ class FormLogin(QWidget):
             """
         )
         vBoxGroupPassword.addWidget(self.passwordInput)
+
 
         # Button Submit
         self.signUpBtn = QPushButton('LogIn')

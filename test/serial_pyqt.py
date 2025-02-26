@@ -37,7 +37,7 @@ class ArduinoControl(QWidget):
 
     def connect_arduino(self):
         """ค้นหาและเชื่อมต่อ Arduino"""
-        arduino_port = "COM3"
+        arduino_port = "COM6"
         if arduino_port:
             try:
                 self.arduino = serial.Serial(arduino_port, baudrate=9600, timeout=1)

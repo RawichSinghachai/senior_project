@@ -14,7 +14,7 @@ class LeftControlUi(QWidget):
 
         # Profile Image
         img = QPixmap('assets/profile.png')
-        img = img.scaled(150 , 150, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+        img = img.scaled(250 , 250, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
         lableImage = QLabel()
         lableImage.setPixmap(img)
         vBoxLeft.addWidget(lableImage, alignment=Qt.AlignmentFlag.AlignHCenter)

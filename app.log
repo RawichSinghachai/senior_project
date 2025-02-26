@@ -79,3 +79,93 @@
 2025-02-23 23:10:27,485 - INFO - Login Success username : op2
 2025-02-23 23:11:05,575 - INFO - Login Success username : op2
 2025-02-24 00:16:01,734 - INFO - Login Success username : op2
+2025-02-24 11:09:23,050 - INFO - Login Success username : op2
+2025-02-24 11:10:50,803 - INFO - Login Success username : op2
+2025-02-24 11:20:50,279 - INFO - Login Success username : op2
+2025-02-24 11:21:32,201 - INFO - Login Success username : op2
+2025-02-24 11:23:06,649 - INFO - Login Success username : op2
+2025-02-24 11:23:41,423 - INFO - Login Success username : op2
+2025-02-24 11:24:09,619 - INFO - Login Success username : op2
+2025-02-24 11:24:34,220 - INFO - Login Success username : op2
+2025-02-24 11:25:21,261 - INFO - Login Success username : op2
+2025-02-24 11:26:13,146 - INFO - Login Success username : op2
+2025-02-24 11:36:44,589 - INFO - Login Success username : op2
+2025-02-24 16:09:57,915 - INFO - Login Success username : op2
+2025-02-24 16:10:31,802 - INFO - Login Success username : op2
+2025-02-24 16:27:28,020 - INFO - User terminated the process.
+2025-02-24 16:27:28,351 - INFO - Camera released and windows closed.
+2025-02-24 16:31:02,714 - INFO - User terminated the process.
+2025-02-24 16:31:03,031 - INFO - Camera released and windows closed.
+2025-02-24 16:40:36,861 - INFO - Saved snapshot: snapshots\test\step_0_20250224_164036.jpg
+2025-02-24 16:40:40,866 - INFO - User terminated the process.
+2025-02-24 16:40:41,197 - INFO - Camera released and windows closed.
+2025-02-24 16:46:36,932 - INFO - Saved snapshot: snapshots\test\step_0_20250224_164636.jpg
+2025-02-24 16:46:44,176 - INFO - Saved snapshot: snapshots\test\step_1_20250224_164644.jpg
+2025-02-24 16:46:51,386 - INFO - Saved snapshot: snapshots\test\step_2_20250224_164651.jpg
+2025-02-24 16:46:58,591 - INFO - Saved snapshot: snapshots\test\step_3_20250224_164658.jpg
+2025-02-24 16:46:58,591 - INFO - UserId : test Process completed.
+2025-02-24 16:46:59,017 - INFO - Camera released and windows closed.
+2025-02-24 16:50:20,829 - INFO - User terminated the process.
+2025-02-24 16:50:21,270 - INFO - Camera released and windows closed.
+2025-02-24 16:50:34,693 - INFO - Login Success username : op2
+2025-02-24 16:51:14,388 - INFO - Saved snapshot: snapshots\162d04a0-4c53-4c59-b02f-505a16b5ed25\step_0_20250224_165114.jpg
+2025-02-24 16:51:21,582 - INFO - Saved snapshot: snapshots\162d04a0-4c53-4c59-b02f-505a16b5ed25\step_1_20250224_165121.jpg
+2025-02-24 16:51:28,856 - INFO - Saved snapshot: snapshots\162d04a0-4c53-4c59-b02f-505a16b5ed25\step_2_20250224_165128.jpg
+2025-02-24 16:51:33,742 - INFO - User terminated the process.
+2025-02-24 16:51:34,162 - INFO - Camera released and windows closed.
+2025-02-24 16:52:55,468 - INFO - Login Success username : op2
+2025-02-24 16:53:36,689 - INFO - Saved snapshot: snapshots\803c023c-0cab-454b-9c0b-1a73eb2b6a0d\step_0_20250224_165336.jpg
+2025-02-24 16:53:43,916 - INFO - Saved snapshot: snapshots\803c023c-0cab-454b-9c0b-1a73eb2b6a0d\step_1_20250224_165343.jpg
+2025-02-24 16:53:51,152 - INFO - Saved snapshot: snapshots\803c023c-0cab-454b-9c0b-1a73eb2b6a0d\step_2_20250224_165351.jpg
+2025-02-24 16:53:54,790 - INFO - User terminated the process.
+2025-02-24 16:53:55,209 - INFO - Camera released and windows closed.
+2025-02-24 17:01:17,199 - INFO - Login Success username : op2
+2025-02-24 17:01:58,299 - INFO - Saved snapshot: snapshots\9e6a32a4-d699-4535-bbeb-82f1be05d8d8\step_0_20250224_170158.jpg
+2025-02-24 17:02:05,520 - INFO - Saved snapshot: snapshots\9e6a32a4-d699-4535-bbeb-82f1be05d8d8\step_1_20250224_170205.jpg
+2025-02-24 17:02:12,739 - INFO - Saved snapshot: snapshots\9e6a32a4-d699-4535-bbeb-82f1be05d8d8\step_2_20250224_170212.jpg
+2025-02-24 17:02:19,916 - INFO - Saved snapshot: snapshots\9e6a32a4-d699-4535-bbeb-82f1be05d8d8\step_3_20250224_170219.jpg
+2025-02-24 17:02:19,916 - INFO - UserId : 9e6a32a4-d699-4535-bbeb-82f1be05d8d8 Process completed.
+2025-02-24 17:02:20,344 - INFO - Camera released and windows closed.
+2025-02-24 17:04:13,503 - INFO - Saved snapshot: snapshots\9e6a32a4-d699-4535-bbeb-82f1be05d8d8\step_0_20250224_170413.jpg
+2025-02-24 17:04:20,696 - INFO - Saved snapshot: snapshots\9e6a32a4-d699-4535-bbeb-82f1be05d8d8\step_1_20250224_170420.jpg
+2025-02-24 17:04:27,939 - INFO - Saved snapshot: snapshots\9e6a32a4-d699-4535-bbeb-82f1be05d8d8\step_2_20250224_170427.jpg
+2025-02-24 17:04:35,090 - INFO - Saved snapshot: snapshots\9e6a32a4-d699-4535-bbeb-82f1be05d8d8\step_3_20250224_170435.jpg
+2025-02-24 17:04:35,090 - INFO - UserId : 9e6a32a4-d699-4535-bbeb-82f1be05d8d8 Process completed.
+2025-02-24 17:04:35,509 - INFO - Camera released and windows closed.
+2025-02-25 00:06:34,224 - INFO - Login Success username : op2
+2025-02-25 00:07:08,879 - INFO - Starting to record video to path: video\162d04a0-4c53-4c59-b02f-505a16b5ed25\20250225_000651.mp4
+2025-02-25 00:07:10,451 - INFO - Saved snapshot: snapshots\162d04a0-4c53-4c59-b02f-505a16b5ed25\step_0_20250225_000651.jpg
+2025-02-25 00:07:17,915 - INFO - Saved snapshot: snapshots\162d04a0-4c53-4c59-b02f-505a16b5ed25\step_1_20250225_000651.jpg
+2025-02-25 00:07:25,233 - ERROR - Conflicting Hand Orientation
+2025-02-25 00:07:25,261 - INFO - Stop recording video saved to path: video\162d04a0-4c53-4c59-b02f-505a16b5ed25\20250225_000651.mp4
+2025-02-25 00:07:25,577 - INFO - Camera released and windows closed.
+2025-02-25 21:58:10,812 - INFO - Login Success username : op2
+2025-02-25 21:59:29,796 - INFO - Login Success username : op2
+2025-02-25 21:59:55,198 - INFO - Login Success username : op2
+2025-02-25 22:00:31,995 - INFO - Login Success username : op2
+2025-02-25 22:01:15,498 - INFO - Login Success username : op2
+2025-02-25 22:02:23,363 - INFO - Login Success username : op2
+2025-02-25 22:03:12,210 - INFO - Login Success username : op2
+2025-02-25 22:05:28,709 - INFO - Login Success username : op2
+2025-02-25 22:06:50,915 - INFO - Login Success username : op2
+2025-02-25 22:08:31,629 - INFO - Login Success username : op2
+2025-02-25 22:11:01,338 - INFO - Login Success username : op2
+2025-02-25 22:11:37,986 - INFO - Login Success username : op2
+2025-02-25 22:14:20,085 - INFO - Login Success username : op2
+2025-02-25 22:18:00,515 - INFO - Login Success username : op2
+2025-02-25 22:22:04,860 - INFO - Login Success username : op2
+2025-02-25 22:29:11,659 - INFO - Login Success username : op2
+2025-02-25 22:29:44,159 - INFO - Login Success username : op2
+2025-02-25 22:31:19,469 - INFO - Login Success username : op2
+2025-02-25 22:31:52,958 - INFO - Login Success username : op2
+2025-02-25 22:32:19,339 - INFO - Login Success username : op2
+2025-02-25 22:34:27,436 - INFO - Login Success username : op2
+2025-02-25 22:35:25,351 - INFO - Login Success username : op2
+2025-02-25 22:36:03,311 - INFO - Login Success username : op2
+2025-02-25 22:44:21,080 - INFO - Login Success username : op2
+2025-02-25 22:45:35,809 - INFO - Login Success username : op2
+2025-02-25 22:46:13,642 - INFO - Login Success username : op2
+2025-02-25 22:46:42,462 - INFO - Login Success username : op2
+2025-02-25 22:47:22,945 - INFO - Login Success username : op2
+2025-02-25 22:47:50,895 - INFO - Login Success username : op2
+2025-02-25 22:48:42,643 - INFO - Login Success username : op2

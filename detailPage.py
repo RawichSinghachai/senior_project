@@ -32,8 +32,8 @@ class DetailPage(QWidget):
       
         
         # Setup Table
-        self.table = TableUi(self.headers, self.listUsers)
-        vBox.addWidget(self.table, alignment=Qt.AlignmentFlag.AlignVCenter)
+        self.tableDetail = TableUi(self.headers, self.listUsers, 1200, 800)
+        vBox.addWidget(self.tableDetail, alignment=Qt.AlignmentFlag.AlignHCenter)
 
         # Back Button
         self.backBtn = QPushButton('Back')
@@ -55,7 +55,7 @@ class DetailPage(QWidget):
 
     def backPage(self):
         # รีเซ็ตตำแหน่ง Horizontal Scroll Bar ของ TableUi
-        self.table.horizontalScrollBar().setValue(0)
+        self.tableDetail.table.horizontalScrollBar().setValue(0)
         
         self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(2))
 
@@ -63,4 +63,4 @@ class DetailPage(QWidget):
         """ ดึงข้อมูลจาก Database ตาม UserId และอัปเดตตาราง """
         if user_id:
             self.listUsers = self.db.getUserData(user_id)
-            self.table.updateTable(self.listUsers)
+            self.tableDetail.updateTable(self.listUsers)

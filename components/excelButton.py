@@ -1,15 +1,14 @@
-from PyQt6.QtGui import QPixmap, QCursor
-from PyQt6.QtCore import QCoreApplication, Qt , QSize,QTimer, QDateTime
-from PyQt6.QtGui import QColor
-from PyQt6.QtWidgets import (QApplication, QWidget, QLabel,QPushButton, QVBoxLayout 
-    ,QHBoxLayout,QGridLayout,QLineEdit,QMessageBox,QGroupBox,QSpacerItem,QTableWidget
-    ,QTableWidgetItem,QHeaderView)
+from PyQt6.QtGui import QCursor
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import (QWidget, QPushButton, QHBoxLayout)
 
 class ExcelButton(QWidget):
     def __init__(self):
         super().__init__()
 
         hBoxExcel = QHBoxLayout()
+        hBoxExcel.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        hBoxExcel.setSpacing(20)
         self.setLayout(hBoxExcel)
 
         # Import Excel Button

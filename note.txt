@@ -44,8 +44,3 @@ logger localtion
     --> crate, update -> Success, Fail
 - vision.py
     --> main()
-- arduino.py
-    --> find_arduino_port() 
-    --> connect()
-    --> send_command()
-    --> close_connection()

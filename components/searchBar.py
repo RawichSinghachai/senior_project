@@ -7,12 +7,15 @@ class SearchBar(QWidget):
         super().__init__()
 
         hBoxSeach = QHBoxLayout()
+        hBoxSeach.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        hBoxSeach.setSpacing(20)
         self.setLayout(hBoxSeach)
 
         #  Search LineEdit
         self.searchInput = QLineEdit()
         self.searchInput.setPlaceholderText("Search...")
-        # self.searchInput.setFixedWidth(280)
+        self.searchInput.setMinimumWidth(300)
+        self.searchInput.setMaximumWidth(800) 
         self.searchInput.setStyleSheet("""
             QLineEdit {
                 border-radius: 5px; /* Rounded corners */
@@ -27,7 +30,7 @@ class SearchBar(QWidget):
         # Seach Button
         self.searchBtn = QPushButton('Search')
         self.searchBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-        # self.searchBtn.setFixedWidth(100)
+        self.searchBtn.setFixedWidth(100)
         self.searchBtn.setStyleSheet('''
             QPushButton {
                 background-color:#f75a6c;
@@ -45,6 +48,7 @@ class SearchBar(QWidget):
         # Clear Button
         self.clearBtn = QPushButton('Clear')
         self.clearBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.clearBtn.setFixedWidth(100)
         self.clearBtn.setStyleSheet('''
             QPushButton {
                 background-color:#f75a6c;

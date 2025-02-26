@@ -46,7 +46,7 @@ class CreateAccountPage(QWidget):
 
 
         # Image Title
-        self.imageTitle = ImageTitle()
+        self.imageTitle = ImageTitle('assets/qoogle.png', 400, 400)
         hBoxContent.addWidget(self.imageTitle)
 
 
