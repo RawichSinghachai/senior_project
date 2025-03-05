@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 # เปิดเว็บแคม
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 if not cap.isOpened():
     print("ไม่สามารถเปิดกล้องได้")
     exit()
@@ -43,6 +43,13 @@ while True:
 
     # ปรับขนาดกลับไปเป็นขนาดเดิม
     zoomed_frame = cv2.resize(cropped_frame, (w, h), interpolation=cv2.INTER_CUBIC)
+
+    # แสดงค่า Zoom บนหน้าจอวิดีโอ
+    text = f"Zoom: {zoom_factor:.1f}x"
+    cv2.putText(zoomed_frame, text, (20, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+
+    # แสดงค่า Zoom ใน CMD
+    print(f"\rZoom Level: {zoom_factor:.1f}x", end="")
 
     # แสดงภาพ
     cv2.imshow("Webcam Zoom", zoomed_frame)

@@ -2,20 +2,19 @@ import cv2
 import mediapipe as mp
 import numpy as np
 
-# Initialize MediaPipe Hands and drawing tools
+# Initialize MediaPipe Hands
 mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
 
-# Global variables for zoom
+# Global zoom settings
 zoom_factor = 1.0
 zoom_step = 0.1
-zoom_center = (0, 0)
+zoom_max = 3.0
+zoom_min = 1.0
 
-# Function to determine left or right hand
 def get_hand_side(wrist_x, image_width):
     return "Left Hand" if wrist_x < image_width / 2 else "Right Hand"
 
-# Function to determine if hand is front or back
 def check_hand_orientation(landmarks, hand_side):
     palm_center = landmarks[9]
     thumb = landmarks[4]
@@ -26,41 +25,38 @@ def check_hand_orientation(landmarks, hand_side):
         return "Front (Palm)" if thumb.x < palm_center.x else "Back (Dorsal)"
 
 def apply_image_processing(frame):
-    """
-    Applies brightness/contrast adjustment, thresholding, and Gaussian blur based on trackbar values.
-    """
-    alpha = cv2.getTrackbarPos("Alpha", "Hand Detection") / 100
-    beta = cv2.getTrackbarPos("Beta", "Hand Detection") - 100
+    contrast = cv2.getTrackbarPos("Contrast", "Hand Detection")
+    brightness = cv2.getTrackbarPos("Brightness", "Hand Detection")
     threshold_value = cv2.getTrackbarPos("Threshold", "Hand Detection")
     blur_value = cv2.getTrackbarPos("GaussianBlur", "Hand Detection")
 
-    # Apply brightness and contrast
-    adjusted = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
+    # Apply contrast and brightness adjustments
+    alpha = contrast / 10.0  
+    beta = brightness - 50  
+    frame = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
 
-    # Convert to grayscale and apply threshold
-    gray = cv2.cvtColor(adjusted, cv2.COLOR_BGR2GRAY)
+    # Convert to grayscale
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    # Apply thresholding
     _, thresholded = cv2.threshold(gray, threshold_value, 255, cv2.THRESH_BINARY)
 
-    # Apply Gaussian Blur (must be odd number)
+    # Apply Gaussian blur
     blur_value = max(1, blur_value // 2 * 2 + 1)
     blurred = cv2.GaussianBlur(thresholded, (blur_value, blur_value), 0)
 
     return blurred
 
 def zoom_image(frame):
-    global zoom_factor, zoom_center
+    global zoom_factor
     h, w, _ = frame.shape
-
-    # Define zoom center (middle of frame)
     cx, cy = w // 2, h // 2
 
-    # Define zoomed ROI
     new_w = int(w / zoom_factor)
     new_h = int(h / zoom_factor)
     x1, y1 = max(0, cx - new_w // 2), max(0, cy - new_h // 2)
     x2, y2 = min(w, cx + new_w // 2), min(h, cy + new_h // 2)
 
-    # Crop and resize
     cropped = frame[y1:y2, x1:x2]
     return cv2.resize(cropped, (w, h))
 
@@ -68,17 +64,13 @@ def mouse_event(event, x, y, flags, param):
     global zoom_factor
     if event == cv2.EVENT_MOUSEWHEEL:
         if flags > 0:
-            zoom_factor = min(zoom_factor + zoom_step, 3.0)
+            zoom_factor = min(zoom_factor + zoom_step, zoom_max)
         else:
-            zoom_factor = max(zoom_factor - zoom_step, 1.0)
+            zoom_factor = max(zoom_factor - zoom_step, zoom_min)
 
 def process_camera(frame, hands):
-    """
-    Processes the camera frame, detects hands, determines hand side and orientation,
-    and draws landmarks and labels.
-    """
-    frame = cv2.flip(frame, 1)  # Flip for a mirror effect
-    frame = zoom_image(frame)  # Apply zoom
+    frame = cv2.flip(frame, 1)
+    frame = zoom_image(frame)
 
     frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     results = hands.process(frame_rgb)
@@ -96,6 +88,8 @@ def process_camera(frame, hands):
             label = f"{hand_side}: {orientation}"
             cv2.putText(frame, label, (cx, cy - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2, cv2.LINE_AA)
 
+    # Display zoom level
+    cv2.putText(frame, f"Zoom: {zoom_factor:.1f}x", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2, cv2.LINE_AA)
     return frame
 
 def main():
@@ -110,8 +104,8 @@ def main():
     cv2.setMouseCallback("Hand Detection", mouse_event)
 
     # Create trackbars
-    cv2.createTrackbar("Alpha", "Hand Detection", 100, 300, lambda x: None)
-    cv2.createTrackbar("Beta", "Hand Detection", 100, 200, lambda x: None)
+    cv2.createTrackbar("Contrast", "Hand Detection", 10, 30, lambda x: None)
+    cv2.createTrackbar("Brightness", "Hand Detection", 50, 100, lambda x: None)
     cv2.createTrackbar("Threshold", "Hand Detection", 128, 255, lambda x: None)
     cv2.createTrackbar("GaussianBlur", "Hand Detection", 5, 25, lambda x: None)
 
@@ -125,8 +119,10 @@ def main():
             processed_frame = process_camera(frame, hands)
             filtered_frame = apply_image_processing(processed_frame)
 
-            cv2.imshow("Hand Detection", processed_frame)
-            cv2.imshow("Processed", filtered_frame)
+            # Merge original and processed frames
+            merged = cv2.addWeighted(processed_frame, 0.7, cv2.cvtColor(filtered_frame, cv2.COLOR_GRAY2BGR), 0.3, 0)
+
+            cv2.imshow("Hand Detection", merged)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
