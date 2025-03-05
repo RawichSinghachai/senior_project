@@ -1,7 +1,8 @@
-from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import  Qt, QTimer, QDateTime
 from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import (QWidget, QLabel,QPushButton, QVBoxLayout)
+
+from components.imageTitle import ImageTitle
 
 class LeftControlUi(QWidget):
     def __init__(self):
@@ -13,11 +14,8 @@ class LeftControlUi(QWidget):
         self.setLayout(vBoxLeft)
 
         # Profile Image
-        img = QPixmap('assets/profile.png')
-        img = img.scaled(250 , 250, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
-        lableImage = QLabel()
-        lableImage.setPixmap(img)
-        vBoxLeft.addWidget(lableImage, alignment=Qt.AlignmentFlag.AlignHCenter)
+        self.image = ImageTitle('assets/profile.png', 250, 250)
+        vBoxLeft.addWidget(self.image, alignment=Qt.AlignmentFlag.AlignHCenter)
 
         # Edit Button
         self.editBtn = QPushButton('Edit Profile')
@@ -92,7 +90,7 @@ class LeftControlUi(QWidget):
         # lable timer
         self.dateLable = QLabel()
         self.dateLable.setStyleSheet("font-size: 10px; ")  # Optional styling
-        vBoxLeft.addWidget(self.dateLable)
+        vBoxLeft.addWidget(self.dateLable, alignment=Qt.AlignmentFlag.AlignHCenter)
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.updateDateTime)

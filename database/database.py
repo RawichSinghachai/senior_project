@@ -190,7 +190,7 @@ class Database:
     def getAllUserData(self):
         sql = '''
             SELECT 
-                u.FirstName, u.LastName, u.Department, u.Position, u.Email, u.Gender, u.BirthDate,
+                u.UserId, u.FirstName, u.LastName, u.Department, u.Position, u.Email, u.Gender, u.BirthDate,
                 COALESCE(utr.LeftHandFrontScore, 0), COALESCE(utr.LeftHandBackScore, 0),
                 COALESCE(utr.RightHandFrontScore, 0), COALESCE(utr.RightHandBackScore, 0),
                 COALESCE(utr.TotalScore, 0), COALESCE(utr.TestingDate, '')
@@ -207,19 +207,20 @@ class Database:
         if query.exec():
             while query.next():
                 user = {
-                    'FirstName': query.value(0),
-                    'LastName': query.value(1),
-                    'Department': query.value(2),
-                    'Position': query.value(3),
-                    'Email': query.value(4),
-                    'Gender': query.value(5),
-                    'BirthDate': query.value(6),
-                    'LeftHandFrontScore': query.value(7),
-                    'LeftHandBackScore': query.value(8),
-                    'RightHandFrontScore': query.value(9),
-                    'RightHandBackScore': query.value(10),
-                    'TotalScore': query.value(11),
-                    'TestingDate': query.value(12),
+                    'UserId': query.value(0),
+                    'FirstName': query.value(1),
+                    'LastName': query.value(2),
+                    'Department': query.value(3),
+                    'Position': query.value(4),
+                    'Email': query.value(5),
+                    'Gender': query.value(6),
+                    'BirthDate': query.value(7),
+                    'LeftHandFrontScore': query.value(8),
+                    'LeftHandBackScore': query.value(9),
+                    'RightHandFrontScore': query.value(10),
+                    'RightHandBackScore': query.value(11),
+                    'TotalScore': query.value(12),
+                    'TestingDate': query.value(13),
                 }
                 users.append(user)
         else:
@@ -463,7 +464,7 @@ class Database:
 
     
 
-    def filterUser(self, search):
+    def searchUser(self, search):
         sql = '''SELECT UserId, FirstName, LastName, Department, Position, Email, Gender, BirthDate 
                 FROM User 
                 WHERE FirstName LIKE :search
@@ -493,6 +494,8 @@ class Database:
 
         return users
 
+ 
+
     def closeDatabase(self):
         """ ปิดการเชื่อมต่อฐานข้อมูล """
         connection_name = self.db.connectionName()
@@ -500,4 +503,3 @@ class Database:
         QSqlDatabase.removeDatabase(connection_name)  # ลบการเชื่อมต่อออกจาก QSqlDatabase
         print("Database connection closed.")
 
-# No self.db.close() calls in individual methods; connection is managed at the class level

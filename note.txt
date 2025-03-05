@@ -44,3 +44,8 @@ logger localtion
     --> crate, update -> Success, Fail
 - vision.py
     --> main()
+
+
+SetUp raspberry pi 
+- sudo apt install -y libxcb-cursor0 libxcb-xinerama0
+- @reboot sleep 10 && DISPLAY=:0 XAUTHORITY=/home/pi/.Xauthority /bin/bash -c 'cd /home/pi/Desktop/senior_project && source env/bin/activate && python main.py' >> /home/pi/Desktop/log.txt 2>&1

@@ -33,7 +33,7 @@ class DetailPage(QWidget):
         
         # Setup Table
         self.tableDetail = TableUi(self.headers, self.listUsers, 1200, 800)
-        vBox.addWidget(self.tableDetail, alignment=Qt.AlignmentFlag.AlignHCenter)
+        vBox.addWidget(self.tableDetail)
 
         # Back Button
         self.backBtn = QPushButton('Back')

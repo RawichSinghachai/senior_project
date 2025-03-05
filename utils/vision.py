@@ -81,6 +81,13 @@ def process_camera(frame, hands, countdown, i, blur_value=5, threshold_value=50,
     return frame, left_hand_area, right_hand_area
 
 def main(userId):
+    screen_w, screen_h = 1600, 900
+    screen_w_frame, screen_h_frame = 640, 480
+    center_x = (screen_w - screen_w_frame) // 2
+    center_y = (screen_h - screen_h_frame) // 2
+    cv2.namedWindow('Webcam')
+    cv2.moveWindow('Webcam', center_x, center_y)
+
     cap = cv2.VideoCapture(0)
     if not cap.isOpened():
         logger.error("Could not open the webcam.") # Log

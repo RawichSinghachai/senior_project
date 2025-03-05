@@ -1,10 +1,7 @@
-import mediapipe as mp
-
-from PyQt6.QtGui import QPixmap
-from PyQt6.QtCore import (QCoreApplication, Qt , QSize, pyqtSignal,QDate,QTimer)
-from PyQt6.QtWidgets import (QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, 
-    QHBoxLayout, QGridLayout, QLineEdit, QMessageBox, QGroupBox, QSpacerItem, QStackedWidget,QMainWindow)
-from PyQt6.QtGui import QIcon,QImage, QMouseEvent, QFontDatabase, QFont
+import mediapipe
+from PyQt6.QtCore import (QCoreApplication, Qt , QSize)
+from PyQt6.QtWidgets import (QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QStackedWidget)
+from PyQt6.QtGui import QIcon, QMouseEvent, QFontDatabase, QFont
 
 
 from components.formLogin import FormLogin
@@ -25,8 +22,8 @@ class LoginPage(QWidget):
 
         self.setWindowTitle("Hand Hygiene Testing")
         self.setWindowIcon(QIcon("assets/mainWindow.png"))
-        self.setFixedSize(QSize(1600, 900))
-        # self.setFixedSize(QSize(1024, 768))
+        # self.setFixedSize(QSize(1600, 900))
+        self.setFixedSize(QSize(1024, 768))
         self.setStyleSheet("background-color: #B4B4B4;")
 
         # StepUp Logger

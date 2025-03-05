@@ -1,9 +1,5 @@
-from PyQt6.QtGui import QPixmap
-from PyQt6.QtCore import QCoreApplication, Qt , QSize,QTimer, QDateTime
-from PyQt6.QtGui import QColor
-from PyQt6.QtWidgets import (QApplication, QWidget, QLabel,QPushButton, QVBoxLayout 
-    ,QHBoxLayout,QGridLayout,QLineEdit,QMessageBox,QGroupBox,QSpacerItem,QTableWidget
-    ,QTableWidgetItem,QHeaderView,QFileDialog, QSpacerItem, QSizePolicy)
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QHBoxLayout, QMessageBox,QFileDialog)
 from PyQt6.QtGui import QMouseEvent
 import pandas as pd
 
@@ -65,7 +61,6 @@ class ControlPage(QWidget):
         self.leftControlUi.detailBtn.clicked.connect(self.openDetailPage)
         self.leftControlUi.startBtn.clicked.connect(self.openProgressPage)
         self.leftControlUi.exitBtn.clicked.connect(self.closeProgram)
-        # self.searchBar.searchInput.textChanged.connect(self.filterTable)
         self.searchBar.searchBtn.clicked.connect(self.filterTable)
         self.searchBar.searchInput.returnPressed.connect(self.filterTable)
         self.searchBar.clearBtn.clicked.connect(self.clearFilterTable)
@@ -137,12 +132,12 @@ class ControlPage(QWidget):
         if not search_text :
             self.clearFilterTable()
             return
-        listUsers = self.db.filterUser(search_text)
+        listUsers = self.db.searchUser(search_text)
         self.tableUi.updateTable(listUsers)
 
     def  clearFilterTable(self):
         self.searchBar.searchInput.clear()
-        listUsers = self.db.filterUser("")
+        listUsers = self.db.searchUser("")
         self.tableUi.updateTable(listUsers)
         
 

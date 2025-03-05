@@ -37,7 +37,7 @@ class ArduinoControl(QWidget):
 
     def connect_arduino(self):
         """ค้นหาและเชื่อมต่อ Arduino"""
-        arduino_port = "COM5"
+        arduino_port = self.find_arduino_port()
         if arduino_port:
             try:
                 self.arduino = serial.Serial(arduino_port, baudrate=9600, timeout=1)
@@ -48,12 +48,13 @@ class ArduinoControl(QWidget):
             self.status_label.setText("❌ ไม่พบ Arduino")
 
     def find_arduino_port(self):
-        """ค้นหาพอร์ตของ Arduino"""
+        """ค้นหาพอร์ตของ Arduino อัตโนมัติ"""
         ports = serial.tools.list_ports.comports()
         for port in ports:
-            if "ACM" in port.device or "USB" in port.device:
+            if "Arduino" in port.description or "CH340" in port.description:
                 return port.device
         return None
+
 
     def send_command(self, command):
         """ส่งคำสั่งไปยัง Arduino"""
