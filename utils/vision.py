@@ -97,6 +97,7 @@ def process_camera(frame, hands, countdown, i, blur_value=5, threshold_value=50,
     return frame, left_hand_area, right_hand_area
 
 def main(userId):
+
     cap = cv2.VideoCapture(0)
     if not cap.isOpened():
         logger.error("Could not open the webcam.") # Log
@@ -178,6 +179,12 @@ def main(userId):
 
                     cv2.imshow('Webcam', processed_frame)
 
+                    # # Move window to the center of the screen
+                    # screen_width = 1920  # Adjust to actual screen width
+                    # screen_height = 1080 # Adjust to actual screen height
+                    # window_height, window_width, _  = frame.shape
+                    # cv2.moveWindow('Webcam', (screen_width - window_width) // 2, (screen_height - window_height) // 2)
+
                     key = cv2.waitKey(1) & 0xFF
 
                     if key == ord('q'):
@@ -192,6 +199,17 @@ def main(userId):
                             recording = False
                             video_writer.release()
                             logger.info(f"Stop recording video saved to path : {video_filename}") # Log
+
+
+                #  Check for conflicting hand orientation each round
+                # if i == 0 and not (hand_data["Left Hand"] == "Back (Dorsal)" and hand_data["Right Hand"] == "Back (Dorsal)"):
+                #     return None, "fail round 1"
+                # if i == 1 and not (hand_data["Left Hand"] == "Front (Palm)" and hand_data["Right Hand"] == "Front (Palm)"):
+                #     return None, "fail round 2"
+                # if i == 2 and not (hand_data["Left Hand"] == "Back (Dorsal)" and hand_data["Right Hand"] == "Back (Dorsal)"):
+                #     return None, "fail round 3"
+                # if i == 3 and not (hand_data["Left Hand"] == "Front (Palm)" and hand_data["Right Hand"] == "Front (Palm)"):
+                #     return None, "fail round 4"
 
                 #  Check for conflicting hand orientation
                 if (hand_data["Left Hand"] == "Back (Dorsal)" and hand_data["Right Hand"] == "Front (Palm)") or \
