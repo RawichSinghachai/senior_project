@@ -27,8 +27,11 @@ Edit Feature
 - add clear button in search bar (success)
 - change vision.py to class component
 - check and create table in sqlite (success)
-- notification before close program
-
+- notification before close program (pending)
+- function delete testing of user
+    -> database
+    -> refresh page
+    
 edit after
 - add timestamp when create account (success)
 - edit funtion showMessageDialog to components

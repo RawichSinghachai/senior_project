@@ -2,7 +2,7 @@ import cv2
 import mediapipe as mp
 import time
 import os
-# from utils.arduino import ArduinoController
+from utils.arduino import ArduinoController
 from utils.logger import AppLogger
 
 logger = AppLogger().get_logger()
@@ -10,6 +10,11 @@ logger = AppLogger().get_logger()
 # Initialize MediaPipe Hands and drawing tools
 hand_data = {"Left Hand": None, "Right Hand": None}
 mp_hands = mp.solutions.hands
+width, height = 640, 480
+center_x = width // 2
+left_center_x = center_x // 2
+right_center_x = center_x + (center_x // 2)
+y_position = 50
 
 def get_hand_side(wrist_x, image_width):
     return "Left Hand" if wrist_x < image_width / 2 else "Right Hand"
@@ -23,7 +28,23 @@ def check_hand_orientation(landmarks, hand_side):
     else:
         return "Front (Palm)" if thumb.x < palm_center.x else "Back (Dorsal)"
 
+def zoom_frame(frame, zoom_factor=1.2):
+    height, width, _ = frame.shape
+    new_width = int(width / zoom_factor)
+    new_height = int(height / zoom_factor)
+    x1 = (width - new_width) // 2
+    y1 = (height - new_height) // 2
+    x2 = x1 + new_width
+    y2 = y1 + new_height
+    cropped = frame[y1:y2, x1:x2]
+    return cv2.resize(cropped, (width, height))
+
 def process_camera(frame, hands, countdown, i, blur_value=5, threshold_value=50, contrast=0, brightness=0):
+
+    # frame = cv2.flip(frame, -1)
+
+    frame = zoom_frame(frame)
+
     blur_value = (blur_value * 2) + 1  
     alpha = contrast / 10.0  
     beta = brightness - 50  
@@ -63,12 +84,16 @@ def process_camera(frame, hands, countdown, i, blur_value=5, threshold_value=50,
             orientation = check_hand_orientation(hand_landmarks.landmark, hand_side)
             hand_data[hand_side] = orientation
             hand_text = f"{hand_side}: {orientation}"
-            # cv2.putText(frame, hand_text, (10, 100 + 50 * hand_index), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+           
 
 
     # **Check for errors if left and right hands are in a conflicting state**
     left_hand_status = hand_data["Left Hand"]
     right_hand_status = hand_data["Right Hand"]
+
+    # Show hand status on the frame  
+    cv2.putText(frame, str(left_hand_status), (left_center_x - 30, y_position), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+    cv2.putText(frame, str(right_hand_status), (right_center_x - 30, y_position), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
 
     if left_hand_status and right_hand_status:
         if (left_hand_status == "Back (Dorsal)" and right_hand_status == "Front (Palm)") or \
@@ -81,14 +106,15 @@ def process_camera(frame, hands, countdown, i, blur_value=5, threshold_value=50,
     return frame, left_hand_area, right_hand_area
 
 def main(userId):
+
     cap = cv2.VideoCapture(0)
     if not cap.isOpened():
         logger.error("Could not open the webcam.") # Log
         return None, "Could not open the webcam."
 
     # Connect Arduino
-    # arduino = ArduinoController()
-    # arduino.connect()
+    arduino = ArduinoController()
+    arduino.connect()
     
     
     
@@ -97,28 +123,31 @@ def main(userId):
     if not os.path.exists(snapshot_folder):
         os.makedirs(snapshot_folder)
 
-    video_folder = "video"
+    video_folder = os.path.join("video", str(userId))
     if not os.path.exists(video_folder):
         os.makedirs(video_folder)
 
     # ตั้งค่าขนาดวิดีโอ
     frame_width = int(cap.get(3))
     frame_height = int(cap.get(4))
-    video_filename = os.path.join(video_folder, f"recorded_video_{userId}.avi")
+
+    timestamp = time.strftime("%Y%m%d_%H%M%S")
+
+    video_filename = os.path.join(video_folder, f"{timestamp}.mp4")
 
     # ตั้งค่าตัวบันทึกวิดีโอ (MP4 Codec)
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     video_writer = None  
     recording = False  
 
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640) 
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480) 
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, height) 
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, width) 
 
     time_countdown = [5,5,5,5]
     wait_time = [2,2,2]
     parameters = [
-        {"threshold": 74, "blur": 2, "brightness": 25, "contrast": 7},
-        {"threshold": 74, "blur": 2, "brightness": 25, "contrast": 7},
+        {"threshold": 90, "blur": 2, "brightness": 50, "contrast": 9},
+        {"threshold": 90, "blur": 2, "brightness": 50, "contrast": 9},
         {"threshold": 50, "blur": 2, "brightness": 29, "contrast": 7},
         {"threshold": 75, "blur": 2, "brightness": 29, "contrast": 7},
     ]
@@ -131,12 +160,11 @@ def main(userId):
                 countdown = time_countdown[i]
                 start_time = time.time()
                 param = parameters[i]
-                position = (50, 50)
 
-                # if i >= 2:
-                #     arduino.send_command("on")
-                # else:
-                #     arduino.send_command("off")
+                if i >= 2:
+                    arduino.send_command("on")
+                else:
+                    arduino.send_command("off")
                     
 
                 while countdown > 0:
@@ -159,6 +187,12 @@ def main(userId):
 
                     cv2.imshow('Webcam', processed_frame)
 
+                    # # Move window to the center of the screen
+                    # screen_width = 1920  # Adjust to actual screen width
+                    # screen_height = 1080 # Adjust to actual screen height
+                    # window_height, window_width, _  = frame.shape
+                    # cv2.moveWindow('Webcam', (screen_width - window_width) // 2, (screen_height - window_height) // 2)
+
                     key = cv2.waitKey(1) & 0xFF
 
                     if key == ord('q'):
@@ -174,6 +208,17 @@ def main(userId):
                             video_writer.release()
                             logger.info(f"Stop recording video saved to path : {video_filename}") # Log
 
+
+                #  Check for conflicting hand orientation each round
+                # if i == 0 and not (hand_data["Left Hand"] == "Back (Dorsal)" and hand_data["Right Hand"] == "Back (Dorsal)"):
+                #     return None, "fail round 1"
+                # if i == 1 and not (hand_data["Left Hand"] == "Front (Palm)" and hand_data["Right Hand"] == "Front (Palm)"):
+                #     return None, "fail round 2"
+                # if i == 2 and not (hand_data["Left Hand"] == "Back (Dorsal)" and hand_data["Right Hand"] == "Back (Dorsal)"):
+                #     return None, "fail round 3"
+                # if i == 3 and not (hand_data["Left Hand"] == "Front (Palm)" and hand_data["Right Hand"] == "Front (Palm)"):
+                #     return None, "fail round 4"
+
                 #  Check for conflicting hand orientation
                 if (hand_data["Left Hand"] == "Back (Dorsal)" and hand_data["Right Hand"] == "Front (Palm)") or \
                     (hand_data["Left Hand"] == "Front (Palm)" and hand_data["Right Hand"] == "Back (Dorsal)"):
@@ -185,7 +230,6 @@ def main(userId):
                 if not os.path.exists(user_folder):
                     os.makedirs(user_folder)
 
-                timestamp = time.strftime("%Y%m%d_%H%M%S")
 
                 snapshot_path = os.path.join(user_folder, f"step_{i}_{timestamp}.jpg")
                 cv2.imwrite(snapshot_path, processed_frame)
@@ -207,11 +251,9 @@ def main(userId):
         if recording and video_writer is not None:
             video_writer.release()
             logger.info(f"Stop recording video saved to path: {video_filename}") # Log
-        # arduino.send_command("off")
-        # arduino.close_connection()
+        arduino.send_command("off")
+        arduino.close_connection()
         
         cap.release()
         cv2.destroyAllWindows()
         logger.info("Camera released and windows closed.") # Log
-
-# main("test")

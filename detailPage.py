@@ -1,10 +1,9 @@
-from PyQt6.QtGui import QCursor
+from PyQt6.QtGui import QCursor, QMouseEvent
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import ( QWidget, QLabel, QPushButton, QVBoxLayout )
-
+from PyQt6.QtWidgets import ( QWidget, QLabel, QPushButton, QVBoxLayout, QMessageBox )
 from database.database import Database
 from components.tableUi import TableUi
-
+from utils.messageBox import showMessageBox,showMessageDeleteDialog
 
 class DetailPage(QWidget):
     def __init__(self, stackedWidget):
@@ -53,6 +52,8 @@ class DetailPage(QWidget):
         self.backBtn.clicked.connect(self.backPage)
         vBox.addWidget(self.backBtn)
 
+
+
     def backPage(self):
         # รีเซ็ตตำแหน่ง Horizontal Scroll Bar ของ TableUi
         self.tableDetail.table.horizontalScrollBar().setValue(0)
@@ -64,3 +65,32 @@ class DetailPage(QWidget):
         if user_id:
             self.listUsers = self.db.getUserData(user_id)
             self.tableDetail.updateTable(self.listUsers)
+
+            for profile_id, iconDelete in self.tableDetail.iconDeleteDict.items():  # Fix here by accessing the dictionary
+                iconDelete.mousePressEvent = lambda event, uid=profile_id: self.deleteRow(event, uid)
+
+        # Delete Account
+    def deleteRow(self, event: QMouseEvent, profile_id):
+        if event.button() == Qt.MouseButton.LeftButton:
+
+            response = showMessageDeleteDialog(self)
+            if response == QMessageBox.StandardButton.Yes:
+                print(f'Delete clicked for UserId: {profile_id}')
+                if self.db.deleteUser(profile_id):
+                    showMessageBox('Delete','User  deleted successfully.')
+                    # Refresh Control Page
+                    # self.refreshControlPage()
+
+            
+                else:
+                    showMessageBox('Delete','Failed to delete user',mode=('error'))
+            else:
+                print('User canceled the deletion.')
+
+
+    # def refreshControlPage(self):
+    #     index = self.stackedWidget.indexOf(self)  # Store the index of the current ControlPage  
+    #     new_control_page = ControlPage(self.stackedWidget)  # Create a new ControlPage  
+    #     self.stackedWidget.removeWidget(self)  # Remove the old ControlPage  
+    #     self.stackedWidget.insertWidget(index, new_control_page)  # Insert the new ControlPage at the same index  
+    #     self.stackedWidget.setCurrentWidget(new_control_page)  # Switch to the new ControlPage 

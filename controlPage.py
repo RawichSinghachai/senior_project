@@ -71,9 +71,10 @@ class ControlPage(QWidget):
 
 
     # Logic ---------------------------------------------------------------------------------------
-
+        
         for user_id, iconDelete in self.tableUi.iconDeleteDict.items():  # Fix here by accessing the dictionary
             iconDelete.mousePressEvent = lambda event, uid=user_id: self.deleteRow(event, uid)
+            
 
     # Open Edit Page
     def openEditPage(self):

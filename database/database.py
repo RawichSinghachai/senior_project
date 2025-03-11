@@ -331,7 +331,7 @@ class Database:
             u.Email, u.Gender, u.BirthDate, 
             utr.LeftHandFrontScore, utr.LeftHandBackScore, 
             utr.RightHandFrontScore, utr.RightHandBackScore, 
-            utr.TotalScore, utr.TestingDate
+            utr.TotalScore, utr.TestingDate, utr.ProfileId
         FROM User AS u
         INNER JOIN UserTestResult AS utr ON utr.UserId = u.UserId
         WHERE u.UserId = ?
@@ -359,6 +359,7 @@ class Database:
                     'RightHandBackScore': query.value(10),
                     'TotalScore': query.value(11),
                     'TestingDate': query.value(12),
+                    'ProfileId': query.value(13)
                 }
                 results.append(result)
         else:

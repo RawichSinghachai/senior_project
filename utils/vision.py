@@ -10,6 +10,11 @@ logger = AppLogger().get_logger()
 # Initialize MediaPipe Hands and drawing tools
 hand_data = {"Left Hand": None, "Right Hand": None}
 mp_hands = mp.solutions.hands
+width, height = 640, 480
+center_x = width // 2
+left_center_x = center_x // 2
+right_center_x = center_x + (center_x // 2)
+y_position = 50
 
 def get_hand_side(wrist_x, image_width):
     return "Left Hand" if wrist_x < image_width / 2 else "Right Hand"
@@ -36,7 +41,7 @@ def zoom_frame(frame, zoom_factor=1.2):
 
 def process_camera(frame, hands, countdown, i, blur_value=5, threshold_value=50, contrast=0, brightness=0):
 
-    frame = cv2.flip(frame, -1)
+    # frame = cv2.flip(frame, -1)
 
     frame = zoom_frame(frame)
 
@@ -46,8 +51,14 @@ def process_camera(frame, hands, countdown, i, blur_value=5, threshold_value=50,
 
     frame = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
     ImageLAB = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)[:, :, 0]
+    if i >= 2:
+        clahe = cv2.createCLAHE(clipLimit=1.5, tileGridSize=(2, 2))
+        ImageLAB = clahe.apply(ImageLAB)
+
     blur = cv2.GaussianBlur(ImageLAB, (blur_value, blur_value), 0)
     _, binary = cv2.threshold(blur, threshold_value, 255, cv2.THRESH_BINARY)
+
+    
 
     contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -79,12 +90,16 @@ def process_camera(frame, hands, countdown, i, blur_value=5, threshold_value=50,
             orientation = check_hand_orientation(hand_landmarks.landmark, hand_side)
             hand_data[hand_side] = orientation
             hand_text = f"{hand_side}: {orientation}"
-            # cv2.putText(frame, hand_text, (10, 100 + 50 * hand_index), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+           
 
 
     # **Check for errors if left and right hands are in a conflicting state**
     left_hand_status = hand_data["Left Hand"]
     right_hand_status = hand_data["Right Hand"]
+
+    # Show hand status on the frame  
+    cv2.putText(frame, str(left_hand_status), (left_center_x - 30, y_position), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+    cv2.putText(frame, str(right_hand_status), (right_center_x - 30, y_position), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
 
     if left_hand_status and right_hand_status:
         if (left_hand_status == "Back (Dorsal)" and right_hand_status == "Front (Palm)") or \
@@ -131,16 +146,16 @@ def main(userId):
     video_writer = None  
     recording = False  
 
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640) 
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480) 
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, height) 
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, width) 
 
     time_countdown = [5,5,5,5]
     wait_time = [2,2,2]
     parameters = [
-        {"threshold": 74, "blur": 2, "brightness": 25, "contrast": 7},
-        {"threshold": 74, "blur": 2, "brightness": 25, "contrast": 7},
-        {"threshold": 50, "blur": 2, "brightness": 29, "contrast": 7},
-        {"threshold": 75, "blur": 2, "brightness": 29, "contrast": 7},
+        {"threshold": 90, "blur": 2, "brightness": 50, "contrast": 9},
+        {"threshold": 90, "blur": 2, "brightness": 50, "contrast": 9},
+        {"threshold": 156, "blur": 2, "brightness": 50, "contrast": 9},
+        {"threshold": 156, "blur": 2, "brightness": 50, "contrast": 9},
     ]
 
     try:
@@ -151,7 +166,6 @@ def main(userId):
                 countdown = time_countdown[i]
                 start_time = time.time()
                 param = parameters[i]
-                position = (50, 50)
 
                 if i >= 2:
                     arduino.send_command("on")

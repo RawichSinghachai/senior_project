@@ -10,6 +10,7 @@ from utils.messageBox import showMessageBox
 from database.database import Database
 from createAccountPage import CreateAccountPage
 from controlPage import ControlPage
+
 from editPage import EditPage
 from detailPage import DetailPage
 from processPage import ProcessPage

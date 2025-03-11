@@ -98,7 +98,9 @@ class TableUi(QWidget):
             iconDelete.setStyleSheet("background-color: transparent;")
 
             self.table.setCellWidget(row_index, len(self.headers) - 1, iconDelete)
-            if "UserId" in row_data:
+            if "ProfileId" in row_data:
+                self.iconDeleteDict[row_data["ProfileId"]] = iconDelete
+            elif "UserId" in row_data:
                 self.iconDeleteDict[row_data["UserId"]] = iconDelete  # Keep track of UserId internally
 
     def selectRow(self, row, column=None):
