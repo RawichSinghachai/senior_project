@@ -37,3 +37,43 @@ def showMessageDeleteDialog(self):
     response = msgBox.exec()
     return response  
     
+def handleCloseEvent(parent, event, db):
+    msg_box = QMessageBox(parent)
+    msg_box.setWindowTitle("Exit Confirmation")
+    msg_box.setText("Are you sure you want to exit?")
+    msg_box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+    msg_box.setDefaultButton(QMessageBox.StandardButton.No)
+
+    # ✅ กำหนด CSS ให้กับ QMessageBox
+    msg_box.setStyleSheet("""
+        QMessageBox {
+            background-color: #FFFFFF;  /* เปลี่ยนสีพื้นหลัง */
+            color: black;  /* เปลี่ยนสีตัวอักษร */
+            font-size: 16px;
+        }
+        QPushButton {
+            background-color: #1C8CDB;
+            color: white;
+            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 4px;
+        }
+        QPushButton:hover {
+            background-color: #1476B3;
+        }
+        QPushButton:pressed {
+            background-color: #0F5C91;
+        }
+        QLabel {
+            background-color: transparent;
+        }
+    """)
+
+    reply = msg_box.exec()
+
+    if reply == QMessageBox.StandardButton.Yes:
+        # print("Program is closing...")
+        db.closeDatabase()
+        event.accept()
+    else:
+        event.ignore()

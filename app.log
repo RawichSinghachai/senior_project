@@ -249,3 +249,20 @@
 2025-03-11 00:08:41,730 - INFO - Login Success username : op2
 2025-03-11 00:10:55,712 - INFO - Login Success username : op2
 2025-03-11 00:11:26,237 - INFO - Login Success username : op2
+2025-03-11 15:31:42,210 - INFO - Login Success username : op2
+2025-03-11 15:32:23,976 - INFO - Saved snapshot: snapshots\47e05ff7-6fab-4da0-8be4-bba371f4ad25\step_0_20250311_153158.jpg
+2025-03-11 15:32:31,222 - INFO - Saved snapshot: snapshots\47e05ff7-6fab-4da0-8be4-bba371f4ad25\step_1_20250311_153158.jpg
+2025-03-11 15:32:38,605 - INFO - Saved snapshot: snapshots\47e05ff7-6fab-4da0-8be4-bba371f4ad25\step_2_20250311_153158.jpg
+2025-03-11 15:32:45,858 - INFO - Saved snapshot: snapshots\47e05ff7-6fab-4da0-8be4-bba371f4ad25\step_3_20250311_153158.jpg
+2025-03-11 15:32:45,858 - INFO - UserId : 47e05ff7-6fab-4da0-8be4-bba371f4ad25 Process completed.
+2025-03-11 15:32:46,175 - INFO - Camera released and windows closed.
+2025-03-11 23:21:39,133 - INFO - Login Success username : op2
+2025-03-11 23:22:09,250 - INFO - User terminated the process.
+2025-03-11 23:22:09,576 - INFO - Camera released and windows closed.
+2025-03-11 23:22:46,382 - INFO - Login Success username : op2
+2025-03-11 23:27:29,730 - INFO - Login Success username : op2
+2025-03-11 23:27:41,153 - INFO - Create NewUser Success
+2025-03-11 23:37:45,403 - INFO - Login Success username : op2
+2025-03-12 00:31:21,418 - INFO - Login Success username : op2
+2025-03-12 00:31:25,718 - INFO - Create NewUser Success
+2025-03-12 01:01:21,335 - INFO - Login Success username : op2

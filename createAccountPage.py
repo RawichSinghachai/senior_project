@@ -72,7 +72,7 @@ class CreateAccountPage(QWidget):
 
 
     # DataBase ------------------------------------------------------------------------------------
-        self.db = Database()
+        self.db = Database.getInstance()
 
     # event -------------------------------------------------------------------------------------
         self.adminRegister = {

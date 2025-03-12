@@ -3,10 +3,9 @@ from PyQt6.QtCore import (QCoreApplication, Qt , QSize)
 from PyQt6.QtWidgets import (QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QStackedWidget)
 from PyQt6.QtGui import QIcon, QMouseEvent, QFontDatabase, QFont
 
-
 from components.formLogin import FormLogin
 from components.imageTitle import ImageTitle
-from utils.messageBox import showMessageBox
+from utils.messageBox import showMessageBox, handleCloseEvent
 from database.database import Database
 from createAccountPage import CreateAccountPage
 from controlPage import ControlPage
@@ -15,6 +14,7 @@ from editPage import EditPage
 from detailPage import DetailPage
 from processPage import ProcessPage
 from utils.logger import AppLogger
+
 
 
 class LoginPage(QWidget):
@@ -28,7 +28,7 @@ class LoginPage(QWidget):
         self.setStyleSheet("background-color: #B4B4B4;")
 
         # StepUp Logger
-        self.logger = AppLogger().get_logger()
+        self.logger = AppLogger.get_logger()
         
         # Root Layout
         vBox = QVBoxLayout()
@@ -116,7 +116,8 @@ class LoginPage(QWidget):
         self.formLogin.getLableToCreateAccountPage().mousePressEvent = self.onClickToCreateAccount
 
     # Database ------------------------------------------------------------------------------------
-        self.db = Database()
+        self.db = Database.getInstance()
+        
 
     # Event -------------------------------------------------------------------------------------
         self.adminLogin = {
@@ -164,46 +165,11 @@ class LoginPage(QWidget):
         
         # print(f"Login username: {self.adminLogin['username']} password: {self.adminLogin['password']}")
 
-    # def closeEvent(self, event):
-    #     msg_box = QMessageBox(self)
-    #     msg_box.setWindowTitle("Exit Confirmation")
-    #     msg_box.setText("Are you sure you want to exit?")
-    #     msg_box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-    #     msg_box.setDefaultButton(QMessageBox.StandardButton.No)
+    def closeEvent(self, event):
+        handleCloseEvent(self, event, self.db)
 
-    #     # ✅ กำหนด CSS ให้กับ QMessageBox
-    #     msg_box.setStyleSheet("""
-    #         QMessageBox {
-    #             background-color: #FFFFFFFF;  /* เปลี่ยนสีพื้นหลัง */
-    #             color: white;  /* เปลี่ยนสีตัวอักษร */
-    #             font-size: 16px;
-    #         }
-    #         QPushButton {
-    #             background-color: #1C8CDB;
-    #             color: white;
-    #             font-size: 14px;
-    #             padding: 6px 12px;
-    #             border-radius: 4px;
-    #         }
-    #         QPushButton:hover {
-    #             background-color: #1476B3;
-    #         }
-    #         QPushButton:pressed {
-    #             background-color: #0F5C91;
-    #         }
-    #         QLabel{
-    #             background-color: transparent;
-    #         }
-    #     """)
-
-    #     reply = msg_box.exec()
-
-    #     if reply == QMessageBox.StandardButton.Yes:
-    #         print("Program is closing...")
-    #         self.db.closeDatabase()
-    #         event.accept()
-    #     else:
-    #         event.ignore()
+ 
+    
 
 if __name__ == "__main__":
     app = QCoreApplication.instance()

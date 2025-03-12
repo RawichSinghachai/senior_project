@@ -4,8 +4,17 @@ import uuid
 from datetime import datetime
 
 class Database:
+    _instance = None
+
+    @staticmethod
+    def getInstance():
+        if Database._instance is None:
+            Database._instance = Database()
+        return Database._instance
+
     def __init__(self):
-        # Ensure we use a unique connection name, e.g., "mainConnection"
+        if hasattr(self, 'db'):
+            return  # ป้องกันการเรียกซ้ำ
         if QSqlDatabase.contains("mainConnection"):
             self.db = QSqlDatabase.database("mainConnection")
         else:
@@ -13,7 +22,7 @@ class Database:
             self.db.setDatabaseName('database/db.sqlite')
             if not self.db.open():
                 raise Exception("Failed to open the database")
-        
+
         self.createAdminTable()
         self.createUserTable()
         self.createUserTestResultTable()
@@ -407,6 +416,18 @@ class Database:
         else:
             return True
     
+    def deleteUserTestResult(self,ProfileId):
+        sql = 'DELETE FROM UserTestResult WHERE ProfileId = ?;'
+
+        query = QSqlQuery(self.db)
+        query.prepare(sql)
+        query.addBindValue(ProfileId)
+        if not query.exec():
+            print("Failed to execute query:", query.lastError().text())
+            return False
+        else:
+            return True
+
     # Edit
     def import_users(self, users):
 
@@ -498,9 +519,23 @@ class Database:
  
 
     def closeDatabase(self):
-        """ ปิดการเชื่อมต่อฐานข้อมูล """
-        connection_name = self.db.connectionName()
-        self.db.close()  # ปิดฐานข้อมูล
-        QSqlDatabase.removeDatabase(connection_name)  # ลบการเชื่อมต่อออกจาก QSqlDatabase
-        print("Database connection closed.")
+        if self.db.isOpen():
+            self.db.close()
+
+        # ตรวจสอบให้แน่ใจว่าไม่มี instance อื่นใช้งาน
+        connection_name = self.db.connectionName()  # ดึงชื่อ connection
+        
+        # ลบตัวแปรฐานข้อมูล
+        del self.db  
+
+        # ตรวจสอบว่ามี connection ที่ต้องปิดหรือไม่
+        if QSqlDatabase.contains(connection_name):
+            QSqlDatabase.removeDatabase(connection_name)  
+
+            
+
+    
+
+
+
 

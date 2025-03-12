@@ -24,7 +24,7 @@ class EditPage(QWidget):
         self.setLayout(vBox)
 
         # StepUp Logger
-        self.logger = AppLogger().get_logger()
+        self.logger = AppLogger.get_logger()
 
         self.title = QLabel('Edit Profile')
         self.title.setStyleSheet(
@@ -43,7 +43,7 @@ class EditPage(QWidget):
         vBox.addWidget(self.formEditUi, alignment=Qt.AlignmentFlag.AlignHCenter)
 
         # Database ------------------------------------------------------------------------------------
-        self.db = Database()
+        self.db = Database.getInstance()
 
         # Get instance
         self.formEditUi.getFirstNameInput().textChanged.connect(self.onChangeFirstNameInput)

@@ -5,7 +5,7 @@ import os
 from utils.arduino import ArduinoController
 from utils.logger import AppLogger
 
-logger = AppLogger().get_logger()
+logger = AppLogger.get_logger()
 
 # Initialize MediaPipe Hands and drawing tools
 hand_data = {"Left Hand": None, "Right Hand": None}
@@ -50,12 +50,15 @@ def process_camera(frame, hands, countdown, i, blur_value=5, threshold_value=50,
     beta = brightness - 50  
 
     frame = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
-    ImageLAB = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)[:, :, 0]
+    ImageLAB = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
     if i >= 2:
-        clahe = cv2.createCLAHE(clipLimit=1.5, tileGridSize=(2, 2))
-        ImageLAB = clahe.apply(ImageLAB)
+        channel_B = ImageLAB[:, :, 2]  # ใช้ช่อง B แทน L
+        clahe = cv2.createCLAHE(clipLimit=1.3, tileGridSize=(2, 2))
+        processed_channel = clahe.apply(channel_B)
+    else:
+        processed_channel = ImageLAB[:, :, 0]  # ใช้ช่อง L สำหรับรอบที่ 1, 2
 
-    blur = cv2.GaussianBlur(ImageLAB, (blur_value, blur_value), 0)
+    blur = cv2.GaussianBlur(processed_channel, (blur_value, blur_value), 0)
     _, binary = cv2.threshold(blur, threshold_value, 255, cv2.THRESH_BINARY)
 
     

@@ -21,10 +21,9 @@ class ControlPage(QWidget):
         self.stackedWidget = stackedWidget
 
         # Database ------------------------------------------------------------------------------------
-        self.db = Database()
+        self.db = Database.getInstance()
         self.headers = ['FirstName', 'LastName', 'Department', 'Position', 'Email', 'Gender', 'BirthDate', 'Delete']
-        self.listUsers = []
-        self.listUsers = self.db.getAllUser()
+        self.listUsers = self.db.getAllUser() or []
         
         hBox = QHBoxLayout()
         hBox.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -109,7 +108,7 @@ class ControlPage(QWidget):
                 if self.db.deleteUser(user_id):
                     showMessageBox('Delete','User  deleted successfully.')
                     # Refresh Control Page
-                    self.refreshControlPage()
+                    self.refreshPage()
 
             
                 else:
@@ -119,14 +118,9 @@ class ControlPage(QWidget):
 
 
     # Refresh Control Page
-    def refreshControlPage(self):
-        index = self.stackedWidget.indexOf(self)  # Store the index of the current ControlPage  
-        new_control_page = ControlPage(self.stackedWidget)  # Create a new ControlPage  
-        self.stackedWidget.removeWidget(self)  # Remove the old ControlPage  
-        self.stackedWidget.insertWidget(index, new_control_page)  # Insert the new ControlPage at the same index  
-        self.stackedWidget.setCurrentWidget(new_control_page)  # Switch to the new ControlPage  
-
-
+    def refreshPage(self):
+        self.listUsers = self.db.getAllUser()  # ดึงข้อมูลใหม่จากฐานข้อมูล
+        self.tableUi.updateTable(self.listUsers)  # อัปเดตตาราง
 
     def filterTable(self):
         search_text = self.searchBar.searchInput.text()

@@ -17,7 +17,7 @@ class ProcessPage(QWidget):
         super().__init__()
 
         # Database ------------------------------------------------------------------------------------
-        self.db = Database()
+        self.db = Database.getInstance()
 
         self.stackedWidget = stackedWidget
         self.user_id = None
