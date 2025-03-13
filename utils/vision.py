@@ -51,12 +51,16 @@ def process_camera(frame, hands, countdown, i, blur_value=5, threshold_value=50,
 
     frame = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
     ImageLAB = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
-    if i >= 2:
-        channel_B = ImageLAB[:, :, 2]  # ใช้ช่อง B แทน L
-        clahe = cv2.createCLAHE(clipLimit=1.3, tileGridSize=(2, 2))
+    if i == 2:
+        channel_B = ImageLAB[:, :, 2]  # à¹ƒà¸Šà¹‰à¸Šà¹ˆà¸­à¸‡ B à¹à¸—à¸™ L
+        clahe = cv2.createCLAHE(clipLimit=8, tileGridSize=(2, 2))
+        processed_channel = clahe.apply(channel_B)
+    elif i == 3:
+        channel_B = ImageLAB[:, :, 2]  # à¹ƒà¸Šà¹‰à¸Šà¹ˆà¸­à¸‡ B à¹à¸—à¸™ L
+        clahe = cv2.createCLAHE(clipLimit=0.1, tileGridSize=(2, 2))
         processed_channel = clahe.apply(channel_B)
     else:
-        processed_channel = ImageLAB[:, :, 0]  # ใช้ช่อง L สำหรับรอบที่ 1, 2
+        processed_channel = ImageLAB[:, :, 0]  # à¹ƒà¸Šà¹‰à¸Šà¹ˆà¸­à¸‡ L à¸ªà¸³à¸«à¸£à¸±à¸šà¸£à¸­à¸šà¸—à¸µà¹ˆ 1, 2
 
     blur = cv2.GaussianBlur(processed_channel, (blur_value, blur_value), 0)
     _, binary = cv2.threshold(blur, threshold_value, 255, cv2.THRESH_BINARY)
@@ -127,7 +131,7 @@ def main(userId):
     
     
     
-    # สร้างโฟลเดอร์ snapshots ถ้ายังไม่มี
+    # à¸ªà¸£à¹‰à¸²à¸‡à¹‚à¸Ÿà¸¥à¹€à¸”à¸­à¸£à¹Œ snapshots à¸–à¹‰à¸²à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¸¡à¸µ
     snapshot_folder = "snapshots"
     if not os.path.exists(snapshot_folder):
         os.makedirs(snapshot_folder)
@@ -136,7 +140,7 @@ def main(userId):
     if not os.path.exists(video_folder):
         os.makedirs(video_folder)
 
-    # ตั้งค่าขนาดวิดีโอ
+    # à¸•à¸±à¹‰à¸‡à¸„à¹ˆà¸²à¸‚à¸™à¸²à¸”à¸§à¸´à¸”à¸µà¹‚à¸­
     frame_width = int(cap.get(3))
     frame_height = int(cap.get(4))
 
@@ -144,7 +148,7 @@ def main(userId):
 
     video_filename = os.path.join(video_folder, f"{timestamp}.mp4")
 
-    # ตั้งค่าตัวบันทึกวิดีโอ (MP4 Codec)
+    # à¸•à¸±à¹‰à¸‡à¸„à¹ˆà¸²à¸•à¸±à¸§à¸šà¸±à¸™à¸—à¸¶à¸à¸§à¸´à¸”à¸µà¹‚à¸­ (MP4 Codec)
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     video_writer = None  
     recording = False  
@@ -157,8 +161,8 @@ def main(userId):
     parameters = [
         {"threshold": 90, "blur": 2, "brightness": 50, "contrast": 9},
         {"threshold": 90, "blur": 2, "brightness": 50, "contrast": 9},
-        {"threshold": 156, "blur": 2, "brightness": 50, "contrast": 9},
-        {"threshold": 156, "blur": 2, "brightness": 50, "contrast": 9},
+        {"threshold": 121, "blur": 2, "brightness": 100, "contrast": 50},
+        {"threshold": 90, "blur": 2, "brightness": 81, "contrast": 34},
     ]
 
     try:
@@ -194,7 +198,9 @@ def main(userId):
                     if recording:
                         video_writer.write(processed_frame)
 
+
                     cv2.imshow('Webcam', processed_frame)
+
 
                     # # Move window to the center of the screen
                     # screen_width = 1920  # Adjust to actual screen width
@@ -239,9 +245,24 @@ def main(userId):
                 if not os.path.exists(user_folder):
                     os.makedirs(user_folder)
 
+                # Frame Snapshot 
+                if i == 2: # B Channel Color round 3 (i == 2)
+                    frame = cv2.convertScaleAbs(frame, alpha=5.0, beta=50)
+                    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
+                    b_channel = frame[:, :, 2]
+                    clahe = cv2.createCLAHE(clipLimit=8.0, tileGridSize=(2, 2))
+                    snapshot_frame = clahe.apply(b_channel)
+                elif i == 3: # B Channel Color round 4 (i == 3)
+                    frame = cv2.convertScaleAbs(frame, alpha=5.0, beta=50)
+                    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
+                    b_channel = frame[:, :, 2]
+                    clahe = cv2.createCLAHE(clipLimit=8.0, tileGridSize=(2, 2))
+                    snapshot_frame = clahe.apply(b_channel)
+                else:
+                    snapshot_frame = frame
 
                 snapshot_path = os.path.join(user_folder, f"step_{i}_{timestamp}.jpg")
-                cv2.imwrite(snapshot_path, processed_frame)
+                cv2.imwrite(snapshot_path, snapshot_frame)
                 logger.info(f"Saved snapshot: {snapshot_path}") # Log
 
                 sum_areas.append({"left_hand_area": left_hand_area, "right_hand_area": right_hand_area})

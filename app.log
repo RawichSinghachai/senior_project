@@ -266,3 +266,15 @@
 2025-03-12 00:31:21,418 - INFO - Login Success username : op2
 2025-03-12 00:31:25,718 - INFO - Create NewUser Success
 2025-03-12 01:01:21,335 - INFO - Login Success username : op2
+2025-03-13 14:32:16,542 - INFO - Login Success username : op2
+2025-03-13 14:32:57,463 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\step_0_20250313_143232.jpg
+2025-03-13 14:33:04,654 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\step_1_20250313_143232.jpg
+2025-03-13 14:33:06,678 - ERROR - An error occurred in computer vision : cannot access local variable 'processed_channel' where it is not associated with a value
+2025-03-13 14:33:07,001 - INFO - Camera released and windows closed.
+2025-03-13 14:37:17,716 - INFO - Login Success username : op2
+2025-03-13 14:37:54,054 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\step_0_20250313_143731.jpg
+2025-03-13 14:38:01,265 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\step_1_20250313_143731.jpg
+2025-03-13 14:38:08,447 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\step_2_20250313_143731.jpg
+2025-03-13 14:38:15,652 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\step_3_20250313_143731.jpg
+2025-03-13 14:38:15,652 - INFO - UserId : c2e482b4-0760-452d-ba7d-820bf3729812 Process completed.
+2025-03-13 14:38:15,984 - INFO - Camera released and windows closed.
