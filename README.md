@@ -1,7 +1,7 @@
 # Artificial Intelligence System for Assessing Handwashing Using Phosphor Gel
 
 <p align="center">
-  <img src="./images/machine.png" alt="Machine Image" width="100">
+  <img src="./images/machine.png" alt="Machine Image" width="200" height="250">
 </p>
 
 ## 📌 Project Overview
