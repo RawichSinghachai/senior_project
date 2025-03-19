@@ -14,7 +14,7 @@ width, height = 640, 480
 center_x = width // 2
 left_center_x = center_x // 2
 right_center_x = center_x + (center_x // 2)
-y_position = 50
+y_position = height - 30
 
 def get_hand_side(wrist_x, image_width):
     return "Left Hand" if wrist_x < image_width / 2 else "Right Hand"

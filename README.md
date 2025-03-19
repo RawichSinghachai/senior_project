@@ -40,8 +40,10 @@ git clone https://github.com/RawichSinghachai/senior_project.git
 ```sh
 cd senior_project
 python -m venv env
-env\Scripts\activate (for Windows)
-source env/bin/activate (for macOS/Linux)
+# For Windows
+env\Scripts\activate
+# For macOS/Linux
+source env/bin/activate
 pip install -r requirements.txt
 ```
 

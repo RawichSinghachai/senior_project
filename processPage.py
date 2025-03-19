@@ -1,14 +1,10 @@
-from PyQt6.QtGui import QPixmap
-from PyQt6.QtCore import (QCoreApplication, Qt , QSize,QTimer, QDateTime,QDate)
-from PyQt6.QtGui import (QColor)
-from PyQt6.QtWidgets import (QApplication, QWidget, QLabel,QPushButton, QVBoxLayout 
-    ,QGridLayout,QLineEdit,QMessageBox,QGroupBox,QSpacerItem,QTableWidget
-    ,QTableWidgetItem,QHeaderView)
-from PyQt6.QtGui import QMouseEvent
+from PyQt6.QtCore import (QCoreApplication, Qt, QTimer)
+from PyQt6.QtWidgets import ( QWidget, QLabel,QPushButton, QVBoxLayout )
 
 from utils.vision import main
 from database.database import Database
 from utils.messageBox import showMessageBox
+from utils.handScoreCalculator import calculate_hand_score
 
 
 
@@ -93,6 +89,8 @@ class ProcessPage(QWidget):
             detail_page = self.stackedWidget.widget(4)
             detail_page.setUserId(self.user_id)
             self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(4))
+            left_front, left_back, right_front, right_back, total = calculate_hand_score(data)
+            showMessageBox("Total Score", f"Total Score: {total} %", "info")
         elif err:
             showMessageBox("Error", err, "error")
             self.message.setText(f"Status : {err}")

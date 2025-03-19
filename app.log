@@ -278,3 +278,18 @@
 2025-03-13 14:38:15,652 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\step_3_20250313_143731.jpg
 2025-03-13 14:38:15,652 - INFO - UserId : c2e482b4-0760-452d-ba7d-820bf3729812 Process completed.
 2025-03-13 14:38:15,984 - INFO - Camera released and windows closed.
+2025-03-18 23:18:54,287 - INFO - Login Success username : op2
+2025-03-18 23:19:20,357 - INFO - Saved snapshot: snapshots\162d04a0-4c53-4c59-b02f-505a16b5ed25\step_0_20250318_231903.jpg
+2025-03-18 23:19:22,400 - INFO - User terminated the process.
+2025-03-18 23:19:22,730 - INFO - Camera released and windows closed.
+2025-03-18 23:20:18,881 - INFO - Login Success username : op2
+2025-03-18 23:23:17,668 - INFO - Saved snapshot: snapshots\803c023c-0cab-454b-9c0b-1a73eb2b6a0d\step_0_20250318_232300.jpg
+2025-03-18 23:23:19,713 - INFO - User terminated the process.
+2025-03-18 23:23:20,074 - INFO - Camera released and windows closed.
+2025-03-20 00:01:05,961 - INFO - Login Success username : op2
+2025-03-20 00:01:38,478 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\step_0_20250320_000121.jpg
+2025-03-20 00:01:45,639 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\step_1_20250320_000121.jpg
+2025-03-20 00:01:52,790 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\step_2_20250320_000121.jpg
+2025-03-20 00:01:59,978 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\step_3_20250320_000121.jpg
+2025-03-20 00:01:59,978 - INFO - UserId : c2e482b4-0760-452d-ba7d-820bf3729812 Process completed.
+2025-03-20 00:02:00,333 - INFO - Camera released and windows closed.
