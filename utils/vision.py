@@ -4,6 +4,7 @@ import time
 import os
 from utils.arduino import ArduinoController
 from utils.logger import AppLogger
+from datetime import datetime
 
 logger = AppLogger.get_logger()
 
@@ -168,6 +169,17 @@ def main(userId):
     try:
         with mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7, max_num_hands=2) as hands:
             sum_areas = []
+
+            # Snapshot folder -> UserId
+            user_folder = os.path.join(snapshot_folder, str(userId))
+            if not os.path.exists(user_folder):
+                os.makedirs(user_folder)
+
+            date = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
+            
+            timestamp_folder = os.path.join(user_folder, date)
+            if not os.path.exists(timestamp_folder):
+                os.makedirs(timestamp_folder)
             
             for i in range(len(time_countdown)):
                 countdown = time_countdown[i]
@@ -202,11 +214,11 @@ def main(userId):
                     cv2.imshow('Webcam', processed_frame)
 
 
-                    # # Move window to the center of the screen
-                    # screen_width = 1920  # Adjust to actual screen width
-                    # screen_height = 1080 # Adjust to actual screen height
-                    # window_height, window_width, _  = frame.shape
-                    # cv2.moveWindow('Webcam', (screen_width - window_width) // 2, (screen_height - window_height) // 2)
+                    # Move window to the center of the screen
+                    screen_width = 1600  # Adjust to actual screen width
+                    screen_height = 900 # Adjust to actual screen height
+                    window_height, window_width, _  = frame.shape
+                    cv2.moveWindow('Webcam', (screen_width - window_width) // 2, (screen_height - window_height) // 2)
 
                     key = cv2.waitKey(1) & 0xFF
 
@@ -226,13 +238,13 @@ def main(userId):
 
                 #  Check for conflicting hand orientation each round
                 # if i == 0 and not (hand_data["Left Hand"] == "Back (Dorsal)" and hand_data["Right Hand"] == "Back (Dorsal)"):
-                #     return None, "fail round 1"
+                #     return None, "fail round 1 Conflicting Hand Orientation"
                 # if i == 1 and not (hand_data["Left Hand"] == "Front (Palm)" and hand_data["Right Hand"] == "Front (Palm)"):
-                #     return None, "fail round 2"
+                #     return None, "fail round 2 Conflicting Hand Orientation"
                 # if i == 2 and not (hand_data["Left Hand"] == "Back (Dorsal)" and hand_data["Right Hand"] == "Back (Dorsal)"):
-                #     return None, "fail round 3"
+                #     return None, "fail round 3 Conflicting Hand Orientation"
                 # if i == 3 and not (hand_data["Left Hand"] == "Front (Palm)" and hand_data["Right Hand"] == "Front (Palm)"):
-                #     return None, "fail round 4"
+                #     return None, "fail round 4 Conflicting Hand Orientation"
 
                 #  Check for conflicting hand orientation
                 if (hand_data["Left Hand"] == "Back (Dorsal)" and hand_data["Right Hand"] == "Front (Palm)") or \
@@ -240,10 +252,7 @@ def main(userId):
                     logger.error("Conflicting Hand Orientation") # Log
                     return None, "Conflicting Hand Orientation"
 
-                # Snapshot
-                user_folder = os.path.join(snapshot_folder, str(userId))
-                if not os.path.exists(user_folder):
-                    os.makedirs(user_folder)
+                
 
                 # Frame Snapshot 
                 if i == 2: # B Channel Color round 3 (i == 2)
@@ -261,8 +270,13 @@ def main(userId):
                 else:
                     snapshot_frame = frame
 
-                snapshot_path = os.path.join(user_folder, f"step_{i}_{timestamp}.jpg")
+                
+
+                snapshot_path = os.path.join(timestamp_folder, f"step_{i+1}_{timestamp}.jpg")
+
+                # Save snapshot
                 cv2.imwrite(snapshot_path, snapshot_frame)
+
                 logger.info(f"Saved snapshot: {snapshot_path}") # Log
 
                 sum_areas.append({"left_hand_area": left_hand_area, "right_hand_area": right_hand_area})

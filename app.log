@@ -293,3 +293,43 @@
 2025-03-20 00:01:59,978 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\step_3_20250320_000121.jpg
 2025-03-20 00:01:59,978 - INFO - UserId : c2e482b4-0760-452d-ba7d-820bf3729812 Process completed.
 2025-03-20 00:02:00,333 - INFO - Camera released and windows closed.
+2025-03-23 22:06:20,065 - INFO - Login Success username : op2
+2025-03-23 22:07:26,733 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\step_0_20250323_220709.jpg
+2025-03-23 22:07:33,929 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\step_1_20250323_220709.jpg
+2025-03-23 22:07:41,120 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\step_2_20250323_220709.jpg
+2025-03-23 22:07:48,346 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\step_3_20250323_220709.jpg
+2025-03-23 22:07:48,346 - INFO - UserId : c2e482b4-0760-452d-ba7d-820bf3729812 Process completed.
+2025-03-23 22:07:48,658 - INFO - Camera released and windows closed.
+2025-03-23 22:32:14,981 - INFO - Login Success username : op2
+2025-03-23 22:32:41,421 - ERROR - An error occurred in computer vision : [WinError 123] The filename, directory name, or volume label syntax is incorrect: 'snapshots\\c2e482b4-0760-452d-ba7d-820bf3729812\\23:03:2025 22:32:41'
+2025-03-23 22:32:41,723 - INFO - Camera released and windows closed.
+2025-03-23 22:35:32,808 - INFO - Login Success username : op2
+2025-03-23 22:35:58,314 - ERROR - An error occurred in computer vision : [WinError 123] The filename, directory name, or volume label syntax is incorrect: 'snapshots\\c2e482b4-0760-452d-ba7d-820bf3729812\\23:03:2025 22:35:58'
+2025-03-23 22:35:58,632 - INFO - Camera released and windows closed.
+2025-03-23 22:40:34,003 - INFO - Login Success username : op2
+2025-03-23 22:41:00,583 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\23-03-2025_22-41-00\step_0_20250323_224042.jpg
+2025-03-23 22:41:07,775 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\23-03-2025_22-41-07\step_1_20250323_224042.jpg
+2025-03-23 22:41:15,043 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\23-03-2025_22-41-15\step_2_20250323_224042.jpg
+2025-03-23 22:41:22,215 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\23-03-2025_22-41-22\step_3_20250323_224042.jpg
+2025-03-23 22:41:22,216 - INFO - UserId : c2e482b4-0760-452d-ba7d-820bf3729812 Process completed.
+2025-03-23 22:41:22,547 - INFO - Camera released and windows closed.
+2025-03-24 01:17:57,858 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\24-03-2025_01-17-57\step_0_20250324_011740.jpg
+2025-03-24 01:18:05,021 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\24-03-2025_01-18-05\step_1_20250324_011740.jpg
+2025-03-24 01:18:12,288 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\24-03-2025_01-18-12\step_2_20250324_011740.jpg
+2025-03-24 01:18:19,496 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\24-03-2025_01-18-19\step_3_20250324_011740.jpg
+2025-03-24 01:18:19,497 - INFO - UserId : c2e482b4-0760-452d-ba7d-820bf3729812 Process completed.
+2025-03-24 01:18:20,151 - INFO - Camera released and windows closed.
+2025-03-24 01:21:12,202 - INFO - Login Success username : op2
+2025-03-24 01:21:37,941 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\24-03-2025_01-21-32\step_0_20250324_012121.jpg
+2025-03-24 01:21:45,130 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\24-03-2025_01-21-32\step_1_20250324_012121.jpg
+2025-03-24 01:21:52,334 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\24-03-2025_01-21-32\step_2_20250324_012121.jpg
+2025-03-24 01:21:59,585 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\24-03-2025_01-21-32\step_3_20250324_012121.jpg
+2025-03-24 01:21:59,587 - INFO - UserId : c2e482b4-0760-452d-ba7d-820bf3729812 Process completed.
+2025-03-24 01:21:59,912 - INFO - Camera released and windows closed.
+2025-03-24 14:21:10,057 - INFO - Login Success username : op2
+2025-03-24 14:22:21,563 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\24-03-2025_14-22-15\step_0_20250324_142200.jpg
+2025-03-24 14:22:28,774 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\24-03-2025_14-22-15\step_1_20250324_142200.jpg
+2025-03-24 14:22:35,919 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\24-03-2025_14-22-15\step_2_20250324_142200.jpg
+2025-03-24 14:22:43,111 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\24-03-2025_14-22-15\step_3_20250324_142200.jpg
+2025-03-24 14:22:43,112 - INFO - UserId : c2e482b4-0760-452d-ba7d-820bf3729812 Process completed.
+2025-03-24 14:22:43,447 - INFO - Camera released and windows closed.
