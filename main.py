@@ -165,8 +165,8 @@ class LoginPage(QWidget):
         
         # print(f"Login username: {self.adminLogin['username']} password: {self.adminLogin['password']}")
 
-    # def closeEvent(self, event):
-    #     handleCloseEvent(self, event, self.db)
+    def closeEvent(self, event):
+        handleCloseEvent(self, event, self.db)
 
  
     

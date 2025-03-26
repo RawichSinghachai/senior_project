@@ -333,3 +333,20 @@
 2025-03-24 14:22:43,111 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\24-03-2025_14-22-15\step_3_20250324_142200.jpg
 2025-03-24 14:22:43,112 - INFO - UserId : c2e482b4-0760-452d-ba7d-820bf3729812 Process completed.
 2025-03-24 14:22:43,447 - INFO - Camera released and windows closed.
+2025-03-26 14:47:42,613 - INFO - Login Success username : op2
+2025-03-26 14:49:45,451 - INFO - Starting to record video to path: video\c2e482b4-0760-452d-ba7d-820bf3729812\26-03-2025_14-49-19.mp4
+2025-03-26 14:49:46,198 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\26-03-2025_14-49-19\Turn_1.jpg
+2025-03-26 14:49:53,533 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\26-03-2025_14-49-19\Turn_2.jpg
+2025-03-26 14:50:00,740 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\26-03-2025_14-49-19\Turn_3.jpg
+2025-03-26 14:50:07,966 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\26-03-2025_14-49-19\Turn_4.jpg
+2025-03-26 14:50:07,967 - INFO - UserId : c2e482b4-0760-452d-ba7d-820bf3729812 Process completed.
+2025-03-26 14:50:07,994 - INFO - Stop recording video saved to path: video\c2e482b4-0760-452d-ba7d-820bf3729812\26-03-2025_14-49-19.mp4
+2025-03-26 14:50:08,306 - INFO - Camera released and windows closed.
+2025-03-26 14:51:20,283 - INFO - Starting to record video to path: video\c2e482b4-0760-452d-ba7d-820bf3729812\26-03-2025_14-50-55.mp4
+2025-03-26 14:51:22,437 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\26-03-2025_14-50-55\Turn_1.jpg
+2025-03-26 14:51:29,625 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\26-03-2025_14-50-55\Turn_2.jpg
+2025-03-26 14:51:36,791 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\26-03-2025_14-50-55\Turn_3.jpg
+2025-03-26 14:51:43,971 - INFO - Saved snapshot: snapshots\c2e482b4-0760-452d-ba7d-820bf3729812\26-03-2025_14-50-55\Turn_4.jpg
+2025-03-26 14:51:43,971 - INFO - UserId : c2e482b4-0760-452d-ba7d-820bf3729812 Process completed.
+2025-03-26 14:51:43,983 - INFO - Stop recording video saved to path: video\c2e482b4-0760-452d-ba7d-820bf3729812\26-03-2025_14-50-55.mp4
+2025-03-26 14:51:44,291 - INFO - Camera released and windows closed.

@@ -54,11 +54,11 @@ def process_camera(frame, hands, countdown, i, blur_value=5, threshold_value=50,
     ImageLAB = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
     if i == 2:
         channel_B = ImageLAB[:, :, 2]  # à¹ƒà¸Šà¹‰à¸Šà¹ˆà¸­à¸‡ B à¹à¸—à¸™ L
-        clahe = cv2.createCLAHE(clipLimit=8, tileGridSize=(2, 2))
+        clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(10, 10))
         processed_channel = clahe.apply(channel_B)
     elif i == 3:
         channel_B = ImageLAB[:, :, 2]  # à¹ƒà¸Šà¹‰à¸Šà¹ˆà¸­à¸‡ B à¹à¸—à¸™ L
-        clahe = cv2.createCLAHE(clipLimit=0.1, tileGridSize=(2, 2))
+        clahe = cv2.createCLAHE(clipLimit=1.5, tileGridSize=(2, 2))
         processed_channel = clahe.apply(channel_B)
     else:
         processed_channel = ImageLAB[:, :, 0]  # à¹ƒà¸Šà¹‰à¸Šà¹ˆà¸­à¸‡ L à¸ªà¸³à¸«à¸£à¸±à¸šà¸£à¸­à¸šà¸—à¸µà¹ˆ 1, 2
@@ -145,9 +145,9 @@ def main(userId):
     frame_width = int(cap.get(3))
     frame_height = int(cap.get(4))
 
-    timestamp = time.strftime("%Y%m%d_%H%M%S")
+    date = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
 
-    video_filename = os.path.join(video_folder, f"{timestamp}.mp4")
+    video_filename = os.path.join(video_folder, f"{date}.mp4")
 
     # à¸•à¸±à¹‰à¸‡à¸„à¹ˆà¸²à¸•à¸±à¸§à¸šà¸±à¸™à¸—à¸¶à¸à¸§à¸´à¸”à¸µà¹‚à¸­ (MP4 Codec)
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
@@ -162,8 +162,8 @@ def main(userId):
     parameters = [
         {"threshold": 90, "blur": 2, "brightness": 50, "contrast": 9},
         {"threshold": 90, "blur": 2, "brightness": 50, "contrast": 9},
-        {"threshold": 121, "blur": 2, "brightness": 100, "contrast": 50},
-        {"threshold": 90, "blur": 2, "brightness": 81, "contrast": 34},
+        {"threshold": 125, "blur": 2, "brightness": 100, "contrast": 50},
+        {"threshold": 130, "blur": 2, "brightness": 60, "contrast": 34},
     ]
 
     try:
@@ -175,7 +175,6 @@ def main(userId):
             if not os.path.exists(user_folder):
                 os.makedirs(user_folder)
 
-            date = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
             
             timestamp_folder = os.path.join(user_folder, date)
             if not os.path.exists(timestamp_folder):
@@ -259,20 +258,20 @@ def main(userId):
                     frame = cv2.convertScaleAbs(frame, alpha=5.0, beta=50)
                     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
                     b_channel = frame[:, :, 2]
-                    clahe = cv2.createCLAHE(clipLimit=8.0, tileGridSize=(2, 2))
+                    clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(10, 10))
                     snapshot_frame = clahe.apply(b_channel)
                 elif i == 3: # B Channel Color round 4 (i == 3)
-                    frame = cv2.convertScaleAbs(frame, alpha=5.0, beta=50)
+                    frame = cv2.convertScaleAbs(frame, alpha=3.4, beta=10)
                     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
                     b_channel = frame[:, :, 2]
-                    clahe = cv2.createCLAHE(clipLimit=8.0, tileGridSize=(2, 2))
+                    clahe = cv2.createCLAHE(clipLimit=1.5, tileGridSize=(2, 2))
                     snapshot_frame = clahe.apply(b_channel)
                 else:
                     snapshot_frame = frame
 
                 
 
-                snapshot_path = os.path.join(timestamp_folder, f"step_{i+1}_{timestamp}.jpg")
+                snapshot_path = os.path.join(timestamp_folder, f"Turn_{i+1}.jpg")
 
                 # Save snapshot
                 cv2.imwrite(snapshot_path, snapshot_frame)
