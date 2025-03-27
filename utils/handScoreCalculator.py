@@ -29,6 +29,25 @@ def calculate_hand_score(data):
     right_hand_front_score = round(right_hand_front_score, 2)
     right_hand_back_score = round(right_hand_back_score, 2)
 
+    if left_hand_front_score < 0:
+        left_hand_front_score = 0
+    if left_hand_back_score < 0:
+        left_hand_back_score = 0
+    if right_hand_front_score < 0:
+        right_hand_front_score = 0
+    if right_hand_back_score < 0:
+        right_hand_back_score = 0
+
+    if left_hand_front_score > 100:
+        left_hand_front_score = 100
+    if left_hand_back_score > 100:
+        left_hand_back_score = 100
+    if right_hand_front_score > 100:
+        right_hand_front_score = 100
+    if right_hand_back_score > 100:
+        right_hand_back_score = 100
+    
+
     total_score = (left_hand_front_score + left_hand_back_score + right_hand_front_score + right_hand_back_score) / 4
     total_score = round(total_score,2)
 

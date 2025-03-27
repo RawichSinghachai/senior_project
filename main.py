@@ -3,7 +3,7 @@ from PyQt6.QtCore import (QCoreApplication, Qt , QSize)
 from PyQt6.QtWidgets import (QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QStackedWidget)
 from PyQt6.QtGui import QIcon, QMouseEvent, QFontDatabase, QFont
 
-from components.formLogin import FormLogin
+from components.formLoginUi import FormLoginUi
 from components.imageTitle import ImageTitle
 from utils.messageBox import showMessageBox, handleCloseEvent
 from database.database import Database
@@ -22,7 +22,7 @@ class LoginPage(QWidget):
         super().__init__()
 
         self.setWindowTitle("Hand Hygiene Testing")
-        self.setWindowIcon(QIcon("assets/mainWindow.png"))
+        self.setWindowIcon(QIcon("assets/tseLogo.png"))
         # self.setFixedSize(QSize(1600, 900))
         self.setFixedSize(QSize(1024, 768))
         self.setStyleSheet("background-color: #B4B4B4;")
@@ -58,11 +58,11 @@ class LoginPage(QWidget):
         loginPageVBox.addLayout(hBoxCenter)
 
         # Image Title
-        self.imageTitle = ImageTitle('assets/qoogle.png', 400, 400)
+        self.imageTitle = ImageTitle('assets/tseLogo.png', 400, 400)
         hBoxCenter.addWidget(self.imageTitle, alignment=Qt.AlignmentFlag.AlignCenter)
 
         # FormLogin UI
-        self.formLogin = FormLogin()
+        self.formLogin = FormLoginUi()
         hBoxCenter.addWidget(self.formLogin, alignment=Qt.AlignmentFlag.AlignCenter)
 
         # Stack Widget ----------------------------------------------------------------------------------
@@ -89,13 +89,6 @@ class LoginPage(QWidget):
         # progress Page
         self.processPage = ProcessPage(self.stackedWidget)
         self.stackedWidget.addWidget(self.processPage)
-
-        # Set LoginPage as the initial widget
-        # self.stackedWidget.setCurrentWidget(self.controlPage)
-        # self.stackedWidget.setCurrentWidget(self.detailPage)
-        # for 5test
-        # self.stackedWidget.setCurrentWidget(self.editPage)
-        # self.stackedWidget.setCurrentWidget(self.controlPage)
 
 
         vBox.addWidget(self.stackedWidget)

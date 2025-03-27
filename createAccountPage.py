@@ -1,11 +1,8 @@
-from PyQt6.QtGui import QPixmap
-from PyQt6.QtCore import QCoreApplication, Qt , QSize
-from PyQt6.QtWidgets import QApplication, QWidget, QLabel,QPushButton, QVBoxLayout \
-    ,QHBoxLayout,QGridLayout,QLineEdit,QMessageBox,QGroupBox,QSpacerItem
+from PyQt6.QtCore import Qt 
+from PyQt6.QtWidgets import (QWidget, QLabel, QVBoxLayout, QHBoxLayout)
 from PyQt6.QtGui import QMouseEvent
-from PyQt6.QtSql import QSqlDatabase, QSqlQuery
 
-from components.formCreateAccountUi import FormRegisterUi
+from components.formCreateAccountUi import FormCreateAccountUi
 from components.imageTitle import ImageTitle
 from utils.messageBox import showMessageBox
 from database.database import Database
@@ -15,24 +12,18 @@ class CreateAccountPage(QWidget):
         super().__init__()
 
         self.stackedWidget = stackedWidget
-        self.setWindowTitle("Register")
-
-        # self.setFixedSize(QSize(800,500))
-        self.setStyleSheet("background-color: #B4B4B4;")
         
         vBox = QVBoxLayout()
-        vBox.setAlignment(Qt.AlignmentFlag.AlignTop)
+        vBox.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.setLayout(vBox)
 
         # Title
         self.titleLoginLable = QLabel('Create Account')
-        self.titleLoginLable.setAlignment(Qt.AlignmentFlag.AlignRight)
+        self.titleLoginLable.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.titleLoginLable.setStyleSheet(
             '''
                 font-size:30px;
                 font-weight: bold;
-                margin-right:120px;
-                margin-top:40px;
             '''
         )
         vBox.addWidget(self.titleLoginLable)
@@ -46,13 +37,13 @@ class CreateAccountPage(QWidget):
 
 
         # Image Title
-        self.imageTitle = ImageTitle('assets/qoogle.png', 400, 400)
-        hBoxContent.addWidget(self.imageTitle)
+        self.imageTitle = ImageTitle('assets/tseLogo.png', 400, 400)
+        hBoxContent.addWidget(self.imageTitle, alignment=Qt.AlignmentFlag.AlignCenter)
 
 
         # FormLogin UI
-        self.formRegister = FormRegisterUi()
-        hBoxContent.addWidget(self.formRegister)
+        self.formRegister = FormCreateAccountUi()
+        hBoxContent.addWidget(self.formRegister, alignment=Qt.AlignmentFlag.AlignCenter)
 
         # import instance -------------------------------------------------------------------------
         
@@ -109,12 +100,3 @@ class CreateAccountPage(QWidget):
             showMessageBox(title='Register',topic='Register Success') # Message Box
         print(f"Email  : {self.adminRegister['email']}   username : {self.adminRegister['username']} password : {self.adminRegister['password']}")
 
-        
-
-# app = QCoreApplication.instance()
-# if app is None: app = QApplication([])
-
-
-# window = CreateAccountPage()
-# window.show()
-# app.exec()

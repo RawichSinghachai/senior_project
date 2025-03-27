@@ -16,6 +16,7 @@ class ImageTitle(QWidget):
 
         img = QPixmap(self.path)
         img = img.scaled(self.width, self.height, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
-        lableImage = QLabel()
-        lableImage.setPixmap(img)
-        vBoxImage.addWidget(lableImage)
+        labelImage = QLabel()
+        labelImage.setPixmap(img)
+        labelImage.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        vBoxImage.addWidget(labelImage)

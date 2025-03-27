@@ -14,7 +14,7 @@ class LeftControlUi(QWidget):
         self.setLayout(vBoxLeft)
 
         # Profile Image
-        self.image = ImageTitle('assets/profile.png', 250, 250)
+        self.image = ImageTitle('assets/tseLogo.png', 250, 250)
         vBoxLeft.addWidget(self.image, alignment=Qt.AlignmentFlag.AlignHCenter)
 
         # Edit Button

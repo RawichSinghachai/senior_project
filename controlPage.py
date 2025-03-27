@@ -3,13 +3,14 @@ from PyQt6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QHBoxLayout, QM
 from PyQt6.QtGui import QMouseEvent
 import pandas as pd
 
+
 from database.database import Database
 from components.tableUi import TableUi
 from components.leftControlUi import LeftControlUi
 from components.searchBar import SearchBar
 from components.excelButton import ExcelButton
 from utils.messageBox import showMessageBox,showMessageDeleteDialog  
-from excelRender import excelRender
+from utils.excelRender import excelRender
 
 
 
@@ -71,7 +72,7 @@ class ControlPage(QWidget):
 
     # Logic ---------------------------------------------------------------------------------------
         
-        for user_id, iconDelete in self.tableUi.iconDeleteDict.items():  # Fix here by accessing the dictionary
+        for user_id, iconDelete in self.tableUi.iconDeleteDict.items():
             iconDelete.mousePressEvent = lambda event, uid=user_id: self.deleteRow(event, uid)
             
 
@@ -100,6 +101,7 @@ class ControlPage(QWidget):
 
     # Delete Account
     def deleteRow(self, event: QMouseEvent, user_id):
+        print("Delete Row ??")
         if event.button() == Qt.MouseButton.LeftButton:
 
             response = showMessageDeleteDialog(self)
@@ -122,6 +124,9 @@ class ControlPage(QWidget):
         self.listUsers = self.db.getAllUser()  # ดึงข้อมูลใหม่จากฐานข้อมูล
         self.tableUi.updateTable(self.listUsers)  # อัปเดตตาราง
 
+        for user_id, iconDelete in self.tableUi.iconDeleteDict.items():
+            iconDelete.mousePressEvent = lambda event, uid=user_id: self.deleteRow(event, uid)
+
     def filterTable(self):
         search_text = self.searchBar.searchInput.text()
         if not search_text :
@@ -130,7 +135,7 @@ class ControlPage(QWidget):
         listUsers = self.db.searchUser(search_text)
         self.tableUi.updateTable(listUsers)
 
-    def  clearFilterTable(self):
+    def clearFilterTable(self):
         self.searchBar.searchInput.clear()
         listUsers = self.db.searchUser("")
         self.tableUi.updateTable(listUsers)
@@ -206,7 +211,7 @@ class ControlPage(QWidget):
             self.db.import_users(users_excel)
 
             print(f"File Content Preview:\n{users_excel}")
-            self.refreshControlPage()
+            self.refreshPage()
         except Exception as e:
             print(f"Error reading file:\n{e}")
 

@@ -3,7 +3,7 @@ from PyQt6.QtCore import Qt , QSize
 from PyQt6.QtWidgets import (QWidget, QLabel, QPushButton, QVBoxLayout 
     ,QHBoxLayout, QLineEdit )
 
-class FormRegisterUi(QWidget):
+class FormCreateAccountUi(QWidget):
     def __init__(self):
         super().__init__()
 
@@ -96,7 +96,7 @@ class FormRegisterUi(QWidget):
         # Password Input
         self.passwordInput = QLineEdit()
         self.passwordInput.setPlaceholderText('Fill Password')
-        self.passwordInput.setFixedSize(QSize(200,40))
+        self.passwordInput.setFixedSize(QSize(410,40))
         self.passwordInput.setEchoMode(QLineEdit.EchoMode.Password)
         self.passwordInput.setStyleSheet(
             """
@@ -109,12 +109,6 @@ class FormRegisterUi(QWidget):
         )
         vBoxGroupPassword.addWidget(self.passwordInput)
 
-
-        # Spacer Item
-        # spacer = QSpacerItem(0, 20)
-        # vBoxForm.addSpacerItem(spacer)
-        # gridForm.setRowStretch(2, 1)
-        
         # Button Submit
         self.signUpBtn = QPushButton('Sign Up')
         self.signUpBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
@@ -152,8 +146,6 @@ class FormRegisterUi(QWidget):
 
 
  
-
-   
     def getEmailInput(self):
         return self.emailInput
 

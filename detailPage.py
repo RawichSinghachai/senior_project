@@ -90,3 +90,6 @@ class DetailPage(QWidget):
     def refreshPage(self):
         self.listUsers = self.db.getUserData(self.userId)
         self.tableDetail.updateTable(self.listUsers)
+
+        for profile_id, iconDelete in self.tableDetail.iconDeleteDict.items():  # Fix here by accessing the dictionary
+                iconDelete.mousePressEvent = lambda event, uid=profile_id: self.deleteRow(event, uid)

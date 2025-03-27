@@ -53,15 +53,15 @@ def process_camera(frame, hands, countdown, i, blur_value=5, threshold_value=50,
     frame = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
     ImageLAB = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
     if i == 2:
-        channel_B = ImageLAB[:, :, 2]  # à¹ƒà¸Šà¹‰à¸Šà¹ˆà¸­à¸‡ B à¹à¸—à¸™ L
+        channel_B = ImageLAB[:, :, 2] 
         clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(10, 10))
         processed_channel = clahe.apply(channel_B)
     elif i == 3:
-        channel_B = ImageLAB[:, :, 2]  # à¹ƒà¸Šà¹‰à¸Šà¹ˆà¸­à¸‡ B à¹à¸—à¸™ L
-        clahe = cv2.createCLAHE(clipLimit=1.5, tileGridSize=(2, 2))
+        channel_B = ImageLAB[:, :, 2]  
+        clahe = cv2.createCLAHE(clipLimit=1.0, tileGridSize=(2, 2))
         processed_channel = clahe.apply(channel_B)
     else:
-        processed_channel = ImageLAB[:, :, 0]  # à¹ƒà¸Šà¹‰à¸Šà¹ˆà¸­à¸‡ L à¸ªà¸³à¸«à¸£à¸±à¸šà¸£à¸­à¸šà¸—à¸µà¹ˆ 1, 2
+        processed_channel = ImageLAB[:, :, 0]  
 
     blur = cv2.GaussianBlur(processed_channel, (blur_value, blur_value), 0)
     _, binary = cv2.threshold(blur, threshold_value, 255, cv2.THRESH_BINARY)
@@ -85,7 +85,7 @@ def process_camera(frame, hands, countdown, i, blur_value=5, threshold_value=50,
                 left_hand_area += area
             else:
                 right_hand_area += area
-            cv2.drawContours(frame, [contour], -1, (0, 255, 0), 2)
+            # cv2.drawContours(frame, [contour], -1, (0, 255, 0), 2)
 
     hand_data["Left Hand"], hand_data["Right Hand"] = None, None
     frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -106,8 +106,9 @@ def process_camera(frame, hands, countdown, i, blur_value=5, threshold_value=50,
     right_hand_status = hand_data["Right Hand"]
 
     # Show hand status on the frame  
-    cv2.putText(frame, str(left_hand_status), (left_center_x - 30, y_position), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-    cv2.putText(frame, str(right_hand_status), (right_center_x - 30, y_position), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+    if i <= 1 :
+        cv2.putText(frame, str(left_hand_status), (left_center_x - 30, y_position), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+        cv2.putText(frame, str(right_hand_status), (right_center_x - 30, y_position), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
 
     if left_hand_status and right_hand_status:
         if (left_hand_status == "Back (Dorsal)" and right_hand_status == "Front (Palm)") or \
@@ -132,7 +133,7 @@ def main(userId):
     
     
     
-    # à¸ªà¸£à¹‰à¸²à¸‡à¹‚à¸Ÿà¸¥à¹€à¸”à¸­à¸£à¹Œ snapshots à¸–à¹‰à¸²à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¸¡à¸µ
+  
     snapshot_folder = "snapshots"
     if not os.path.exists(snapshot_folder):
         os.makedirs(snapshot_folder)
@@ -141,7 +142,7 @@ def main(userId):
     if not os.path.exists(video_folder):
         os.makedirs(video_folder)
 
-    # à¸•à¸±à¹‰à¸‡à¸„à¹ˆà¸²à¸‚à¸™à¸²à¸”à¸§à¸´à¸”à¸µà¹‚à¸­
+    
     frame_width = int(cap.get(3))
     frame_height = int(cap.get(4))
 
@@ -149,7 +150,7 @@ def main(userId):
 
     video_filename = os.path.join(video_folder, f"{date}.mp4")
 
-    # à¸•à¸±à¹‰à¸‡à¸„à¹ˆà¸²à¸•à¸±à¸§à¸šà¸±à¸™à¸—à¸¶à¸à¸§à¸´à¸”à¸µà¹‚à¸­ (MP4 Codec)
+ 
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     video_writer = None  
     recording = False  
@@ -162,8 +163,8 @@ def main(userId):
     parameters = [
         {"threshold": 90, "blur": 2, "brightness": 50, "contrast": 9},
         {"threshold": 90, "blur": 2, "brightness": 50, "contrast": 9},
-        {"threshold": 125, "blur": 2, "brightness": 100, "contrast": 50},
-        {"threshold": 130, "blur": 2, "brightness": 60, "contrast": 34},
+        {"threshold": 115, "blur": 2, "brightness": 100, "contrast": 50},
+        {"threshold": 135, "blur": 2, "brightness": 40, "contrast": 34},
     ]
 
     try:

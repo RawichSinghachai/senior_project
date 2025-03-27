@@ -1,6 +1,6 @@
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QTableWidget, QTableWidgetItem, QHeaderView
+from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout, QTableWidget, QTableWidgetItem, QHeaderView
 
 
 class CustomTableWidget(QTableWidget):
@@ -93,7 +93,7 @@ class TableUi(QWidget):
 
             # Add delete icon
             iconDelete = QLabel()
-            iconDelete.setPixmap(QPixmap('trash.png').scaled(20, 20, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
+            iconDelete.setPixmap(QPixmap('assets/trash.png').scaled(20, 20, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
             iconDelete.setAlignment(Qt.AlignmentFlag.AlignCenter)
             iconDelete.setStyleSheet("background-color: transparent;")
 

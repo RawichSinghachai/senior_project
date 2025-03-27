@@ -209,7 +209,7 @@ class EditUserUi(QWidget):
                 width: 25px;
             }
             QComboBox::down-arrow {
-                image: url(caret-down.png); /* Custom arrow icon */
+                image: url(assets/caret-down.png); /* Custom arrow icon */
                 width: 20px;
                 height: 20px;
             }
@@ -260,7 +260,7 @@ class EditUserUi(QWidget):
                 width: 20px;
             }
             QDateEdit::down-arrow {
-                image: url(caret-down.png); /* Custom arrow icon */
+                image: url(assets/caret-down.png); /* Custom arrow icon */
                 width: 20px;
                 height: 20px;
             }

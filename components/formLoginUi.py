@@ -3,7 +3,7 @@ from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import ( QWidget, QLabel,QPushButton, QVBoxLayout 
     ,QHBoxLayout, QLineEdit, QSpacerItem, QSizePolicy)
 
-class FormLogin(QWidget):
+class FormLoginUi(QWidget):
     def __init__(self):
         super().__init__()
 
@@ -119,26 +119,26 @@ class FormLogin(QWidget):
         )
         hBoxSubLable.addWidget(self.lableToCreateAccountPage)
 
-        # Text Sub Lable |
-        self.line = QLabel('|')
-        self.line.setStyleSheet(
-            '''
-                font-size:10px;
-                font-weight: bold;
-                color:#004aad;
-            '''
-        )
-        hBoxSubLable.addWidget(self.line)
+        # # Text Sub Lable |
+        # self.line = QLabel('|')
+        # self.line.setStyleSheet(
+        #     '''
+        #         font-size:10px;
+        #         font-weight: bold;
+        #         color:#004aad;
+        #     '''
+        # )
+        # hBoxSubLable.addWidget(self.line)
 
-        self.lableToPageForgetPassword = QLabel('Forget Password')
-        self.lableToPageForgetPassword.setStyleSheet(
-            '''
-                font-size:10px;
-                font-weight: bold;
-                color:#004aad;
-            '''
-        )
-        hBoxSubLable.addWidget(self.lableToPageForgetPassword)       
+        # self.lableToPageForgetPassword = QLabel('Forget Password')
+        # self.lableToPageForgetPassword.setStyleSheet(
+        #     '''
+        #         font-size:10px;
+        #         font-weight: bold;
+        #         color:#004aad;
+        #     '''
+        # )
+        # hBoxSubLable.addWidget(self.lableToPageForgetPassword)       
         
        
     def getSignUpBtn(self):
