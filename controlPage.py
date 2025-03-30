@@ -1,6 +1,6 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QHBoxLayout, QMessageBox,QFileDialog)
-from PyQt6.QtGui import QMouseEvent
+from PyQt6.QtGui import QMouseEvent, QShowEvent
 import pandas as pd
 
 
@@ -74,12 +74,19 @@ class ControlPage(QWidget):
         
         for user_id, iconDelete in self.tableUi.iconDeleteDict.items():
             iconDelete.mousePressEvent = lambda event, uid=user_id: self.deleteRow(event, uid)
+
+
+    # เรียก refreshPage ทุกครั้งที่ ControlPage ถูกแสดง
+    def showEvent(self, event: QShowEvent):
+        super().showEvent(event)
+        self.refreshPage()
             
 
     # Open Edit Page
     def openEditPage(self):
+        self.rowTable = self.tableUi.getRowData()
         edit_page = self.stackedWidget.widget(3)
-        edit_page.populateForm(self.tableUi.getRowData())
+        edit_page.populateForm(self.rowTable)
         self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(3))
         
 
@@ -108,9 +115,11 @@ class ControlPage(QWidget):
             if response == QMessageBox.StandardButton.Yes:
                 print(f'Delete clicked for UserId: {user_id}')
                 if self.db.deleteUser(user_id):
-                    showMessageBox('Delete','User  deleted successfully.')
+                    self.tableUi.rowData = {}
+                    self.tableUi.selectedRowIndex = None
                     # Refresh Control Page
                     self.refreshPage()
+                    showMessageBox('Delete','User  deleted successfully.')
 
             
                 else:
@@ -121,6 +130,7 @@ class ControlPage(QWidget):
 
     # Refresh Control Page
     def refreshPage(self):
+        print('Refresh Control Page')
         self.listUsers = self.db.getAllUser()  # ดึงข้อมูลใหม่จากฐานข้อมูล
         self.tableUi.updateTable(self.listUsers)  # อัปเดตตาราง
 

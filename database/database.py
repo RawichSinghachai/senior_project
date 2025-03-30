@@ -1,5 +1,6 @@
 from PyQt6.QtSql import QSqlDatabase, QSqlQuery
 
+import os
 import uuid
 from datetime import datetime
 from utils.handScoreCalculator import calculate_hand_score
@@ -16,6 +17,19 @@ class Database:
     def __init__(self):
         if hasattr(self, 'db'):
             return  # ป้องกันการเรียกซ้ำ
+        
+        db_path = 'database/db.sqlite'
+        db_dir = os.path.dirname(db_path)
+
+        # ถ้าโฟลเดอร์ไม่มีอยู่ให้สร้างใหม่
+        if not os.path.exists(db_dir):
+            os.makedirs(db_dir)
+
+        # ถ้าไฟล์ไม่มีอยู่ให้สร้างใหม่
+        if not os.path.exists(db_path):
+            open(db_path, 'w').close()
+
+
         if QSqlDatabase.contains("mainConnection"):
             self.db = QSqlDatabase.database("mainConnection")
         else:

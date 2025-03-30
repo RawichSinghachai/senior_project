@@ -72,7 +72,11 @@ class CreateAccountPage(QWidget):
             'password' : ''
         }
 
-    # get email
+    def keyPressEvent(self, event):
+        if self.stackedWidget.currentIndex() == 1:
+            if event.key() == Qt.Key.Key_Enter or event.key() == Qt.Key.Key_Return:
+                self.submitRegister()
+
     def onClickToLoginPage(self,event: QMouseEvent):
         if event.button() == Qt.MouseButton.LeftButton:
             print('Clicked Login label')
@@ -92,11 +96,25 @@ class CreateAccountPage(QWidget):
         print(f"Password changed to: {text}")
         self.adminRegister['password'] = text
 
+    def clearFormInput(self):
+        self.formRegister.getEmailInput().clear()
+        self.formRegister.getUserInput().clear()
+        self.formRegister.getPasswordInput().clear()
+        self.adminRegister = {
+            'email' : '',
+            'username' : '',
+            'password' : ''
+        }
+
     # Submit Register
     def submitRegister(self):
         # write register in Sqlite
         resigterStatus = self.db.register(self.adminRegister)
         if resigterStatus:
             showMessageBox(title='Register',topic='Register Success') # Message Box
+            self.clearFormInput()
+            self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(0))
+        else:
+            showMessageBox(title='Register', topic='Register Failed', mode=('error'))
         print(f"Email  : {self.adminRegister['email']}   username : {self.adminRegister['username']} password : {self.adminRegister['password']}")
 

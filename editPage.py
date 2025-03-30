@@ -1,9 +1,5 @@
-from PyQt6.QtGui import QPixmap
-from PyQt6.QtCore import (QCoreApplication, Qt , QSize,QTimer, QDateTime,QDate)
-from PyQt6.QtGui import QColor
-from PyQt6.QtWidgets import (QApplication, QWidget, QLabel,QPushButton, QVBoxLayout 
-    ,QHBoxLayout,QGridLayout,QLineEdit,QMessageBox,QGroupBox,QSpacerItem,QTableWidget
-    ,QTableWidgetItem,QHeaderView,QDateEdit,QComboBox, QSizePolicy)
+from PyQt6.QtCore import (Qt, QDate)
+from PyQt6.QtWidgets import (QWidget, QLabel, QVBoxLayout)
 
 from components.editUserUi import EditUserUi
 from database.database import Database
@@ -120,12 +116,11 @@ class EditPage(QWidget):
             if editUserStatus:
                 showMessageBox(title='Edit', topic='Edit Success')  # Message Box
                 self.logger.info(f"Edit User Success UserId : {self.editUserDetail['UserId']}") # Log
-                self.stackedWidget.removeWidget(self.stackedWidget.widget(2))
                 # Clear Data
                 self.clearDataInForm()
-                new_page = ControlPage(self.stackedWidget)
-                self.stackedWidget.insertWidget(2,new_page)
-                self.stackedWidget.setCurrentWidget(new_page)
+                # back to ControlPage
+                self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(2))
+
 
             else:
                 showMessageBox(title='Edit', topic='Edit Fail',mode='error')  # Message Box    
@@ -140,12 +135,8 @@ class EditPage(QWidget):
                 self.logger.info(f"Create NewUser Success") # Log
                 # Clear Data
                 self.clearDataInForm()
-
-                # Rerender ControlPage
-                self.stackedWidget.removeWidget(self.stackedWidget.widget(2))
-                new_page = ControlPage(self.stackedWidget)
-                self.stackedWidget.insertWidget(2,new_page)
-                self.stackedWidget.setCurrentWidget(new_page)
+                # back to ControlPage
+                self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(2))
 
             else:
                 showMessageBox(title='Insert', topic='Insert Fail',mode='error')  # Message Box 
@@ -155,16 +146,8 @@ class EditPage(QWidget):
     def closeEditPage(self):
         # Clear Data
         self.clearDataInForm()
-
-        # Rerender ControlPage
-        index = self.stackedWidget.indexOf(self.stackedWidget.widget(2)) # Get the current index of ControlPage before removing it
-        self.stackedWidget.removeWidget(self.stackedWidget.widget(2)) # Remove the old ControlPage
-        new_page = ControlPage(self.stackedWidget) # Create a new ControlPage
-        self.stackedWidget.insertWidget(index, new_page) # Insert the new ControlPage at the same index
-        self.stackedWidget.setCurrentWidget(new_page) # Switch to the new ControlPage
-
-
-
+        # back to ControlPage
+        self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(2))
 
 
     def populateForm(self,user_data):
@@ -195,4 +178,13 @@ class EditPage(QWidget):
         self.formEditUi.getGenderInput().setCurrentIndex(0)  # Reset to default or first item
         self.formEditUi.positionInput.clear()
         self.formEditUi.getBirthDateInput().setDate(QDate.currentDate()) 
-
+        # Reset self.userDetail
+        self.userDetail = {
+            'firstName': '',
+            'lastName': '',
+            'email': '',
+            'department': '',
+            'gender': '',
+            'position': '',
+            'birthDate': QDate.currentDate().toString('dd/MM/yyyy'),
+        }

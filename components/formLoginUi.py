@@ -1,7 +1,7 @@
 from PyQt6.QtCore import Qt , QSize
 from PyQt6.QtGui import QCursor
-from PyQt6.QtWidgets import ( QWidget, QLabel,QPushButton, QVBoxLayout 
-    ,QHBoxLayout, QLineEdit, QSpacerItem, QSizePolicy)
+from PyQt6.QtWidgets import ( QWidget, QLabel,QPushButton, QVBoxLayout, 
+        QHBoxLayout, QLineEdit, QSpacerItem, QSizePolicy)
 
 class FormLoginUi(QWidget):
     def __init__(self):
@@ -109,6 +109,7 @@ class FormLoginUi(QWidget):
 
         # Text SubLable Register
         self.lableToCreateAccountPage = QLabel('Register')
+        self.lableToCreateAccountPage.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.lableToCreateAccountPage.setStyleSheet(
             '''

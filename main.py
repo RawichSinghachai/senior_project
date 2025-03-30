@@ -23,8 +23,8 @@ class LoginPage(QWidget):
 
         self.setWindowTitle("Hand Hygiene Testing")
         self.setWindowIcon(QIcon("assets/tseLogo.png"))
-        # self.setFixedSize(QSize(1600, 900))
-        self.setFixedSize(QSize(1024, 768))
+        self.setFixedSize(QSize(1600, 900))
+        # self.setFixedSize(QSize(1024, 768))
         self.setStyleSheet("background-color: #B4B4B4;")
 
         # StepUp Logger
@@ -123,12 +123,12 @@ class LoginPage(QWidget):
     def keyPressEvent(self, event):
         if self.stackedWidget.currentIndex() == 0:
             if event.key() == Qt.Key.Key_Enter or event.key() == Qt.Key.Key_Return:
-                print("Enter key pressed")
                 self.submitLogin()
 
 
     def onClickToCreateAccount(self, event: QMouseEvent):
         if event.button() == Qt.MouseButton.LeftButton:
+            self.clearFormInput()
             self.stackedWidget.setCurrentWidget(self.createAccountPage)  # Switch to CreateAccountPage
             print('Clicked Register label')
 
@@ -141,6 +141,14 @@ class LoginPage(QWidget):
     def onPasswordInputChanged(self, text):
         print(f"Password changed to: {text}")
         self.adminLogin['password'] = text
+    
+    def clearFormInput(self):
+        self.formLogin.getUserInput().clear()
+        self.formLogin.getPasswordInput().clear()
+        self.adminLogin = {
+            'username' : '',
+            'password' : ''
+        }
 
     # Submit Login
     def submitLogin(self):
@@ -149,6 +157,7 @@ class LoginPage(QWidget):
 
         if loginStatus:
             showMessageBox(title='Login', topic='Login Success')  # Message Box
+            self.clearFormInput()
             self.stackedWidget.setCurrentWidget(self.controlPage) 
             self.logger.info(f"Login Success username : {self.adminLogin['username']}") # Log
         

@@ -373,3 +373,43 @@
 2025-03-27 01:07:18,950 - INFO - Login Success username : op2
 2025-03-27 01:09:00,240 - INFO - Login Success username : op2
 2025-03-27 01:10:18,482 - INFO - Login Success username : op2
+2025-03-27 14:02:05,891 - INFO - Login Unsuccess username : op2
+2025-03-27 14:02:19,046 - INFO - Login Success username : op2
+2025-03-27 14:02:27,542 - INFO - Create NewUser Success
+2025-03-27 14:02:58,169 - INFO - Saved snapshot: snapshots\8f5cbf63-22ac-4df9-aaaa-bdd45e9f80d5\27-03-2025_14-02-38\Turn_1.jpg
+2025-03-27 14:03:05,335 - INFO - Saved snapshot: snapshots\8f5cbf63-22ac-4df9-aaaa-bdd45e9f80d5\27-03-2025_14-02-38\Turn_2.jpg
+2025-03-27 14:03:12,588 - INFO - Saved snapshot: snapshots\8f5cbf63-22ac-4df9-aaaa-bdd45e9f80d5\27-03-2025_14-02-38\Turn_3.jpg
+2025-03-27 14:03:19,770 - INFO - Saved snapshot: snapshots\8f5cbf63-22ac-4df9-aaaa-bdd45e9f80d5\27-03-2025_14-02-38\Turn_4.jpg
+2025-03-27 14:03:19,771 - INFO - UserId : 8f5cbf63-22ac-4df9-aaaa-bdd45e9f80d5 Process completed.
+2025-03-27 14:03:20,125 - INFO - Camera released and windows closed.
+2025-03-29 22:50:43,106 - INFO - Login Success username : 
+2025-03-29 23:06:29,522 - INFO - Login Success username : 
+2025-03-29 23:09:07,042 - INFO - Login Success username : 
+2025-03-29 23:16:54,102 - INFO - Login Success username : 
+2025-03-29 23:18:16,202 - INFO - Login Success username : 
+2025-03-29 23:18:33,889 - INFO - Create NewUser Success
+2025-03-29 23:19:33,675 - INFO - Login Success username : 
+2025-03-29 23:20:02,129 - INFO - Create NewUser Success
+2025-03-29 23:21:42,736 - INFO - Login Success username : 
+2025-03-29 23:22:01,269 - INFO - Create NewUser Success
+2025-03-29 23:24:53,794 - INFO - Login Success username : 
+2025-03-29 23:31:15,402 - INFO - Login Success username : 
+2025-03-29 23:33:18,779 - INFO - Login Success username : 
+2025-03-29 23:33:25,455 - INFO - Create NewUser Success
+2025-03-29 23:33:30,666 - INFO - Edit User Success UserId : b6a0dd9a-c7d5-438e-a588-3eef4315e465
+2025-03-29 23:53:59,811 - INFO - Login Success username : 
+2025-03-30 00:01:31,585 - INFO - Login Success username : 
+2025-03-30 00:01:36,311 - INFO - Create NewUser Success
+2025-03-30 00:12:15,471 - INFO - Login Success username : 
+2025-03-30 00:12:19,658 - INFO - Create NewUser Success
+2025-03-30 19:54:20,976 - INFO - Login Success username : 
+2025-03-30 19:54:55,451 - INFO - Login Success username : 
+2025-03-30 19:55:36,172 - INFO - Login Success username : 
+2025-03-30 19:56:07,052 - INFO - Login Success username : 
+2025-03-30 19:57:23,103 - INFO - Login Success username : 
+2025-03-30 19:59:40,818 - INFO - Login Success username : 
+2025-03-30 20:00:41,784 - INFO - Login Success username : 
+2025-03-30 20:02:22,757 - INFO - Login Success username : 
+2025-03-30 20:05:22,148 - INFO - Login Success username : 
+2025-03-30 20:07:07,101 - INFO - Login Success username : 
+2025-03-30 20:07:29,953 - INFO - Login Success username : 

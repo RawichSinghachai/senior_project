@@ -1,7 +1,8 @@
 from PyQt6.QtCore import Qt , QSize, QDate
 from PyQt6.QtGui import QCursor
-from PyQt6.QtWidgets import ( QWidget, QLabel,QPushButton, QVBoxLayout 
-    ,QHBoxLayout, QLineEdit, QDateEdit, QComboBox)
+from PyQt6.QtWidgets import ( QWidget, QLabel,QPushButton, QVBoxLayout,
+    QHBoxLayout, QLineEdit, QDateEdit, QComboBox, QSpacerItem, QSizePolicy)
+
 
 class EditUserUi(QWidget):
     def __init__(self):
@@ -73,6 +74,7 @@ class EditUserUi(QWidget):
         )
         vBoxGroupLastName.addWidget(self.lastNameInput)
 
+        vBox.addSpacing(10)
 
         # Group Row Three ----------------------------------------------------------------------------------------
         hBoxRowThree = QHBoxLayout()
@@ -107,7 +109,7 @@ class EditUserUi(QWidget):
         )
         vBoxGroupEmail.addWidget(self.emailInput)
 
-        
+        vBox.addSpacing(10)
 
         # Group Row Three ---------------------------------------------------------------------------------------
         hBoxRowThree = QHBoxLayout()
@@ -171,7 +173,7 @@ class EditUserUi(QWidget):
         self.positionInput.setFixedSize(QSize(200,40))
         vBoxGroupPosition.addWidget(self.positionInput)
 
-
+        vBox.addSpacing(10)
 
         # Group Row Four ----------------------------------------------------------------------------------------
         hBoxRowFour = QHBoxLayout()
@@ -226,8 +228,7 @@ class EditUserUi(QWidget):
         """)
         vBoxGroupGender.addWidget(self.genderInput)
 
-
-        # Group Birth Date
+        # Group Birth Date 
         vBoxGroupBirthDate = QVBoxLayout()
         hBoxRowFour.addLayout(vBoxGroupBirthDate)
 
@@ -302,8 +303,9 @@ class EditUserUi(QWidget):
         """)
         vBoxGroupBirthDate.addWidget(self.birthDateInput)
 
+        vBox.addSpacing(20)
 
-        # Button Control
+        # Button Control -------------------------------------------------------------------
         hBoxButtonControl = QHBoxLayout()
         vBox.addLayout(hBoxButtonControl)
 
