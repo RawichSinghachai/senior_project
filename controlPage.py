@@ -161,38 +161,7 @@ class ControlPage(QWidget):
             showMessageBox('Export Excel','Export excel unsuccessfully.',mode='error')
 
     def closeProgram(self):
-        msg_box = QMessageBox(self)
-        msg_box.setWindowTitle("Exit Confirmation")
-        msg_box.setText("Are you sure you want to exit?")
-        msg_box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-        msg_box.setDefaultButton(QMessageBox.StandardButton.No)
-
-        # ✅ กำหนด CSS ให้ QMessageBox
-        msg_box.setStyleSheet("""
-            QMessageBox {
-                background-color: #ffffff;
-                font-size: 16px;
-            }
-            QPushButton {
-                background-color: #ffffff;
-                font-size: 14px;
-            }
-            QPushButton:hover {
-                background-color: #ffffff;
-            }
-            QPushButton:pressed {
-                background-color: #ffffff;
-            }
-            QLabel {
-                background-color: transparent;
-            }
-        """)
-
-        reply = msg_box.exec()
-
-        if reply == QMessageBox.StandardButton.Yes:
-            self.db.closeDatabase()
-            QApplication.instance().quit()
+        QApplication.instance().quit()
 
         
     def importExcelFile(self):

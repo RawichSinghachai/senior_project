@@ -236,15 +236,6 @@ def main(userId):
                             logger.info(f"Stop recording video saved to path : {video_filename}") # Log
 
 
-                #  Check for conflicting hand orientation each round
-                # if i == 0 and not (hand_data["Left Hand"] == "Back (Dorsal)" and hand_data["Right Hand"] == "Back (Dorsal)"):
-                #     return None, "fail round 1 Conflicting Hand Orientation"
-                # if i == 1 and not (hand_data["Left Hand"] == "Front (Palm)" and hand_data["Right Hand"] == "Front (Palm)"):
-                #     return None, "fail round 2 Conflicting Hand Orientation"
-                # if i == 2 and not (hand_data["Left Hand"] == "Back (Dorsal)" and hand_data["Right Hand"] == "Back (Dorsal)"):
-                #     return None, "fail round 3 Conflicting Hand Orientation"
-                # if i == 3 and not (hand_data["Left Hand"] == "Front (Palm)" and hand_data["Right Hand"] == "Front (Palm)"):
-                #     return None, "fail round 4 Conflicting Hand Orientation"
 
                 #  Check for conflicting hand orientation
                 if (hand_data["Left Hand"] == "Back (Dorsal)" and hand_data["Right Hand"] == "Front (Palm)") or \

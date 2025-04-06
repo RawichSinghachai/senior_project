@@ -23,8 +23,8 @@ class LoginPage(QWidget):
 
         self.setWindowTitle("Hand Hygiene Testing")
         self.setWindowIcon(QIcon("assets/tseLogo.png"))
-        self.setFixedSize(QSize(1600, 900))
-        # self.setFixedSize(QSize(1024, 768))
+        # self.setFixedSize(QSize(1600, 900))
+        self.setFixedSize(QSize(1024, 768))
         self.setStyleSheet("background-color: #B4B4B4;")
 
         # StepUp Logger
@@ -130,16 +130,13 @@ class LoginPage(QWidget):
         if event.button() == Qt.MouseButton.LeftButton:
             self.clearFormInput()
             self.stackedWidget.setCurrentWidget(self.createAccountPage)  # Switch to CreateAccountPage
-            print('Clicked Register label')
 
     # Get username
     def onUserInputChanged(self, text):
-        print(f"Username changed to: {text}")
         self.adminLogin['username'] = text
 
     # Get password
     def onPasswordInputChanged(self, text):
-        print(f"Password changed to: {text}")
         self.adminLogin['password'] = text
     
     def clearFormInput(self):
@@ -164,8 +161,6 @@ class LoginPage(QWidget):
         else:
             showMessageBox(title='Login', topic='Login Fail',mode='error')  # Message Box
             self.logger.info(f"Login Unsuccess username : {self.adminLogin['username']}") # Log
-        
-        # print(f"Login username: {self.adminLogin['username']} password: {self.adminLogin['password']}")
 
     def closeEvent(self, event):
         handleCloseEvent(self, event, self.db)

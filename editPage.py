@@ -4,7 +4,6 @@ from PyQt6.QtWidgets import (QWidget, QLabel, QVBoxLayout)
 from components.editUserUi import EditUserUi
 from database.database import Database
 from utils.messageBox import showMessageBox
-from controlPage import ControlPage
 from utils.logger import AppLogger
 
 
@@ -153,7 +152,6 @@ class EditPage(QWidget):
     def populateForm(self,user_data):
         self.editUserDetail = user_data
         if user_data:
-            print(user_data['Gender'])
             # print(f"Populating form with data: {user_data}")
             self.formEditUi.getSubmitButton().setText('Edit')
             # Populate the form fields with the data from user_data
@@ -166,7 +164,7 @@ class EditPage(QWidget):
             self.formEditUi.getBirthDateInput().setDate(QDate.fromString(user_data['BirthDate'], "dd/MM/yyyy"))
 
         else:
-            print('No data received')
+            # print('No data received')
             self.formEditUi.getSubmitButton().setText('Submit')
 
     # Clear Data

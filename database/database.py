@@ -17,7 +17,7 @@ class Database:
     def __init__(self):
         if hasattr(self, 'db'):
             return  # ป้องกันการเรียกซ้ำ
-        
+        self.db = None
         db_path = 'database/db.sqlite'
         db_dir = os.path.dirname(db_path)
 
@@ -38,6 +38,7 @@ class Database:
             if not self.db.open():
                 raise Exception("Failed to open the database")
 
+        
         self.createAdminTable()
         self.createUserTable()
         self.createUserTestResultTable()

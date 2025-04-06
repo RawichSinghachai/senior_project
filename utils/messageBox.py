@@ -47,22 +47,19 @@ def handleCloseEvent(parent, event, db):
     # ✅ กำหนด CSS ให้กับ QMessageBox
     msg_box.setStyleSheet("""
         QMessageBox {
-            background-color: #FFFFFF;  /* เปลี่ยนสีพื้นหลัง */
+            background-color: #ffffff;  /* เปลี่ยนสีพื้นหลัง */
             color: black;  /* เปลี่ยนสีตัวอักษร */
             font-size: 16px;
         }
         QPushButton {
-            background-color: #1C8CDB;
-            color: white;
+            background-color: #ffffff;
             font-size: 14px;
-            padding: 6px 12px;
-            border-radius: 4px;
         }
         QPushButton:hover {
-            background-color: #1476B3;
+            background-color: #ffffff;
         }
         QPushButton:pressed {
-            background-color: #0F5C91;
+            background-color: #ffffff;
         }
         QLabel {
             background-color: transparent;
