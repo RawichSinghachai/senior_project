@@ -61,7 +61,7 @@ class Database:
                     "AdminId"	TEXT UNIQUE,
                     "UserName"	TEXT,
                     "Password"	TEXT,
-                    "Email"	TEXT UNIQUE,
+                    "Email"	TEXT ,
                     "CreatedAt"	TEXT,
                     PRIMARY KEY("AdminId")
                 );
@@ -82,7 +82,7 @@ class Database:
                 "LastName"	TEXT,
                 "Department"	TEXT,
                 "Position"	TEXT,
-                "Email"	TEXT UNIQUE,
+                "Email"	TEXT ,
                 "Gender"	TEXT,
                 "BirthDate"	TEXT,
                 "CreatedAt"	TEXT,

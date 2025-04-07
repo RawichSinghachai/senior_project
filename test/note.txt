@@ -1,6 +1,0 @@
-how to open camera in gui
-    - create function open camera (in window)
-    - fix can't load mediapipe
-## ----------------------------- ##
-        import mediapipe 
-            main()

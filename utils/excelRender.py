@@ -4,7 +4,8 @@ import os
 
 def excelRender(table, filename=None, folder_path="excel"):
 
-    os.makedirs(folder_path, exist_ok=True)
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
 
     df = pd.DataFrame(table)
 

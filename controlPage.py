@@ -130,7 +130,7 @@ class ControlPage(QWidget):
 
     # Refresh Control Page
     def refreshPage(self):
-        print('Refresh Control Page')
+        # print('Refresh Control Page')
         self.listUsers = self.db.getAllUser()  # ดึงข้อมูลใหม่จากฐานข้อมูล
         self.tableUi.updateTable(self.listUsers)  # อัปเดตตาราง
 

@@ -79,21 +79,20 @@ class CreateAccountPage(QWidget):
 
     def onClickToLoginPage(self,event: QMouseEvent):
         if event.button() == Qt.MouseButton.LeftButton:
-            print('Clicked Login label')
             self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(0))
     
     def onChangeEmailInput(self, text):
-        print(f"Email changed to: {text}")
+        # print(f"Email changed to: {text}")
         self.adminRegister['email'] = text
 
     # get username
     def onChangeUserInput(self, text):
-        print(f"Username changed to: {text}")
+        # print(f"Username changed to: {text}")
         self.adminRegister['username'] = text
 
     # get password
     def onChangePasswordInput(self, text):
-        print(f"Password changed to: {text}")
+        # print(f"Password changed to: {text}")
         self.adminRegister['password'] = text
 
     def clearFormInput(self):
@@ -116,5 +115,4 @@ class CreateAccountPage(QWidget):
             self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(0))
         else:
             showMessageBox(title='Register', topic='Register Failed', mode=('error'))
-        print(f"Email  : {self.adminRegister['email']}   username : {self.adminRegister['username']} password : {self.adminRegister['password']}")
 
