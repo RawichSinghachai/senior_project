@@ -35,7 +35,7 @@ class LeftControlUi(QWidget):
         vBoxLeft.addWidget(self.editBtn) 
 
 
-        # Add User Button
+        #  Detail Button
         self.detailBtn = QPushButton('Detail')
         self.detailBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.detailBtn.setStyleSheet('''

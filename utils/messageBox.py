@@ -17,10 +17,10 @@ def showMessageBox(title,topic,mode='info'):
     msgBox.setStandardButtons(QMessageBox.StandardButton.Ok)
     msgBox.exec()
 
-def showMessageDeleteDialog(self):
+def showMessageDeleteDialog(self, Title='Delete Account', meassage='Are you sure you want to delete this item?'):
     msgBox = QMessageBox(self)
-    msgBox.setWindowTitle('Delete Accout')
-    msgBox.setText('Are you sure you want to delete this item?')
+    msgBox.setWindowTitle(Title)
+    msgBox.setText(meassage)
     msgBox.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
     msgBox.setDefaultButton(QMessageBox.StandardButton.Yes)
     msgBox.setStyleSheet("""

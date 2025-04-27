@@ -13,18 +13,19 @@ class ExcelButton(QWidget):
 
         # Import Excel Button
         self.importExcelBtn = QPushButton('Import Excel')
-        self.importExcelBtn.setFixedWidth(250)
+        self.importExcelBtn.setMinimumWidth(200)
+        self.importExcelBtn.setMaximumWidth(800)
         self.importExcelBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.importExcelBtn.setStyleSheet('''
             QPushButton {
-                background-color:#0086ff;
+                background-color:#72b9fa;
                 color:white;
                 padding:10px;
                 font-size:16px;
                 font-weight: bold;
             }
             QPushButton::hover {
-                background-color:#72b9fa                
+                background-color:#0086ff                
             }                 
             ''')
         hBoxExcel.addWidget(self.importExcelBtn)
@@ -32,18 +33,39 @@ class ExcelButton(QWidget):
 
         # Export Excel Button
         self.exportExcelBtn = QPushButton('Export Excel')
-        self.exportExcelBtn.setFixedWidth(250)
+        self.exportExcelBtn.setMinimumWidth(200)
+        self.exportExcelBtn.setMaximumWidth(800)
         self.exportExcelBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.exportExcelBtn.setStyleSheet('''
             QPushButton {
-                background-color:#0086ff;
+                background-color:#72b9fa;
                 color:white;
                 padding:10px;
                 font-size:16px;
                 font-weight: bold;
             }
             QPushButton::hover {
-                background-color:#72b9fa                
+                background-color:#0086ff                
             }                 
             ''')
         hBoxExcel.addWidget(self.exportExcelBtn)
+
+
+        # Export Excel Button
+        self.DeleteTableBtn = QPushButton('Delete Table')
+        self.DeleteTableBtn.setMinimumWidth(200)
+        self.DeleteTableBtn.setMaximumWidth(800)
+        self.DeleteTableBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.DeleteTableBtn.setStyleSheet('''
+            QPushButton {
+                background-color:#ff0000;
+                color:white;
+                padding:10px;
+                font-size:16px;
+                font-weight: bold;
+            }
+            QPushButton::hover {
+                background-color:#fa4343                
+            }                 
+            ''')
+        hBoxExcel.addWidget(self.DeleteTableBtn)

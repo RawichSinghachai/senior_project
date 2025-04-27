@@ -1,8 +1,8 @@
 Edit Feature
 - cusor (success)
-- sql (pending)
-- notification state message (pending)
-- excel (pending)
+- sql (success)
+- notification state message (success)
+- excel (success)
 - opencv (success)
 - count down timer (success)
 - merge file (success)
@@ -27,10 +27,13 @@ Edit Feature
 - add clear button in search bar (success)
 - change vision.py to class component
 - check and create table in sqlite (success)
-- notification before close program (pending)
+- notification before close program (success)
 - function delete testing of user (success)
     -> database
     -> refresh page
+- fix bug after add user make sure when click add user is Add user certainly (success)
+- rename component excelButton 
+- fix format export excel file uuid (success)
     
 edit after
 - add timestamp when create account (success)

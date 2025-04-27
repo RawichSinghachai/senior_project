@@ -215,7 +215,7 @@ class Database:
     def getAllUserData(self):
         sql = '''
             SELECT 
-                u.UserId, u.FirstName, u.LastName, u.Department, u.Position, u.Email, u.Gender, u.BirthDate,
+                u.UserId, utr.ProfileId,u.FirstName, u.LastName, u.Department, u.Position, u.Email, u.Gender, u.BirthDate,
                 COALESCE(utr.LeftHandFrontScore, 0), COALESCE(utr.LeftHandBackScore, 0),
                 COALESCE(utr.RightHandFrontScore, 0), COALESCE(utr.RightHandBackScore, 0),
                 COALESCE(utr.TotalScore, 0), COALESCE(utr.TestingDate, '')
@@ -233,19 +233,20 @@ class Database:
             while query.next():
                 user = {
                     'UserId': query.value(0),
-                    'FirstName': query.value(1),
-                    'LastName': query.value(2),
-                    'Department': query.value(3),
-                    'Position': query.value(4),
-                    'Email': query.value(5),
-                    'Gender': query.value(6),
-                    'BirthDate': query.value(7),
-                    'LeftHandFrontScore': query.value(8),
-                    'LeftHandBackScore': query.value(9),
-                    'RightHandFrontScore': query.value(10),
-                    'RightHandBackScore': query.value(11),
-                    'TotalScore': query.value(12),
-                    'TestingDate': query.value(13),
+                    'ProfileId': query.value(1),
+                    'FirstName': query.value(2),
+                    'LastName': query.value(3),
+                    'Department': query.value(4),
+                    'Position': query.value(5),
+                    'Email': query.value(6),
+                    'Gender': query.value(7),
+                    'BirthDate': query.value(8),
+                    'LeftHandFrontScore': query.value(9),
+                    'LeftHandBackScore': query.value(10),
+                    'RightHandFrontScore': query.value(11),
+                    'RightHandBackScore': query.value(12),
+                    'TotalScore': query.value(13),
+                    'TestingDate': query.value(14),
                 }
                 users.append(user)
         else:
@@ -284,9 +285,9 @@ class Database:
         else:
             return True
         
-    def creatUserTesting(self,userId,data):
+    def creatUserTesting(self,userId, profile_id, data):
         # สร้าง ProfileId (UUID)
-        profile_id = str(uuid.uuid4())
+        # profile_id = str(uuid.uuid4())
         testing_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 
@@ -471,15 +472,15 @@ class Database:
 
     
 
-    def searchUser(self, search):
-        sql = '''SELECT UserId, FirstName, LastName, Department, Position, Email, Gender, BirthDate 
+    def searchUser(self, search, filter = "FirstName"):
+        sql = f'''SELECT UserId, FirstName, LastName, Department, Position, Email, Gender, BirthDate 
                 FROM User 
-                WHERE FirstName LIKE :search
+                WHERE {filter} LIKE :search
             '''
         
         query = QSqlQuery(self.db)
         query.prepare(sql)
-        query.bindValue(":search", f"%{search}%")  # Correct way to use LIKE
+        query.bindValue(":search", f"%{search}%")  
 
         users = []
 
@@ -500,6 +501,20 @@ class Database:
             print(f"Error executing query: {query.lastError().text()}")
 
         return users
+    
+    def deleteAllUser(self):
+    
+        query = QSqlQuery(self.db)
+        query.prepare("DELETE FROM UserTestResult")
+        if not query.exec():
+            print("Error deleting UserTestResult:", query.lastError().text())
+            return False
+        
+        query.prepare("DELETE FROM User")
+        if not query.exec():
+            print("Error deleting User:", query.lastError().text())
+            return False
+        return True
 
  
 

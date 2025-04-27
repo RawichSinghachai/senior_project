@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 import time
 import os
+import uuid
 from utils.arduino import ArduinoController
 from utils.logger import AppLogger
 from datetime import datetime
@@ -132,7 +133,7 @@ def main(userId):
     arduino.connect()
     
     
-    
+    profile_id = str(uuid.uuid4())
   
     snapshot_folder = "snapshots"
     if not os.path.exists(snapshot_folder):
@@ -176,10 +177,10 @@ def main(userId):
             if not os.path.exists(user_folder):
                 os.makedirs(user_folder)
 
-            
-            timestamp_folder = os.path.join(user_folder, date)
-            if not os.path.exists(timestamp_folder):
-                os.makedirs(timestamp_folder)
+            # Snapshot folder -> UserId -> ProfileId 
+            profile_folder = os.path.join(user_folder, profile_id)
+            if not os.path.exists(profile_folder):
+                os.makedirs(profile_folder)
             
             for i in range(len(time_countdown)):
                 countdown = time_countdown[i]
@@ -263,7 +264,7 @@ def main(userId):
 
                 
 
-                snapshot_path = os.path.join(timestamp_folder, f"Turn_{i+1}.jpg")
+                snapshot_path = os.path.join(profile_folder, f"Turn_{i+1}.jpg")
 
                 # Save snapshot
                 cv2.imwrite(snapshot_path, snapshot_frame)
@@ -276,7 +277,7 @@ def main(userId):
                     time.sleep(wait_time[i])
 
             logger.info(f"UserId : {userId} Process completed.") # Log
-            return sum_areas, None
+            return (sum_areas, profile_id), None
         
     except Exception as e:
         logger.error(f"An error occurred in computer vision : {e}") # Log

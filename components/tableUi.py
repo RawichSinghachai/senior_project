@@ -103,20 +103,24 @@ class TableUi(QWidget):
             elif "UserId" in row_data:
                 self.iconDeleteDict[row_data["UserId"]] = iconDelete  # Keep track of UserId internally
 
+    def deSelectionRow(self):
+        self.table.clearSelection()
+        self.rowData = {}
+        self.selectedRowIndex = None
+        # print("Row deselected")
+
     def selectRow(self, row, column=None):
         """ Select or deselect a row when clicking on it. """
         if row == self.selectedRowIndex:
             # If clicking the same row, deselect it
-            self.table.clearSelection()
-            self.rowData = {}
-            self.selectedRowIndex = None
-            print("Row deselected")
+            self.deSelectionRow()
+            
         else:
             # Select new row
             if 0 <= row < len(self.data):
                 self.rowData = self.data[row]
                 self.selectedRowIndex = row
-                print("Selected Row Data:", self.rowData)
+                # print("Selected Row Data:", self.rowData)
 
     def getRowData(self):
         return self.rowData

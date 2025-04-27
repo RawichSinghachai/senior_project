@@ -66,6 +66,8 @@ class ControlPage(QWidget):
         self.searchBar.clearBtn.clicked.connect(self.clearFilterTable)
         self.excelButton.importExcelBtn.clicked.connect(self.importExcelFile)
         self.excelButton.exportExcelBtn.clicked.connect(self.exportExcelFile)
+        self.excelButton.DeleteTableBtn.clicked.connect(self.deleteTable)
+        
 
 
 
@@ -108,12 +110,12 @@ class ControlPage(QWidget):
 
     # Delete Account
     def deleteRow(self, event: QMouseEvent, user_id):
-        print("Delete Row ??")
+        # print("Delete Row ??")
         if event.button() == Qt.MouseButton.LeftButton:
 
             response = showMessageDeleteDialog(self)
             if response == QMessageBox.StandardButton.Yes:
-                print(f'Delete clicked for UserId: {user_id}')
+                # print(f'Delete clicked for UserId: {user_id}')
                 if self.db.deleteUser(user_id):
                     self.tableUi.rowData = {}
                     self.tableUi.selectedRowIndex = None
@@ -125,7 +127,8 @@ class ControlPage(QWidget):
                 else:
                     showMessageBox('Delete','Failed to delete user',mode=('error'))
             else:
-                print('User canceled the deletion.')
+                pass
+                # print('User canceled the deletion.')
 
 
     # Refresh Control Page
@@ -133,20 +136,25 @@ class ControlPage(QWidget):
         # print('Refresh Control Page')
         self.listUsers = self.db.getAllUser()  # ดึงข้อมูลใหม่จากฐานข้อมูล
         self.tableUi.updateTable(self.listUsers)  # อัปเดตตาราง
+        self.tableUi.deSelectionRow()  # Clear selection in table
 
         for user_id, iconDelete in self.tableUi.iconDeleteDict.items():
             iconDelete.mousePressEvent = lambda event, uid=user_id: self.deleteRow(event, uid)
 
     def filterTable(self):
+
+        filterSearch = self.searchBar.comboBoxSeachInput.currentText()
+
         search_text = self.searchBar.searchInput.text()
         if not search_text :
             self.clearFilterTable()
             return
-        listUsers = self.db.searchUser(search_text)
+        listUsers = self.db.searchUser(search_text, filterSearch)
         self.tableUi.updateTable(listUsers)
 
     def clearFilterTable(self):
         self.searchBar.searchInput.clear()
+        self.searchBar.comboBoxSeachInput.setCurrentIndex(0)
         listUsers = self.db.searchUser("")
         self.tableUi.updateTable(listUsers)
         
@@ -156,7 +164,7 @@ class ControlPage(QWidget):
         try:
             excelRender(self.db.getAllUserData())
             showMessageBox('Export Excel','Export excel successfully.',mode='info')
-            print('export excel already')
+            # print('export excel already')
         except Exception as e:
             showMessageBox('Export Excel','Export excel unsuccessfully.',mode='error')
 
@@ -189,8 +197,17 @@ class ControlPage(QWidget):
 
             self.db.import_users(users_excel)
 
-            print(f"File Content Preview:\n{users_excel}")
+            # print(f"File Content Preview:\n{users_excel}")
             self.refreshPage()
         except Exception as e:
-            print(f"Error reading file:\n{e}")
+            pass
+            # print(f"Error reading file:\n{e}")
+
+    def deleteTable(self):
+        response = showMessageDeleteDialog(self, 'Delete All Account', 'Are you sure you want to delete all items?')
+        if response == QMessageBox.StandardButton.Yes:
+            self.db.deleteAllUser()
+            self.refreshPage()
+        else:
+            pass
 

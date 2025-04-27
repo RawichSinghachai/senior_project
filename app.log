@@ -432,3 +432,62 @@
 2025-04-07 22:50:16,819 - INFO - Create NewUser Success
 2025-04-07 22:50:21,462 - INFO - Create NewUser Success
 2025-04-07 22:57:45,473 - INFO - Login Success username : 
+2025-04-13 00:52:13,052 - INFO - Login Unsuccess username : op2
+2025-04-13 00:52:26,190 - INFO - Login Success username : 
+2025-04-13 00:52:31,443 - INFO - Create NewUser Success
+2025-04-13 00:52:59,254 - INFO - Saved snapshot: snapshots\ee96d5dc-82ac-48e6-b92a-533a93546ff4\004f3f0e-7426-4c24-91c2-358b20b8373c\Turn_1.jpg
+2025-04-13 00:53:06,509 - INFO - Saved snapshot: snapshots\ee96d5dc-82ac-48e6-b92a-533a93546ff4\004f3f0e-7426-4c24-91c2-358b20b8373c\Turn_2.jpg
+2025-04-13 00:53:13,652 - INFO - Saved snapshot: snapshots\ee96d5dc-82ac-48e6-b92a-533a93546ff4\004f3f0e-7426-4c24-91c2-358b20b8373c\Turn_3.jpg
+2025-04-13 00:53:20,831 - INFO - Saved snapshot: snapshots\ee96d5dc-82ac-48e6-b92a-533a93546ff4\004f3f0e-7426-4c24-91c2-358b20b8373c\Turn_4.jpg
+2025-04-13 00:53:20,831 - INFO - UserId : ee96d5dc-82ac-48e6-b92a-533a93546ff4 Process completed.
+2025-04-13 00:53:21,154 - INFO - Camera released and windows closed.
+2025-04-25 23:49:33,838 - INFO - Login Success username : 
+2025-04-25 23:52:48,993 - INFO - Login Success username : 
+2025-04-25 23:57:22,376 - INFO - Login Success username : 
+2025-04-26 00:02:57,481 - INFO - Login Success username : 
+2025-04-26 00:14:16,256 - INFO - Login Success username : 
+2025-04-26 00:14:30,073 - INFO - Edit User Success UserId : 5bde8a25-cc8f-441c-9d7d-3483785b1e5b
+2025-04-26 00:14:35,226 - INFO - Edit User Success UserId : 7cd96a86-94f7-42fe-9344-7034ca983d09
+2025-04-26 00:14:44,402 - INFO - Edit User Success UserId : 00f303be-4e59-4d76-92ce-e5d8096e50b9
+2025-04-26 00:19:34,197 - INFO - Login Success username : 
+2025-04-26 00:20:13,520 - INFO - Login Success username : 
+2025-04-26 00:21:15,265 - INFO - Login Success username : 
+2025-04-26 00:22:03,558 - INFO - Login Success username : 
+2025-04-26 00:23:18,020 - INFO - Login Success username : 
+2025-04-26 00:24:00,756 - INFO - Login Success username : 
+2025-04-26 00:24:38,970 - INFO - Login Success username : 
+2025-04-26 00:25:46,617 - INFO - Login Success username : 
+2025-04-26 00:27:18,490 - INFO - Login Success username : 
+2025-04-26 00:27:34,601 - INFO - Login Success username : 
+2025-04-26 00:28:48,820 - INFO - Login Success username : 
+2025-04-26 00:31:30,811 - INFO - Login Success username : 
+2025-04-26 00:48:02,809 - INFO - Login Success username : 
+2025-04-26 00:49:25,335 - INFO - Login Success username : 
+2025-04-26 15:00:46,168 - INFO - Login Success username : 
+2025-04-26 15:03:14,358 - INFO - Login Success username : 
+2025-04-27 13:55:01,020 - INFO - Login Success username : 
+2025-04-27 13:55:10,793 - INFO - Create NewUser Success
+2025-04-27 13:55:16,594 - INFO - Create NewUser Success
+2025-04-27 13:55:22,721 - INFO - Create NewUser Success
+2025-04-27 13:55:49,767 - INFO - Saved snapshot: snapshots\d66114f4-85df-424f-b6e9-2572d3f705e3\1f225aa4-401d-4b62-af3a-aafffa72d837\Turn_1.jpg
+2025-04-27 13:55:57,200 - INFO - Saved snapshot: snapshots\d66114f4-85df-424f-b6e9-2572d3f705e3\1f225aa4-401d-4b62-af3a-aafffa72d837\Turn_2.jpg
+2025-04-27 13:56:04,413 - INFO - Saved snapshot: snapshots\d66114f4-85df-424f-b6e9-2572d3f705e3\1f225aa4-401d-4b62-af3a-aafffa72d837\Turn_3.jpg
+2025-04-27 13:56:11,585 - INFO - Saved snapshot: snapshots\d66114f4-85df-424f-b6e9-2572d3f705e3\1f225aa4-401d-4b62-af3a-aafffa72d837\Turn_4.jpg
+2025-04-27 13:56:11,585 - INFO - UserId : d66114f4-85df-424f-b6e9-2572d3f705e3 Process completed.
+2025-04-27 13:56:11,912 - INFO - Camera released and windows closed.
+2025-04-27 13:56:45,609 - INFO - Saved snapshot: snapshots\d66114f4-85df-424f-b6e9-2572d3f705e3\7e207106-a726-4b97-af5a-ddd853e87426\Turn_1.jpg
+2025-04-27 13:56:52,961 - INFO - Saved snapshot: snapshots\d66114f4-85df-424f-b6e9-2572d3f705e3\7e207106-a726-4b97-af5a-ddd853e87426\Turn_2.jpg
+2025-04-27 13:57:00,163 - INFO - Saved snapshot: snapshots\d66114f4-85df-424f-b6e9-2572d3f705e3\7e207106-a726-4b97-af5a-ddd853e87426\Turn_3.jpg
+2025-04-27 13:57:07,397 - INFO - Saved snapshot: snapshots\d66114f4-85df-424f-b6e9-2572d3f705e3\7e207106-a726-4b97-af5a-ddd853e87426\Turn_4.jpg
+2025-04-27 13:57:07,398 - INFO - UserId : d66114f4-85df-424f-b6e9-2572d3f705e3 Process completed.
+2025-04-27 13:57:07,709 - INFO - Camera released and windows closed.
+2025-04-27 13:57:52,575 - INFO - Saved snapshot: snapshots\af8d0c32-bb1c-40ef-8f10-be2346eb5790\50f8078a-974f-4659-b555-be49513c7358\Turn_1.jpg
+2025-04-27 13:57:59,806 - INFO - Saved snapshot: snapshots\af8d0c32-bb1c-40ef-8f10-be2346eb5790\50f8078a-974f-4659-b555-be49513c7358\Turn_2.jpg
+2025-04-27 13:58:06,997 - INFO - Saved snapshot: snapshots\af8d0c32-bb1c-40ef-8f10-be2346eb5790\50f8078a-974f-4659-b555-be49513c7358\Turn_3.jpg
+2025-04-27 13:58:14,212 - INFO - Saved snapshot: snapshots\af8d0c32-bb1c-40ef-8f10-be2346eb5790\50f8078a-974f-4659-b555-be49513c7358\Turn_4.jpg
+2025-04-27 13:58:14,213 - INFO - UserId : af8d0c32-bb1c-40ef-8f10-be2346eb5790 Process completed.
+2025-04-27 13:58:14,516 - INFO - Camera released and windows closed.
+2025-04-27 14:00:20,157 - INFO - Login Success username : 
+2025-04-27 14:30:38,749 - INFO - Login Success username : 
+2025-04-27 16:41:05,652 - INFO - Login Success username : 
+2025-04-27 16:41:44,719 - INFO - Edit User Success UserId : d66114f4-85df-424f-b6e9-2572d3f705e3

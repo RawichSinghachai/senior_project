@@ -77,7 +77,7 @@ class DetailPage(QWidget):
 
             response = showMessageDeleteDialog(self)
             if response == QMessageBox.StandardButton.Yes:
-                print(f'Delete clicked for UserId: {profile_id}')
+                # print(f'Delete clicked for UserId: {profile_id}')
                 if self.db.deleteUserTestResult(profile_id):
                     showMessageBox('Delete','User  deleted successfully.')
                     # Refresh Control Page
@@ -85,7 +85,8 @@ class DetailPage(QWidget):
                 else:
                     showMessageBox('Delete','Failed to delete user',mode=('error'))
             else:
-                print('User canceled the deletion.')
+                pass
+                # print('User canceled the deletion.')
 
     def refreshPage(self):
         self.listUsers = self.db.getUserData(self.userId)
