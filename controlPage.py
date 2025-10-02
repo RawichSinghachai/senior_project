@@ -2,6 +2,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QHBoxLayout, QMessageBox,QFileDialog)
 from PyQt6.QtGui import QMouseEvent, QShowEvent
 import pandas as pd
+import uuid
 
 
 from database.database import Database
@@ -101,11 +102,17 @@ class ControlPage(QWidget):
 
     # Open Progress page
     def openProgressPage(self):
+        # Don't have UserId
         if not self.tableUi.getRowData().get('UserId'):
-            return
-        process_page = self.stackedWidget.widget(5)  # ดึง widget จาก stackedWidget
-        process_page.setUserId(self.tableUi.getRowData()['UserId'])
-        self.stackedWidget.setCurrentWidget(process_page)
+            self.userId = uuid.uuid4()
+            process_page = self.stackedWidget.widget(5)
+            process_page.setUserId(self.userId)
+            self.stackedWidget.setCurrentWidget(process_page)
+        else:    
+            # Have UserId(Registered)
+            process_page = self.stackedWidget.widget(5) 
+            process_page.setUserId(self.tableUi.getRowData()['UserId'])
+            self.stackedWidget.setCurrentWidget(process_page)
 
 
     # Delete Account

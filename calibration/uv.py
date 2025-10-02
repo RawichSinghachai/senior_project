@@ -1,18 +1,22 @@
-from PyQt6.QtCore import Qt , QSize
-from PyQt6.QtWidgets import (QApplication, QWidget, QPushButton, QVBoxLayout,QHBoxLayout)
+from PyQt6.QtCore import Qt, QSize
+from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QHBoxLayout
 import cv2
-from utils.arduino import ArduinoController
+from arduino import ArduinoController
+
+# Flags for display mode
+show_binary = False
+show_b_channel = False
 
 def nothing(x):
     pass
 
 def vision():
-    # เปิดกล้อง
+    global show_binary, show_b_channel
+
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
-    # สร้าง Trackbar
     cv2.namedWindow("Controls")
     cv2.createTrackbar("Threshold", "Controls", 100, 255, nothing)
     cv2.createTrackbar("Blur", "Controls", 1, 20, nothing)
@@ -21,52 +25,37 @@ def vision():
     cv2.createTrackbar("ClipLimit", "Controls", 10, 100, nothing)
     cv2.createTrackbar("TileSize", "Controls", 1, 32, nothing)
 
-    # ตัวแปรสำหรับการสลับโหมด
-    show_binary = False  # เริ่มต้นเป็น RGB
-    show_b_channel = False  # โหมด B Channel
-
     while True:
         ret, frame = cap.read()
         if not ret:
             break
 
-        # รับค่าจาก Trackbar
         threshold_value = cv2.getTrackbarPos("Threshold", "Controls")
         blur_value = cv2.getTrackbarPos("Blur", "Controls")
         brightness = cv2.getTrackbarPos("Brightness", "Controls") - 50
-        contrast = cv2.getTrackbarPos("Contrast", "Controls") / 10.0  
+        contrast = cv2.getTrackbarPos("Contrast", "Controls") / 10.0
         clip = cv2.getTrackbarPos("ClipLimit", "Controls") / 10.0
-        tile = cv2.getTrackbarPos("TileSize", "Controls")
-        tile = max(2, tile)
+        tile = max(2, cv2.getTrackbarPos("TileSize", "Controls"))
+        blur_value = (blur_value * 2) + 1
 
-        blur_value = (blur_value * 2) + 1  # ทำให้ค่าคงเป็นเลขคี่
-
-        # ปรับ Brightness และ Contrast
         frame = cv2.convertScaleAbs(frame, alpha=contrast, beta=brightness)
 
-        # แปลงเป็น LAB แล้วใช้ B Channel
         lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
-        l_channel = lab[:, :, 0]  # ช่องที่ 0 คือ L Channel
-        b_channel = lab[:, :, 2]  # ช่องที่ 2 คือ B Channel
+        b_channel = lab[:, :, 2]
 
-        # ปรับ Contrast ด้วย CLAHE  cliplimt 1.0-10.0, tile 2-32 (even number)
         clahe = cv2.createCLAHE(clipLimit=clip, tileGridSize=(tile, tile))
         b_clahe = clahe.apply(b_channel)
 
-        # ใช้ Gaussian Blur
         blur = cv2.GaussianBlur(b_clahe, (blur_value, blur_value), 0)
-
-        # ใช้ Threshold
         _, binary = cv2.threshold(blur, threshold_value, 255, cv2.THRESH_BINARY)
 
-        # ค้นหา Contour
         contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         for contour in contours:
             area = cv2.contourArea(contour)
             if area > 500:
                 cv2.drawContours(frame, contours, -1, (0, 255, 0), 2)
 
-        # เลือกโหมดการแสดงผล
+        # Display mode selection
         if show_b_channel:
             display_frame = cv2.cvtColor(b_clahe, cv2.COLOR_GRAY2BGR)
         elif show_binary:
@@ -76,7 +65,6 @@ def vision():
 
         cv2.imshow("Webcam", display_frame)
 
-        # รับค่าจาก Keyboard
         key = cv2.waitKey(1) & 0xFF
         if key == ord('q'):
             break
@@ -92,49 +80,79 @@ def vision():
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
-
         self.setWindowTitle("Calibration")
         self.setFixedSize(QSize(800, 400))
-        # connect Arduino
+
         self.arduino = ArduinoController()
         self.arduino.connect()
 
-        # Create layout
+        # Main vertical layout
         self.layout = QVBoxLayout()
+        self.layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.setLayout(self.layout)
 
-        self.hBox_button = QHBoxLayout()
-        self.hBox_button.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.layout.addLayout(self.hBox_button)
+        # Row 1 - Camera, On, Off
+        self.row1 = QHBoxLayout()
+        self.row1.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.layout.addLayout(self.row1)
 
-
-        # Create a button
         self.button_camera = QPushButton("Open Camera")
-        self.button_camera.clicked.connect(self.on_button_camera)  # Connect button click signal to a slot
-        self.hBox_button.addWidget(self.button_camera)
+        self.button_camera.clicked.connect(self.on_button_camera)
+        self.row1.addWidget(self.button_camera)
 
         self.button_on = QPushButton("On")
-        self.button_on.clicked.connect(self.on_button_on)  # Connect button click signal to a slot
-        self.hBox_button.addWidget(self.button_on)
+        self.button_on.clicked.connect(self.on_button_on)
+        self.row1.addWidget(self.button_on)
 
         self.button_off = QPushButton("Off")
-        self.button_off.clicked.connect(self.on_button_off)  # Connect button click signal to a slot
-        self.hBox_button.addWidget(self.button_off)
+        self.button_off.clicked.connect(self.on_button_off)
+        self.row1.addWidget(self.button_off)
 
+        # Row 2 - Display mode buttons
+        self.row2 = QHBoxLayout()
+        self.row2.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.layout.addLayout(self.row2)
+
+        self.button_binary = QPushButton("Show Binary")
+        self.button_binary.clicked.connect(self.show_binary)
+        self.row2.addWidget(self.button_binary)
+
+        self.button_bchannel = QPushButton("Show B Channel")
+        self.button_bchannel.clicked.connect(self.show_b_channel)
+        self.row2.addWidget(self.button_bchannel)
+
+        self.button_normal = QPushButton("Show Normal")
+        self.button_normal.clicked.connect(self.show_normal)
+        self.row2.addWidget(self.button_normal)
 
     def on_button_camera(self):
-        # Open camera and start vision processing
         vision()
 
     def on_button_on(self):
-        # Perform action when "On" button is clicked
         self.arduino.send_command("on")
         print("On button clicked")
-    
+
     def on_button_off(self):
-        # Perform action when "Off" button is clicked
         self.arduino.send_command("off")
         print("Off button clicked")
+
+    def show_binary(self):
+        global show_binary, show_b_channel
+        show_binary = True
+        show_b_channel = False
+        print("Switched to Binary mode")
+
+    def show_b_channel(self):
+        global show_binary, show_b_channel
+        show_b_channel = True
+        show_binary = False
+        print("Switched to B Channel mode")
+
+    def show_normal(self):
+        global show_binary, show_b_channel
+        show_binary = False
+        show_b_channel = False
+        print("Switched to Normal mode")
 
 
 if __name__ == "__main__":

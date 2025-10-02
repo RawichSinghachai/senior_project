@@ -18,7 +18,7 @@ class FormLoginUi(QWidget):
 
 
         # User Lable
-        self.userLableInput = QLabel('UserName')
+        self.userLableInput = QLabel('Username')
         self.userLableInput.setFixedWidth(120)
         self.userLableInput.setStyleSheet(
             """

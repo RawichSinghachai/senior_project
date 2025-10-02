@@ -83,13 +83,22 @@ class ProcessPage(QWidget):
     def processUserTesting(self):
         data, err = main(self.user_id)  # เรียกใช้ main() ที่อาจใช้เวลานาน
 
-        if len(data) == 1:
-            list_hand_score = None
+        if data:
+            if len(data) == 1:
+                list_hand_score = None
+            else:
+                list_hand_score, profile_id = data
         else:
-            list_hand_score, profile_id = data
+            list_hand_score = None
 
         if  list_hand_score:
             self.db.creatUserTesting(self.user_id, profile_id, list_hand_score)  # บันทึกข้อมูลใน DB
+            self.listUsers = self.db.getUserData(self.user_id)
+            if not self.listUsers :
+                self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(2))
+                left_front, left_back, right_front, right_back, total = calculate_hand_score(list_hand_score)
+                showMessageBox("Total Score", f"Total Score: {total} %", "info")
+                return
             detail_page = self.stackedWidget.widget(4)
             detail_page.setUserId(self.user_id)
             self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(4))

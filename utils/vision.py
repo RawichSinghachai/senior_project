@@ -41,7 +41,8 @@ def zoom_frame(frame, zoom_factor=1.2):
     cropped = frame[y1:y2, x1:x2]
     return cv2.resize(cropped, (width, height))
 
-def process_camera(frame, hands, countdown, i, blur_value=5, threshold_value=50, contrast=0, brightness=0):
+def process_camera(frame, hands, countdown, i, blur_value=5, threshold_value=50,
+                    contrast=0, brightness=0, clipLimit=1.0, tileGridSize=2):
 
     # frame = cv2.flip(frame, -1)
 
@@ -50,16 +51,15 @@ def process_camera(frame, hands, countdown, i, blur_value=5, threshold_value=50,
     blur_value = (blur_value * 2) + 1  
     alpha = contrast / 10.0  
     beta = brightness - 50  
+    clipLimit = clipLimit / 10.0
+    tileGrid = max(2, tileGridSize)
 
     frame = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
     ImageLAB = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
-    if i == 2:
+
+    if i >= 2:
         channel_B = ImageLAB[:, :, 2] 
-        clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(10, 10))
-        processed_channel = clahe.apply(channel_B)
-    elif i == 3:
-        channel_B = ImageLAB[:, :, 2]  
-        clahe = cv2.createCLAHE(clipLimit=1.0, tileGridSize=(2, 2))
+        clahe = cv2.createCLAHE(clipLimit, tileGridSize=(tileGrid, tileGrid))
         processed_channel = clahe.apply(channel_B)
     else:
         processed_channel = ImageLAB[:, :, 0]  
@@ -161,11 +161,18 @@ def main(userId):
 
     time_countdown = [5,5,5,5]
     wait_time = [2,2,2]
+    # parameters = [
+    #     {"threshold": 90, "blur": 2, "brightness": 50, "contrast": 9},
+    #     {"threshold": 90, "blur": 2, "brightness": 50, "contrast": 9},
+    #     {"threshold": 115, "blur": 2, "brightness": 100, "contrast": 50},
+    #     {"threshold": 135, "blur": 2, "brightness": 40, "contrast": 34},
+    # ]
+
     parameters = [
-        {"threshold": 90, "blur": 2, "brightness": 50, "contrast": 9},
-        {"threshold": 90, "blur": 2, "brightness": 50, "contrast": 9},
-        {"threshold": 115, "blur": 2, "brightness": 100, "contrast": 50},
-        {"threshold": 135, "blur": 2, "brightness": 40, "contrast": 34},
+        {"threshold": 90, "blur": 2, "brightness": 50, "contrast": 9, "clipLimit":0, "tileGridSize":0},
+        {"threshold": 90, "blur": 2, "brightness": 50, "contrast": 9,  "clipLimit":0, "tileGridSize":0},
+        {"threshold": 115, "blur": 2, "brightness": 100, "contrast": 50, "clipLimit":30, "tileGridSize": 10},
+        {"threshold": 135, "blur": 2, "brightness": 40, "contrast": 34, "clipLimit":10, "tileGridSize": 2},
     ]
 
     try:
@@ -205,7 +212,8 @@ def main(userId):
                     processed_frame, left_hand_area, right_hand_area = process_camera(
                         frame, hands, countdown, i, 
                         blur_value=param["blur"], threshold_value=param["threshold"],
-                        contrast=param["contrast"], brightness=param["brightness"]
+                        contrast=param["contrast"], brightness=param["brightness"],
+                        clipLimit=param["clipLimit"], tileGridSize=param["tileGridSize"]
                     )
                     
                     if recording:
