@@ -21,9 +21,12 @@ def vision():
     cv2.createTrackbar("Threshold", "Controls", 100, 255, nothing)
     cv2.createTrackbar("Blur", "Controls", 1, 20, nothing)
     cv2.createTrackbar("Brightness", "Controls", 50, 100, nothing)
-    cv2.createTrackbar("Contrast", "Controls", 10, 20, nothing)
+    cv2.createTrackbar("Contrast", "Controls", 10, 50, nothing)
     cv2.createTrackbar("ClipLimit", "Controls", 10, 100, nothing)
     cv2.createTrackbar("TileSize", "Controls", 1, 32, nothing)
+    
+    # ✅ เพิ่ม Trackbar สำหรับ Zoom
+    cv2.createTrackbar("Zoom", "Controls", 10, 20, nothing)  # 1.0 - 2.0 (คูณ 10 เพื่อความละเอียด)
 
     while True:
         ret, frame = cap.read()
@@ -36,6 +39,7 @@ def vision():
         contrast = cv2.getTrackbarPos("Contrast", "Controls") / 10.0
         clip = cv2.getTrackbarPos("ClipLimit", "Controls") / 10.0
         tile = max(2, cv2.getTrackbarPos("TileSize", "Controls"))
+        zoom_value = cv2.getTrackbarPos("Zoom", "Controls") / 10.0  # ✅ ค่าซูม 1.0–2.0
         blur_value = (blur_value * 2) + 1
 
         frame = cv2.convertScaleAbs(frame, alpha=contrast, beta=brightness)
@@ -63,6 +67,15 @@ def vision():
         else:
             display_frame = frame
 
+        # ✅ Apply zoom
+        if zoom_value > 1.0:
+            h, w = display_frame.shape[:2]
+            new_w, new_h = int(w / zoom_value), int(h / zoom_value)
+            x1 = (w - new_w) // 2
+            y1 = (h - new_h) // 2
+            cropped = display_frame[y1:y1 + new_h, x1:x1 + new_w]
+            display_frame = cv2.resize(cropped, (w, h))
+        
         cv2.imshow("Webcam", display_frame)
 
         key = cv2.waitKey(1) & 0xFF
